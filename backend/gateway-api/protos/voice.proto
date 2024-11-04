@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+service VoiceService {
+  rpc GetVoices (Empty) returns (VoiceList);
+}
+
+message Empty {}
+
+message Voice {
+  string id = 1;
+  string name = 2;
+  string type_id = 3;
+  string language_id = 4;
+  string device_profile_id = 5;
+  string sample_voice_id = 6;
+}
+
+message VoiceList {
+  repeated Voice voices = 1;
+}
