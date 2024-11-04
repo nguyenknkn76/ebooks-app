@@ -4,6 +4,7 @@ const protoLoader = require('@grpc/proto-loader');
 const bcrypt = require('bcrypt');
 const { User } = require('./models');
 const roleController = require('./controllers/roleController');
+const { loginUser } = require('./controllers/authController');
 
 const PROTO_PATH = './protos/user.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
@@ -92,6 +93,16 @@ const getAllRoles = async (call, callback) => {
   }
 }
 
+const login = async (call, callback) => {
+  const { username, password } = call.request;
+  // Simulate Express req and res for reusing controller logic
+  const res = {
+    json: (data) => callback(null, data),
+    status: (code) => ({ json: (data) => callback({ code, message: data.error }) })
+  };
+  await loginUser({ body: { username, password } }, res);
+}
+
 const startServer = () => {
   const server = new grpc.Server();
   server.addService(userProto.UserService.service, { 
@@ -99,6 +110,7 @@ const startServer = () => {
     GetUserById: getUserById,
     RegisterUser: registerUser,
     GetAllRoles: getAllRoles,
+    Login: login
   });
   
   server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
