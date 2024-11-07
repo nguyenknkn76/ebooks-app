@@ -1,12 +1,20 @@
 const mongoose = require('mongoose');
-const bookSchema = new mongoose.Schema({
-  title: String,
-  author_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },
-  genres: [String],
-  description: String,
-  publish_year: Number,
-  created_at: Date,
-  updated_at: Date,
-  cover_img: { type: mongoose.Schema.Types.ObjectId, ref: 'MediaFile' }
-});
-module.exports = mongoose.model('Book', bookSchema);
+const {createSampleData} = require('../sample-data/sampleData')
+require("dotenv").config();
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+    //   useNewUrlParser: true,
+    //   useUnifiedTopology: true
+    })
+    // .then(createSampleData);
+    // console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    // console.log("bug loi lz")
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;

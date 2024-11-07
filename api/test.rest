@@ -1,0 +1,70 @@
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyMzAwZTBjLTFlNTctNDAzMy05Zjg4LWY4YTc5MGU5Y2UzMSIsInVzZXJuYW1lIjoibmd1eWVuIiwiaWF0IjoxNzMwNTQxNTgwLCJleHAiOjE3MzA1NDUxODB9.0GCrBqYMrX6ZF-ILK-s9alVuER2jMP0RpxyNQ0RVUvU
+@id = b2300e0c-1e57-4033-9f88-f8a790e9ce31
+#NEW
+GET http://localhost:5000/api/users/{{id}}
+Authorization: Bearer {{access_token}}
+
+###
+GET http://localhost:5000/api/users
+Authorization: Bearer {{access_token}}
+
+### Register a new user
+POST http://localhost:5000/api/register
+Content-Type: application/json
+
+{
+    "username": "nguyen",
+    "password": "123456",
+    "email": "nguyen@example.com"
+}
+###
+GET http://localhost:5000/api/roles
+
+### Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "nguyen",
+    "password": "123456"
+}
+
+### Voice
+GET http://localhost:5000/api/voices
+### Book
+GET http://localhost:5000/api/books
+
+
+
+
+#================================================================================================================================
+
+### try voice
+GET http://localhost:3000/api/voices
+
+### GET user data
+GET http://localhost:4000/api/user/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6Iktob2kgTmd1eWVuIiwidXNlcm5hbWUiOiJraG9pbmd1eWVuIiwiaWF0IjoxNzI4NjQ1NDc5LCJleHAiOjE3Mjg2NDkwNzl9.kB3iwlX85lNcltMUcjsY0oDt3EAHQW0teTkUA9F2yT8
+### CREATE user
+POST http://localhost:4000/api/register
+Content-Type: application/json
+
+{
+    "name": "Khoi Nguyen",
+    "email": "nguyen@eg.com",
+    "username": "khoinguyen",
+    "password": "123456789"
+}
+
+### Login
+POST http://localhost:4000/api/login
+Content-Type: application/json
+
+{
+    "username": "khoinguyen",
+    "password": "123456789"
+}
+
+### Voice
+GET http://localhost:4000/api/voice/1
+

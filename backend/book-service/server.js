@@ -1,9 +1,20 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const mongoose = require('mongoose');
-const Book = require('./models/bookModel');
+const Book = require('./models/book');
+const Author = require('./models/author');
+const Chapter = require('./models/chapter');
+const Comment = require('./models/comment');
+const History = require('./models/history');
+const Library = require('./models/library');
+const MediaFile = require('./models/mediaFile');
+const Rating = require('./models/rating');
 
-const PROTO_PATH = './proto/book.proto';
+const connectDB = require('./config/db');
+
+connectDB();
+
+const PROTO_PATH = './protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const bookProto = grpc.loadPackageDefinition(packageDefinition).book;
 
@@ -27,10 +38,10 @@ async function getBooks(call, callback) {
 
 function main() {
   const server = new grpc.Server();
-  server.addService(bookProto.BookService.service, { GetBooks: getBooks });
-  server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
-    console.log('Book Service running at http://0.0.0.0:50051');
-    server.start();
+  server.addService(bookProto.BookService.service, { 
+    GetBooks: getBooks });
+  server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
+    console.log('Book Service running at http://0.0.0.0:50053');
   });
 }
 
