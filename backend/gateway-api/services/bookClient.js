@@ -24,6 +24,15 @@ const getBookById = (id) => {
     });
   };
 
+const getBooks = () => {
+    return new Promise((resolve, reject) => {
+        client.GetBooks({}, (error, response) => {
+            if(error) return reject(error);
+            resolve(response.books);
+        })
+    })
+}
+
   const getAuthors = () => {
     return new Promise((resolve, reject) => {
       client.GetAuthors({}, (error, response) => {
@@ -46,5 +55,5 @@ const getBookById = (id) => {
     });
   };
   
-module.exports = { getBookById, getAuthorById, getAuthors };
+module.exports = { getBookById, getAuthorById, getAuthors, getBooks };
 // module.exports = client;
