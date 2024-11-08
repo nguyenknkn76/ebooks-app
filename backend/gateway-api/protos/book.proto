@@ -3,9 +3,41 @@ syntax = "proto3";
 package book;
 
 service BookService {
-  rpc GetBooks (EmptyRequest) returns (BookListResponse) {}
+  rpc GetBooks (EmptyRequest) returns (BookListResponse) {};
+  rpc GetBookById (GetBookByIdRequest) returns (BookResponse);
+
+  rpc GetAuthors (Empty) returns (AuthorListResponse);
+  rpc GetAuthorById (GetAuthorByIdRequest) returns (AuthorResponse);
 }
 
+message GetAuthorByIdRequest {
+  string id = 1;
+}
+
+message AuthorResponse {
+  Author author = 1;
+}
+
+message AuthorListResponse {
+  repeated Author authors = 1;
+}
+
+message Author {
+  string id = 1;
+  string user_id = 2;
+  string pen_name = 3;
+  string name = 4;
+  string description = 5;
+}
+
+message GetBookByIdRequest {
+  string id = 1;
+}
+
+message BookResponse {
+  Book book = 1;
+}
+message Empty {}
 message EmptyRequest {}
 
 message Book {

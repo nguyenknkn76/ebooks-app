@@ -1,5 +1,7 @@
 @access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyMzAwZTBjLTFlNTctNDAzMy05Zjg4LWY4YTc5MGU5Y2UzMSIsInVzZXJuYW1lIjoibmd1eWVuIiwiaWF0IjoxNzMwNTQxNTgwLCJleHAiOjE3MzA1NDUxODB9.0GCrBqYMrX6ZF-ILK-s9alVuER2jMP0RpxyNQ0RVUvU
 @id = b2300e0c-1e57-4033-9f88-f8a790e9ce31
+@bookid = 672cff09ce6db4a604611b1a
+@authorid = 672cff09ce6db4a604611b17
 #NEW
 GET http://localhost:5000/api/users/{{id}}
 Authorization: Bearer {{access_token}}
@@ -31,14 +33,16 @@ Content-Type: application/json
 
 ### Voice
 GET http://localhost:5000/api/voices
-### Book
+### Booksssssss
 GET http://localhost:5000/api/books
+### Book
+GET http://localhost:5000/api/authors/{{authorid}}
 
 
 
 
 #================================================================================================================================
-
+### material
 ### try voice
 GET http://localhost:3000/api/voices
 

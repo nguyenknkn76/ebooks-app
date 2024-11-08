@@ -9,7 +9,8 @@ const History = require('./models/history');
 const Library = require('./models/library');
 const MediaFile = require('./models/mediaFile');
 const Rating = require('./models/rating');
-
+const {getBookById} = require('./services/bookService');
+const {getAuthorById, getAuthors} = require('./services/authorService');
 const connectDB = require('./config/db');
 
 connectDB();
@@ -39,7 +40,12 @@ async function getBooks(call, callback) {
 function main() {
   const server = new grpc.Server();
   server.addService(bookProto.BookService.service, { 
-    GetBooks: getBooks });
+    GetBooks: getBooks,
+    GetBookById: getBookById,
+
+    GetAuthors: getAuthors,
+    GetAuthorById: getAuthorById,
+  });
   server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
     console.log('Book Service running at http://0.0.0.0:50053');
   });
