@@ -2,6 +2,7 @@
 @id = b2300e0c-1e57-4033-9f88-f8a790e9ce31
 @bookid = 672cff09ce6db4a604611b1a
 @authorid = 672cff09ce6db4a604611b17
+@gatewayapi = http://localhost:5000/api
 #NEW
 GET http://localhost:5000/api/users/{{id}}
 Authorization: Bearer {{access_token}}
@@ -33,10 +34,35 @@ Content-Type: application/json
 
 ### Voice
 GET http://localhost:5000/api/voices
+
+###! GATEWAY -> BOOK SERVICE 
 ### Booksssssss
 GET http://localhost:5000/api/books
 ### Book
 GET http://localhost:5000/api/authors/{{authorid}}
+
+###* CHAPTER 
+GET http://localhost:5000/api/chapters/book/672cff09ce6db4a604611b1b
+###
+GET http://localhost:5000/api/chapters/672cff09ce6db4a604611b21
+
+# ###* COMMENT
+# @chapterid = 672cff09ce6db4a604611b20
+# @userid= 60e3b9f71b1a5c6d3c9c8769
+
+# GET http://localhost:5000/api/comments/chapter/{{chapterid}}
+# ###
+# POST {{gatewayapi}}/comments/chapter/{{chapterid}}
+# ###
+# POST http://localhost:5000/api/comments/chapter/{{chapterid}}
+# Content-Type: application/json
+
+# {
+#     "user_id": "60e3b9f71b1a5c6d3c9c8769",
+#     "chapter_id": "{{chapterid}}",
+#     "comment": "i luv this book"
+# }
+
 
 
 

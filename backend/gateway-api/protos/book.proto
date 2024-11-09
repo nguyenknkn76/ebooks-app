@@ -8,6 +8,63 @@ service BookService {
 
   rpc GetAuthors (Empty) returns (AuthorListResponse);
   rpc GetAuthorById (GetAuthorByIdRequest) returns (AuthorResponse);
+
+  rpc GetChaptersByBookId (GetChaptersByBookIdRequest) returns (ChapterListResponse);
+  rpc GetChapterById (GetChapterByIdRequest) returns (ChapterResponse);
+
+  rpc GetCommentsByChapterId (GetCommentsByChapterIdRequest) returns (CommentListResponse);
+  rpc CreateComment (CreateCommentRequest) returns (CommentResponse);
+}
+
+message GetCommentsByChapterIdRequest {
+  string chapter_id = 1;
+}
+
+message CreateCommentRequest {
+  string chapter_id = 1;
+  string user_id = 2;
+  string comment = 3;
+}
+
+message Comment {
+  string id = 1;
+  string user_id = 2;
+  string chapter_id = 3;
+  string comment = 4;
+  string created_at = 5;
+  repeated Comment replies = 6;
+}
+
+message CommentResponse {
+  Comment comment = 1;
+}
+
+message CommentListResponse {
+  repeated Comment comments = 1;
+}
+
+message GetChaptersByBookIdRequest {
+  string book_id = 1;
+}
+
+message GetChapterByIdRequest {
+  string id = 1;
+}
+
+message Chapter {
+  string id = 1;
+  string name = 2;
+  string book_id = 3;
+  string text_file = 4;
+  string audio_file = 5;
+}
+
+message ChapterResponse {
+  Chapter chapter = 1;
+}
+
+message ChapterListResponse {
+  repeated Chapter chapters = 1;
 }
 
 message GetAuthorByIdRequest {

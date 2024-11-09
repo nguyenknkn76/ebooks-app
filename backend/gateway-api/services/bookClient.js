@@ -33,27 +33,78 @@ const getBooks = () => {
     })
 }
 
-  const getAuthors = () => {
-    return new Promise((resolve, reject) => {
-      client.GetAuthors({}, (error, response) => {
-        if (error) {
-          return reject(error);
-        }
-        resolve(response.authors);
-      });
+const getAuthors = () => {
+  return new Promise((resolve, reject) => {
+    client.GetAuthors({}, (error, response) => {
+      if (error) {
+        return reject(error);
+      }
+      resolve(response.authors);
     });
-  };
-  
-  const getAuthorById = (id) => {
-    return new Promise((resolve, reject) => {
-      client.GetAuthorById({ id }, (error, response) => {
-        if (error) {
-          return reject(error);
-        }
-        resolve(response.author);
-      });
+  });
+};
+
+const getAuthorById = (id) => {
+  return new Promise((resolve, reject) => {
+    client.GetAuthorById({ id }, (error, response) => {
+      if (error) {
+        return reject(error);
+      }
+      resolve(response.author);
     });
-  };
-  
-module.exports = { getBookById, getAuthorById, getAuthors, getBooks };
+  });
+};
+
+const getChaptersByBookId = (bookId) => {
+  return new Promise((resolve, reject) => {
+    client.GetChaptersByBookId({ book_id: bookId }, (error, response) => {
+      if (error) {
+        return reject(error);
+      }
+      resolve(response.chapters);
+    });
+  });
+};
+
+const getChapterById = (id) => {
+  return new Promise((resolve, reject) => {
+    client.GetChapterById({ id }, (error, response) => {
+      if (error) {
+        return reject(error);
+      }
+      resolve(response.chapter);
+    });
+  });
+};
+
+const getCommentsByChapterId = (chapterId) => {
+  return new Promise((resolve, reject) => {
+    client.GetCommentsByChapterId({ chapter_id: chapterId }, (error, response) => {
+      if (error) {
+        return reject(error);
+      }
+      resolve(response.comments);
+    });
+  });
+};
+
+const createComment = (chapterId, userId, commentText) => {
+  return new Promise((resolve, reject) => {
+    client.CreateComment({ chapter_id: chapterId, user_id: userId, comment: commentText }, (error, response) => {
+      if (error) {
+        return reject(error);
+      }
+      resolve(response.comment);
+    });
+  });
+};
+
+
+module.exports = { 
+  getBookById, getBooks, 
+  getAuthorById, getAuthors,  
+  //! getChaptersByBookId: choose book -> input: book id -> list chapters of this book
+  getChaptersByBookId, getChapterById,
+  createComment, getCommentsByChapterId, 
+};
 // module.exports = client;

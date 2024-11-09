@@ -11,6 +11,9 @@ const MediaFile = require('./models/mediaFile');
 const Rating = require('./models/rating');
 const {getBookById} = require('./services/bookService');
 const {getAuthorById, getAuthors} = require('./services/authorService');
+const {getChapterById, getChaptersByBookId} = require('./services/chapterService');
+const {createComment, getCommentsByChapterId} = require('./services/commentService')
+
 const connectDB = require('./config/db');
 
 connectDB();
@@ -45,6 +48,12 @@ function main() {
 
     GetAuthors: getAuthors,
     GetAuthorById: getAuthorById,
+
+    GetChapterById: getChapterById,
+    GetChaptersByBookId: getChaptersByBookId,
+
+    GetCommentsByChapterId: getCommentsByChapterId,
+    CreateComment: createComment,
   });
   server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
     console.log('Book Service running at http://0.0.0.0:50053');
