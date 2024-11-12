@@ -15,6 +15,7 @@ exports.getChaptersByBookId = async (req, res) => {
 exports.getChapterById = async (req, res) => {
   try {
     const chapter = await bookClient.getChapterById(req.params.id);
+    // console.log(chapter);
     res.json(chapter);
   } catch (error) {
     console.error('Error in getChapterById:', error);

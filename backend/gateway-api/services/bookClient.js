@@ -1,5 +1,6 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
+const { response } = require('express');
 
 const PROTO_PATH = './protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
@@ -66,7 +67,9 @@ const getChaptersByBookId = (bookId) => {
   });
 };
 
-const getChapterById = (id) => {
+const getChapterById = async (id) => {
+  const res = await client.getChapterById({id})
+  console.log(res);
   return new Promise((resolve, reject) => {
     client.GetChapterById({ id }, (error, response) => {
       if (error) {
