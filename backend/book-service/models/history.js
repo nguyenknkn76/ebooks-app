@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const historySchema = new mongoose.Schema({
-  user_id: { type: mongoose.Schema.Types.ObjectId, required: true },
-  book_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
-  voice_id: { type: mongoose.Schema.Types.ObjectId, required: true },
+  user: { type: String },
+  book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
+  voice: { type: String, required: true },
   chapters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chapter' }]
 });
 
