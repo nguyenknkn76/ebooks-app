@@ -4,6 +4,7 @@ const roleRoutes = require('./routes/roleRoutes');
 const authRoutes = require('./routes/authRoutes');
 const voiceRoutes = require('./routes/voiceRoutes')
 const bookRoutes = require('./routes/bookRoutes');
+const noteRoutes = require('./routes/noteRoutes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/api/', voiceRoutes);
 
 app.use('/api', bookRoutes);
 
+app.use('/api', noteRoutes);
 
 app.listen(5000, () => {
   console.log('Gateway API listening on port 5000');
