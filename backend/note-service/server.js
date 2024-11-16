@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const Note = require('./models/note');
 const User = require('./models/user')
 const connectDB = require('./config/db');
-const {createUser, createNote} = require('./sample-data/sampleData');
-const { getUserById } = require('../gateway-api/services/userClient');
+const {createUser, createNote, createSampleData} = require('./sample-data/sampleData');
+
 connectDB();
 const PROTO_PATH = './protos/note.proto';
 const packageDefenition = protoLoader.loadSync(PROTO_PATH);
@@ -30,6 +30,18 @@ const getNotes = async (req, res) => {
 
 const getUsers = async (req, res) => {
     console.log('this is get user');
+    try {
+        const users = await User.find({});
+        console.log(users);
+        const userList = users.map(user => ({
+            id: user._id.toString(),
+            name: user.name,
+            notes: user.notes
+        }));
+        res(null, {users: userList});
+    } catch (error) {
+        res(error, null);
+    }
 }
 const main = () => {
     const server = new gprc.Server();
@@ -45,3 +57,4 @@ const main = () => {
 main();
 // createUser();
 // createNote();
+// createSampleData();

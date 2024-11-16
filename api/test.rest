@@ -66,7 +66,7 @@ GET http://localhost:5000/api/chapters/672cff09ce6db4a604611b21
 ### 
 GET http://localhost:5000/api/notes
 ###
-GET http://localhsot:5000/api/users
+GET http://localhost:5000/api/notes/users
 
 
 

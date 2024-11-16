@@ -10,6 +10,7 @@ exports.getNotes = async (req, res) => {
 }
 
 exports.getUsers = async (req, res) => {
+    console.log('this note controller');
     try {
         const users = await noteClient.getUsers();
         res.json(users);

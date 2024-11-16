@@ -1,7 +1,7 @@
 const Note = require('../models/note');
 const User = require('../models/user');
 const {v4: uuidv4} = require('uuid');
-
+const mongoose = require('mongoose');
 const createNote = async () => {
     try {
         await Note.deleteMany();
@@ -25,8 +25,8 @@ const createUser = async () => {
         await User.deleteMany();
 
         const user = await User.insertMany([
-            {id: uuidv4(), name: 'khoi nguyen'},
-            {id: uuidv4(), name: 'uoijklzxc'}
+            {id: uuidv4(), name: 'khoi nguyen', notes: ['673773986dd79acff9bca5de', ]},
+            {id: uuidv4(), name: 'uoijklzxc', notes: []}
         ]);
         console.log('create user success');
         process.exit();
@@ -36,6 +36,59 @@ const createUser = async () => {
     }
 }
 
+async function createSampleData() {
+    try {
+      // Tạo dữ liệu mẫu cho User
+
+      await User.deleteMany();
+      await Note.deleteMany();
+      const user1 = new User({ id: uuidv4(), name: 'John Doe' });
+      const user2 = new User({ id: uuidv4(), name: 'Jane Smith' });
+  
+      await user1.save();
+      await user2.save();
+  
+      // Tạo dữ liệu mẫu cho Note
+      const note1 = new Note({
+        id: uuidv4(),
+        note: 'Sample Note 1',
+        important: true,
+        user: user1._id
+      });
+  
+      const note2 = new Note({
+        id: uuidv4(),
+        note: 'Sample Note 2',
+        important: false,
+        user: user2._id
+      });
+      const note3 = new Note({
+        id: uuidv4(),
+        note: 'Sample Note 3',
+        important: false,
+        user: user2._id
+      });
+  
+      await note1.save();
+      await note2.save();
+      await note3.save();
+  
+      // Cập nhật user với các ghi chú
+      user1.notes.push(note1._id);
+      user2.notes.push(note2._id);
+  
+      await user1.save();
+      await user2.save();
+  
+      console.log('Sample data created successfully!');
+    } catch (error) {
+      console.error('Error creating sample data:', error);
+    } finally {
+      mongoose.connection.close();
+    }
+  }
+  
+
 module.exports = {
-    createNote, createUser
+    createNote, createUser, createSampleData
 }

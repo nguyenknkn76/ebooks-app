@@ -1,6 +1,5 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const mongoose = require('mongoose');
 const PROTO_PATH = './protos/note.proto';
 const packageDefenition = protoLoader.loadSync(PROTO_PATH);
 const noteProto = grpc.loadPackageDefinition(packageDefenition).note;
@@ -16,6 +15,7 @@ const getNotes = () => {
 }
 
 const getUsers = () => {
+    console.log('THIS IS NOTE CLIENT')
     return new Promise((resolve, reject) => {
         client.GetUsers({}, (err, res) => {
             if(err) return reject(err);
