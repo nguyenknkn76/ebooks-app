@@ -1,5 +1,23 @@
 const Book = require('../models/book');
 
+async function getBooks(call, callback) {
+  try {
+    const books = await Book.find().populate('author_id cover_img');
+    const bookList = books.map(book => ({
+      id: book._id.toString(),
+      title: book.title,
+      description: book.description,
+      author_id: book.author_id.toString(),
+      genres: book.genres,
+      publish_year: book.publish_year.toString(),
+      cover_img: book.cover_img.toString()
+    }));
+    callback(null, { books: bookList });
+  } catch (error) {
+    callback(error, null);
+  }
+}
+
 const getBookById = async (call, callback) => {
   try {
     const bookId = call.request.id;
@@ -34,4 +52,4 @@ const getBookById = async (call, callback) => {
   }
 };
 
-module.exports = { getBookById };
+module.exports = { getBookById, getBooks };

@@ -11,7 +11,7 @@ const connectDB = async () => {
     // .then(createSampleData);
     // console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    // console.log("bug loi lz")
+    // console.log("bug qua' lang nuoc oi")
     console.error(`Error: ${error.message}`);
     process.exit(1);
   }
