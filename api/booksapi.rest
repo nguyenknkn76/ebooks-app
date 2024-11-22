@@ -1,0 +1,44 @@
+### books
+POST http://localhost:5000/api/books
+Content-Type: application/json
+
+{
+    "title": "CPP in one day",
+    "author": "645c9fbd9c5e7c0015c1a4d9",
+    "genres": ["Technology", "Programming"],
+    "description": "A comprehensive guide to microservice architecture.",
+    "publish_year": 2024
+}
+
+### authors
+POST http://localhost:5000/api/books/authors
+Content-Type: application/json
+
+{
+  "user": "user_001",
+  "pen_name": "Khoi Nguyen",
+  "name": "Jonathan Doe",
+  "description": "An experienced author specializing in science fiction."
+}
+
+### mediafiles
+POST http://localhost:5000/api/books/mediafiles
+Content-Type: application/json
+
+{
+  "file_collection": "book_covers_2_nhe",
+  "file_url": "https://example.com/media/book_cover.jpg",
+  "file_type": "image/jpeg",
+  "file_size": 1024
+}
+
+###upload
+POST http://localhost:5000/api/books/mediafiles/upload
+Content-Type: application/json
+
+{
+  "file_name": "example.jpg",
+  "file_content": "BASE64_ENCODED_FILE_CONTENT",
+  "file_type": "image/jpeg"
+}
+

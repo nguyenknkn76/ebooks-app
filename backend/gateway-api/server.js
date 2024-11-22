@@ -8,7 +8,7 @@ const bookRoutes = require('./routes/bookRoutes');
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({limit: '200mb'}));
 
 // Use user routes
 // app.use(userRoutes);

@@ -5,9 +5,10 @@ const bookSchema = new mongoose.Schema({
   genres: [{type: String}],
   description: String,
   publish_year: Number,
+  cover_img: { type: mongoose.Schema.Types.ObjectId, ref: 'MediaFile' },
+  chapters: [{type: mongoose.Schema.Types.ObjectId, ref: 'Chapter' }],
   created_at: Date,
   updated_at: Date,
-  cover_img: { type: mongoose.Schema.Types.ObjectId, ref: 'MediaFile' },
-  chapters: [{type: mongoose.Schema.Types.ObjectId, ref: 'Chapter' }]
 });
+
 module.exports = mongoose.model('Book', bookSchema);

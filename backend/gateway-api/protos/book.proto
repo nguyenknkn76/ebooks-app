@@ -3,110 +3,66 @@ syntax = "proto3";
 package book;
 
 service BookService {
-  rpc GetBooks (EmptyRequest) returns (BookListResponse) {};
-  rpc GetBookById (GetBookByIdRequest) returns (BookResponse);
+  rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
 
-  rpc GetAuthors (Empty) returns (AuthorListResponse);
-  rpc GetAuthorById (GetAuthorByIdRequest) returns (AuthorResponse);
+  rpc CreateAuthor(CreateAuthorRequest) returns (CreateAuthorResponse);
 
-  rpc GetChaptersByBookId (GetChaptersByBookIdRequest) returns (ChapterListResponse);
-  rpc GetChapterById (GetChapterByIdRequest) returns (ChapterResponse);
+  rpc CreateMediaFile(CreateMediaFileRequest) returns (CreateMediaFileResponse);
+  rpc UploadMediaFile(UploadMediaFileRequest) returns (UploadMediaFileResponse);
 
-  rpc GetCommentsByChapterId (GetCommentsByChapterIdRequest) returns (CommentListResponse);
-  rpc CreateComment (CreateCommentRequest) returns (CommentResponse);
 }
 
-message GetCommentsByChapterIdRequest {
-  string chapter_id = 1;
+message UploadMediaFileRequest {
+  string file_name = 1;
+  bytes file_content = 2; // File dưới dạng byte
+  string file_type = 3;
 }
 
-message CreateCommentRequest {
-  string chapter_id = 1;
-  string user_id = 2;
-  string comment = 3;
+message UploadMediaFileResponse {
+  string file_url = 1; // URL public của file
 }
 
-message Comment {
+message CreateMediaFileRequest {
+  string file_collection = 1;
+  string file_url = 2;
+  string file_type = 3;
+  int32 file_size = 4;
+}
+
+message CreateMediaFileResponse {
   string id = 1;
-  string user_id = 2;
-  string chapter_id = 3;
-  string comment = 4;
-  string created_at = 5;
-  repeated Comment replies = 6;
+  string file_collection = 2;
+  string file_url = 3;
+  string file_type = 4;
+  int32 file_size = 5;
 }
 
-message CommentResponse {
-  Comment comment = 1;
+message CreateAuthorRequest {
+  string user = 1;
+  string pen_name = 2;
+  string name = 3;
+  string description = 4;
 }
 
-message CommentListResponse {
-  repeated Comment comments = 1;
-}
-
-message GetChaptersByBookIdRequest {
-  string book_id = 1;
-}
-
-message GetChapterByIdRequest {
+message CreateAuthorResponse {
   string id = 1;
-}
-
-message Chapter {
-  string id = 1;
-  string name = 2;
-  string book_id = 3;
-  string text_file = 4;
-  string audio_file = 5;
-}
-
-message ChapterResponse {
-  Chapter chapter = 1;
-}
-
-message ChapterListResponse {
-  repeated Chapter chapters = 1;
-}
-
-message GetAuthorByIdRequest {
-  string id = 1;
-}
-
-message AuthorResponse {
-  Author author = 1;
-}
-
-message AuthorListResponse {
-  repeated Author authors = 1;
-}
-
-message Author {
-  string id = 1;
-  string user_id = 2;
+  string user = 2;
   string pen_name = 3;
   string name = 4;
   string description = 5;
 }
 
-message GetBookByIdRequest {
-  string id = 1;
+message CreateBookRequest {
+  string title = 1;
+  string author = 2;
+  repeated string genres = 3;
+  string description = 4;
+  int32 publish_year = 5;
 }
 
-message BookResponse {
-  Book book = 1;
-}
-message Empty {}
-message EmptyRequest {}
-
-message Book {
+message CreateBookResponse {
   string id = 1;
   string title = 2;
-  string description = 3;
-  string author_id = 4;
-  repeated string genres = 5;
-  string publish_year = 6;
-  string cover_img = 7;
+  string author = 3;
 }
 
-message BookListResponse {
-  repeated Book books = 1;
-}

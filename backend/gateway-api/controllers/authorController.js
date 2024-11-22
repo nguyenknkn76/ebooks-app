@@ -1,21 +1,12 @@
-const bookClient = require('../services/bookClient');
+const authorClient = require('../services/bookClient');
 
-exports.getAuthors = async (req, res) => {
-    try {
-      const authors = await bookClient.getAuthors();
-      res.json(authors);
-    } catch (error) {
-      console.error('Error in getAuthors:', error);
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  };
-  
-  exports.getAuthorById = async (req, res) => {
-    try {
-      const author = await bookClient.getAuthorById(req.params.id);
-      res.json(author);
-    } catch (error) {
-      console.error('Error in getAuthorById:', error);
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  };
+exports.createAuthor = async (req, res) => {
+  try {
+    const authorData = req.body; // Dữ liệu từ Frontend
+    const response = await authorClient.createAuthor(authorData); // Gọi Author Service qua gRPC
+    res.status(201).json({ message: 'Author created successfully', author: response.author });
+  } catch (error) {
+    console.error('Error creating author:', error);
+    res.status(500).json({ message: 'Failed to create author', error });
+  }
+};
