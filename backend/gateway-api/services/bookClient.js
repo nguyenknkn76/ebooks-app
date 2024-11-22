@@ -7,6 +7,14 @@ const bookProto = grpc.loadPackageDefinition(packageDefinition).book;
 
 const client = new bookProto.BookService('localhost:50053', grpc.credentials.createInsecure());
 
+exports.createChapter = (data) => {
+  return new Promise((resolve, reject) => {
+    client.CreateChapter(data, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
 
 exports.createBook = (bookData) => {
   return new Promise((resolve, reject) => {

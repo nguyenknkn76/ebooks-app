@@ -10,6 +10,22 @@ service BookService {
   rpc CreateMediaFile(CreateMediaFileRequest) returns (CreateMediaFileResponse);
   rpc UploadMediaFile(UploadMediaFileRequest) returns (UploadMediaFileResponse);
 
+  rpc CreateChapter(CreateChapterRequest) returns (CreateChapterResponse);
+
+}
+
+message CreateChapterRequest {
+  string name = 1;
+  string book_id = 2;
+  string text_file_name = 3;
+  string text_file_content = 4;
+  string audio_file_name = 5;
+  string audio_file_content = 6;
+}
+
+message CreateChapterResponse {
+  string chapter_id = 1;
+  string message = 2;
 }
 
 message UploadMediaFileRequest {

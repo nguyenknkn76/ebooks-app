@@ -1,0 +1,33 @@
+Graduation Thesis – SAGA design pattern
+SAGA Design Pattern
+Concept
+The Saga Design Pattern is a crucial concept in microservices architecture, designed to manage data consistency across distributed services. It breaks down a large transaction into a series of smaller, manageable transactions, each handled by a single service.
+
+How it work?
+Local transactions: If a step in SAGA is a local transactions, making data changes within its service boundary
+If a step in Saga fails, compensating are executed to undo the changes made by previous transactions
+
+Characteristic (ACID)
+Atomicity: Each local transaction within a saga is atomic.
+Consistency: Local consistency is maintained within each service, but global consistency is achieved through compensating transactions.
+Isolation: Sagas can be designed to ensure isolation between concurrent sagas.
+Durability: Once a saga is completed successfully, the changes made to the system are considered durable.
+
+Types of saga
+Choreography (Choreography based saga)
+Description: In this approach, each service involved in the Saga listens for events and decides when to act based on the events it receives. There is no central coordinator.
+Advantages: 
+Simplicity: Easier to implement for small systems as there is no need for a central orchestrator.
+Decoupling: Services are loosely coupled since they only react to events.
+Disadvantages:
+Complexity in Large Systems: Can become difficult to manage as the number of services and events increases, leading to tight coupling between services.
+Lack of Central Control: No single point of control can make it harder to track and debug issues
+
+Orchestration (Orchestration based saga)
+Description: This approach uses a central orchestrator service to manage the Saga. The orchestrator sends commands to the services to execute transactions and handle compensations if needed.
+Advantages:
+Centralized Control: Easier to manage and understand, especially in complex systems, as the orchestrator handles the workflow.
+Simplified Debugging: Centralized logic makes it easier to track and debug issues.
+Disadvantages:
+Single Point of Failure: The orchestrator can become a single point of failure and a bottleneck if not designed for scalability.
+Increased Complexity: The orchestrator adds an additional layer of complexity to the system

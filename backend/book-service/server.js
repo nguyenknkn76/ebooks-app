@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const Book = require('./models/Book');
 const Author = require('./models/Author')
 const MediaFile = require('./models/mediaFile');
+const Chapter = require('./models/chapter');
+
 const PROTO_PATH = './protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
 const bookProto = grpc.loadPackageDefinition(packageDefinition).book;
@@ -112,12 +114,75 @@ const uploadMediaFile = async (call, callback) => {
   }
 };
 
+const createChapter = async (call, callback) => {
+  try {
+    const { name, book_id, text_file_name, text_file_content, audio_file_name, audio_file_content } = call.request;
+
+    // Upload text file lên AWS S3
+    let textFileMedia = null;
+    if (text_file_name && text_file_content) {
+      const textFileParams = {
+        Bucket: 'media-file-storage',
+        Key: text_file_name,
+        Body: Buffer.from(text_file_content, 'base64'),
+        ContentType: 'text/plain',
+        ACL: 'public-read',
+      };
+      await s3Client.send(new PutObjectCommand(textFileParams));
+
+      // Lưu text file vào MediaFile trong MongoDB
+      textFileMedia = await MediaFile.create({
+        file_collection: 'ChapterText',
+        file_url: `https://${textFileParams.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${text_file_name}`,
+        file_type: 'text/plain',
+        file_size: text_file_content.length,
+      });
+    }
+
+    // Upload audio file lên AWS S3
+    let audioFileMedia = null;
+    if (audio_file_name && audio_file_content) {
+      const audioFileParams = {
+        Bucket: 'media-file-storage',
+        Key: audio_file_name,
+        Body: Buffer.from(audio_file_content, 'base64'),
+        ContentType: 'audio/mpeg',
+        ACL: 'public-read',
+      };
+      await s3Client.send(new PutObjectCommand(audioFileParams));
+
+      // Lưu audio file vào MediaFile trong MongoDB
+      audioFileMedia = await MediaFile.create({
+        file_collection: 'ChapterAudio',
+        file_url: `https://${audioFileParams.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${audio_file_name}`,
+        file_type: 'audio/mpeg',
+        file_size: audio_file_content.length,
+      });
+    }
+
+    // Lưu chapter vào MongoDB
+    const newChapter = await Chapter.create({
+      name,
+      book: book_id,
+      text_file: textFileMedia ? textFileMedia._id : null,
+      audio_file: audioFileMedia ? [audioFileMedia._id] : [],
+    });
+
+    callback(null, { chapter_id: newChapter._id.toString(), message: 'Chapter created successfully.' });
+  } catch (error) {
+    console.error('Error creating chapter:', error);
+    callback(error);
+  }
+};
+
 const server = new grpc.Server();
 server.addService(bookProto.BookService.service, { 
   CreateBook: createBook,
   CreateAuthor: createAuthor,
   CreateMediaFile: createMediaFile,
   UploadMediaFile: uploadMediaFile,
+  CreateChapter: createChapter,
+
 
 });
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {

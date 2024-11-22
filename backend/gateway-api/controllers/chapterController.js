@@ -1,24 +1,20 @@
-// controllers/chapterController.js
+const chapterClient = require('../services/bookClient');
 
-const bookClient = require('../services/bookClient');
+exports.createChapter = async (req, res) => {
+  const { name, book_id, text_file_name, text_file_content, audio_file_name, audio_file_content } = req.body;
 
-exports.getChaptersByBookId = async (req, res) => {
   try {
-    const chapters = await bookClient.getChaptersByBookId(req.params.bookId);
-    res.json(chapters);
+    const response = await chapterClient.createChapter({
+      name,
+      book_id,
+      text_file_name,
+      text_file_content,
+      audio_file_name,
+      audio_file_content,
+    });
+    res.status(201).json(response);
   } catch (error) {
-    console.error('Error in getChaptersByBookId:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
-exports.getChapterById = async (req, res) => {
-  try {
-    const chapter = await bookClient.getChapterById(req.params.id);
-    // console.log(chapter);
-    res.json(chapter);
-  } catch (error) {
-    console.error('Error in getChapterById:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error('Error creating chapter:', error);
+    res.status(500).json({ error: 'Failed to create chapter' });
   }
 };
