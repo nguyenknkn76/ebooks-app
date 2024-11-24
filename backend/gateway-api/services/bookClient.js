@@ -52,3 +52,18 @@ exports.uploadMediaFile = (fileData) => {
   });
 };
 
+exports.getAllChapters = () =>
+  new Promise((resolve, reject) => {
+    client.GetAllChapters({}, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
+exports.getChaptersByBookId = (book_id) =>
+  new Promise((resolve, reject) => {
+    client.GetChaptersByBookId({ book_id }, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });

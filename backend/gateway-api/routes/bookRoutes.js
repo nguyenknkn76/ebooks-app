@@ -13,4 +13,6 @@ router.post('/books/mediafiles',  mediaFileController.createMediaFile);
 router.post('/books/mediafiles/upload',  mediaFileController.uploadMediaFile);
 
 router.post('/books/chapters', chapterController.createChapter);
+router.get('/books/chapters', chapterController.getAllChapters);
+router.get('/books/chapters/:book_id', chapterController.getChaptersByBookId);
 module.exports = router;

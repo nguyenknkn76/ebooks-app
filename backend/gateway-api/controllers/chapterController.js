@@ -18,3 +18,25 @@ exports.createChapter = async (req, res) => {
     res.status(500).json({ error: 'Failed to create chapter' });
   }
 };
+
+exports.getAllChapters = async (req, res) => {
+  try {
+    const response = await chapterClient.getAllChapters();
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error fetching chapters:', error);
+    res.status(500).json({ message: 'Failed to fetch chapters', error });
+  }
+};
+
+exports.getChaptersByBookId = async (req, res) => {
+  const { book_id } = req.params;
+
+  try {
+    const response = await chapterClient.getChaptersByBookId(book_id);
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error fetching chapters by book ID:', error);
+    res.status(500).json({ message: 'Failed to fetch chapters by book ID', error });
+  }
+};

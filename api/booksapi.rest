@@ -41,4 +41,21 @@ Content-Type: application/json
   "file_content": "BASE64_ENCODED_FILE_CONTENT",
   "file_type": "image/jpeg"
 }
+### chapters
+POST http://localhost:5000/api/books/chapters
+Content-Type: application/json
 
+{
+  "name": "Chapter 3",
+  "book_id": "64fdfb2c839be305c43d6a1e"
+}
+
+### "text_file_id": "64fdfc1e839be305c43d6a2f",
+### "audio_file_ids": ["64fdfc4b839be305c43d6a3a"]
+
+### get all
+GET http://localhost:5000/api/books/chapters
+###
+@book_id = 67405659dfe3478b3de8f36c
+### get chapters by book id
+GET http://localhost:5000/api/books/chapters/{{book_id}}

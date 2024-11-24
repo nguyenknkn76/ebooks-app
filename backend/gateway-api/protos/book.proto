@@ -11,7 +11,26 @@ service BookService {
   rpc UploadMediaFile(UploadMediaFileRequest) returns (UploadMediaFileResponse);
 
   rpc CreateChapter(CreateChapterRequest) returns (CreateChapterResponse);
+  rpc GetAllChapters(GetAllChaptersRequest) returns (GetAllChaptersResponse);
+  rpc GetChaptersByBookId(GetChaptersByBookIdRequest) returns (GetChaptersByBookIdResponse);
 
+}
+message GetChaptersByBookIdRequest {
+  string book_id = 1;
+}
+message GetChaptersByBookIdResponse {
+  repeated Chapter chapters = 1;
+}
+message Chapter {
+  string id = 1;
+  string name = 2;
+  string book_id = 3;
+  string text_file_id = 4;
+  repeated string audio_file_ids = 5;
+}
+message GetAllChaptersRequest {}
+message GetAllChaptersResponse {
+  repeated Chapter chapters = 1;
 }
 
 message CreateChapterRequest {

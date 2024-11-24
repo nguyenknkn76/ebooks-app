@@ -93,7 +93,6 @@ const uploadMediaFile = async (call, callback) => {
   try {
     const { file_name, file_content, file_type } = call.request;
 
-    
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME, 
       Key: file_name,
@@ -117,20 +116,19 @@ const uploadMediaFile = async (call, callback) => {
 const createChapter = async (call, callback) => {
   try {
     const { name, book_id, text_file_name, text_file_content, audio_file_name, audio_file_content } = call.request;
-
-    // Upload text file lên AWS S3
+    //upload file to s3
     let textFileMedia = null;
     if (text_file_name && text_file_content) {
       const textFileParams = {
-        Bucket: 'media-file-storage',
+        Bucket: process.env.AWS_BUCKET_NAME,
         Key: text_file_name,
         Body: Buffer.from(text_file_content, 'base64'),
         ContentType: 'text/plain',
-        ACL: 'public-read',
+        // ACL: 'public-read',
       };
       await s3Client.send(new PutObjectCommand(textFileParams));
 
-      // Lưu text file vào MediaFile trong MongoDB
+      // save new text file to mongo
       textFileMedia = await MediaFile.create({
         file_collection: 'ChapterText',
         file_url: `https://${textFileParams.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${text_file_name}`,
@@ -139,19 +137,19 @@ const createChapter = async (call, callback) => {
       });
     }
 
-    // Upload audio file lên AWS S3
+    // upload file to s3
     let audioFileMedia = null;
     if (audio_file_name && audio_file_content) {
       const audioFileParams = {
-        Bucket: 'media-file-storage',
+        Bucket: process.env.AWS_BUCKET_NAME,
         Key: audio_file_name,
         Body: Buffer.from(audio_file_content, 'base64'),
         ContentType: 'audio/mpeg',
-        ACL: 'public-read',
+        // ACL: 'public-read',
       };
       await s3Client.send(new PutObjectCommand(audioFileParams));
 
-      // Lưu audio file vào MediaFile trong MongoDB
+      // save media file
       audioFileMedia = await MediaFile.create({
         file_collection: 'ChapterAudio',
         file_url: `https://${audioFileParams.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${audio_file_name}`,
@@ -160,7 +158,7 @@ const createChapter = async (call, callback) => {
       });
     }
 
-    // Lưu chapter vào MongoDB
+    // save chapter
     const newChapter = await Chapter.create({
       name,
       book: book_id,
@@ -168,6 +166,12 @@ const createChapter = async (call, callback) => {
       audio_file: audioFileMedia ? [audioFileMedia._id] : [],
     });
 
+    await Book.findByIdAndUpdate(
+      newChapter.book,
+      {$push: {chapters: newChapter._id}},
+      {new: true, useFindAndModify: false}  
+    )
+    // console.log('before create success');
     callback(null, { chapter_id: newChapter._id.toString(), message: 'Chapter created successfully.' });
   } catch (error) {
     console.error('Error creating chapter:', error);
@@ -175,6 +179,61 @@ const createChapter = async (call, callback) => {
   }
 };
 
+const getAllChapters = async (call, callback) => {
+  try {
+    const chapters = await Chapter.find()
+      .populate('book', '_id title')
+      .populate('text_file', '_id file_url file_type')
+      .populate('audio_file', '_id file_url file_type');
+
+    const response = chapters.map((chapter) => ({
+      id: chapter._id.toString(),
+      name: chapter.name,
+      book_id: chapter.book ? chapter.book._id.toString() : null,
+      text_file_id: chapter.text_file ? chapter.text_file._id.toString() : null,
+      audio_file_ids: chapter.audio_file
+        ? chapter.audio_file.map((audio) => audio._id.toString())
+        : [],
+    }));
+
+    callback(null, { chapters: response });
+  } catch (error) {
+    console.error('Error fetching chapters:', error);
+    callback({
+      code: 500,
+      message: 'Internal server error',
+    });
+  }
+};
+
+const getChaptersByBookId = async (call, callback) => {
+  const { book_id } = call.request;
+
+  try {
+    const chapters = await Chapter.find({ book: book_id })
+      .populate('book', '_id title')
+      .populate('text_file', '_id file_url file_type')
+      .populate('audio_file', '_id file_url file_type');
+
+    const response = chapters.map((chapter) => ({
+      id: chapter._id.toString(),
+      name: chapter.name,
+      book_id: chapter.book ? chapter.book._id.toString() : null,
+      text_file_id: chapter.text_file ? chapter.text_file._id.toString() : null,
+      audio_file_ids: chapter.audio_file
+        ? chapter.audio_file.map((audio) => audio._id.toString())
+        : [],
+    }));
+
+    callback(null, { chapters: response });
+  } catch (error) {
+    console.error('Error fetching chapters by book ID:', error);
+    callback({
+      code: 500,
+      message: 'Internal server error',
+    });
+  }
+};
 const server = new grpc.Server();
 server.addService(bookProto.BookService.service, { 
   CreateBook: createBook,
@@ -182,7 +241,8 @@ server.addService(bookProto.BookService.service, {
   CreateMediaFile: createMediaFile,
   UploadMediaFile: uploadMediaFile,
   CreateChapter: createChapter,
-
+  GetAllChapters: getAllChapters,
+  GetChaptersByBookId: getChaptersByBookId
 
 });
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
