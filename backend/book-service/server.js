@@ -1,10 +1,12 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const mongoose = require('mongoose');
+
 const Book = require('./models/Book');
 const Author = require('./models/Author')
 const MediaFile = require('./models/mediaFile');
 const Chapter = require('./models/chapter');
+const Comment = require('./models/comment');
 
 const PROTO_PATH = './protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
@@ -234,16 +236,200 @@ const getChaptersByBookId = async (call, callback) => {
     });
   }
 };
+
+
+const getChapterById = async (call, callback) => {
+  const { chapter_id } = call.request;
+
+  try {
+    const chapter = await Chapter.findById(chapter_id)
+      .populate('book', '_id title')
+      .populate('text_file', '_id file_url file_type')
+      .populate('audio_file', '_id file_url file_type')
+      .populate({
+        path: 'comments',
+        select: '_id user comment created_at',
+      });
+
+    if (!chapter) {
+      return callback({
+        code: 404,
+        message: 'Chapter not found',
+      });
+    }
+
+    const response = {
+      id: chapter._id.toString(),
+      name: chapter.name,
+      book_id: chapter.book ? chapter.book._id.toString() : null,
+      text_file_id: chapter.text_file ? chapter.text_file._id.toString() : null,
+      audio_file_ids: chapter.audio_file
+        ? chapter.audio_file.map((audio) => audio._id.toString())
+        : [],
+      comments: chapter.comments.map((comment) => ({
+        id: comment._id.toString(),
+        user: comment.user,
+        comment: comment.comment,
+        created_at: comment.created_at.toISOString(),
+      })),
+    };
+
+    callback(null, response);
+  } catch (error) {
+    console.error('Error fetching chapter by ID:', error);
+    callback({
+      code: 500,
+      message: 'Internal server error',
+    });
+  }
+};
+
+const editChapter = async (call, callback) => {
+  const { chapter_id, name, text_file_id, audio_file_ids } = call.request;
+
+  try {
+    const chapter = await Chapter.findById(chapter_id);
+    
+    if (!chapter) {
+      return callback({
+        code: 404,
+        message: 'Chapter not found',
+      });
+    }
+
+    // update chapter info
+    if (name) chapter.name = name;
+    // if (text_file_id) chapter.text_file = text_file_id;
+    // if (audio_file_ids) chapter.audio_file = audio_file_ids;
+    chapter.text_file = (text_file_id === null)  ? chapter.text_file : text_file_id;
+    if(audio_file_ids) chapter.audio_file = chapter.audio_file;
+    
+    await chapter.save();
+
+    callback(null, { message: 'Chapter updated successfully' });
+  } catch (error) {
+    console.error('Error editing chapter:', error);
+    callback({
+      code: 500,
+      message: 'Internal server error',
+    });
+  }
+};
+
+const createComment = async (call, callback) => {
+  const { chapter_id, user, comment } = call.request;
+
+  try {
+    // Kiểm tra chapter tồn tại
+    const chapter = await Chapter.findById(chapter_id);
+    if (!chapter) {
+      return callback({
+        code: 404,
+        message: 'Chapter not found',
+      });
+    }
+
+    // Tạo comment mới
+    const newComment = new Comment({
+      user,
+      chapter: chapter_id,
+      comment,
+    });
+
+    await newComment.save();
+
+    // Thêm comment vào chapter
+    chapter.comments.push(newComment._id);
+    await chapter.save();
+
+    // Trả về response
+    const response = {
+      id: newComment._id.toString(),
+      chapter_id: chapter_id,
+      user: newComment.user,
+      comment: newComment.comment,
+      created_at: newComment.created_at.toISOString(),
+    };
+
+    callback(null, response);
+  } catch (error) {
+    console.error('Error creating comment:', error);
+    callback({
+      code: 500,
+      message: 'Internal server error',
+    });
+  }
+};
+
+const addAudioFile = async (call, callback) => {
+  const { chapter_id, file_name, file_content, file_type, file_size } = call.request;
+
+  try {
+    // Kiểm tra chapter tồn tại
+    const chapter = await Chapter.findById(chapter_id);
+    if (!chapter) {
+      return callback({
+        code: 404,
+        message: 'Chapter not found',
+      });
+    }
+
+    // Upload file lên S3
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `audio/${Date.now()}_${file_name}`,
+      Body: Buffer.from(file_content, 'base64'),
+      ContentType: file_type,
+    };
+
+    const s3Response = await s3Client.upload(params).promise();
+
+    // Tạo MediaFile mới
+    const newMediaFile = new MediaFile({
+      file_collection: 'audio',
+      file_url: s3Response.Location,
+      file_type,
+      file_size,
+    });
+
+    await newMediaFile.save();
+
+    // Thêm file vào danh sách audio_file của chapter
+    chapter.audio_file.push(newMediaFile._id);
+    await chapter.save();
+
+    // Trả về response
+    const response = {
+      media_file_id: newMediaFile._id.toString(),
+      chapter_id: chapter_id,
+      file_url: s3Response.Location,
+    };
+
+    callback(null, response);
+  } catch (error) {
+    console.error('Error adding audio file:', error);
+    callback({
+      code: 500,
+      message: 'Internal server error',
+    });
+  }
+};
+
 const server = new grpc.Server();
 server.addService(bookProto.BookService.service, { 
   CreateBook: createBook,
   CreateAuthor: createAuthor,
   CreateMediaFile: createMediaFile,
   UploadMediaFile: uploadMediaFile,
+
   CreateChapter: createChapter,
   GetAllChapters: getAllChapters,
-  GetChaptersByBookId: getChaptersByBookId
-
+  GetChaptersByBookId: getChaptersByBookId,
+  GetChapterById: getChapterById,
+  //! func edit chapter still bug
+  EditChapter: editChapter,
+  CreateComment: createComment,
+  AddAudioFile: addAudioFile
 });
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
   console.log('gRPC server running on port 50053');

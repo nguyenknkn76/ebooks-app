@@ -67,3 +67,55 @@ exports.getChaptersByBookId = (book_id) =>
       resolve(response);
     });
   });
+
+exports.getChapterById = (chapter_id) =>
+  new Promise((resolve, reject) => {
+    client.GetChapterById({ chapter_id }, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
+exports.editChapter = (chapter_id, name, text_file_id, audio_file_ids) =>
+  new Promise((resolve, reject) => {
+    client.EditChapter(
+      { chapter_id, name, text_file_id, audio_file_ids },
+      (error, response) => {
+        if (error) return reject(error);
+        resolve(response);
+      }
+    );
+  });
+
+exports.createComment = (chapter_id, user, comment) =>
+  new Promise((resolve, reject) => {
+    client.CreateComment({ chapter_id, user, comment }, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
+exports.addAudioFile = (chapter_id, file_name, file_content, file_type, file_size, file_collection) =>
+  new Promise((resolve, reject) => {
+    client.AddAudioFile(
+      { chapter_id, file_name, file_content, file_type, file_size, file_collection },
+      (error, response) => {
+        if (error) return reject(error);
+        resolve(response);
+      }
+    );
+  });
+
+exports.addAudioFile = (chapter_id, file_name, file_content, file_type, file_size) =>
+  new Promise((resolve, reject) => {
+    client.AddAudioFile(
+      { chapter_id, file_name, file_content, file_type, file_size },
+      (error, response) => {
+        if (error) return reject(error);
+        resolve(response);
+      }
+    );
+  });
+
+  
+

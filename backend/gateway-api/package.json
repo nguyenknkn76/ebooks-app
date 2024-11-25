@@ -9,6 +9,7 @@
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.0",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.7"
   },
   "name": "gateway-api",
@@ -18,7 +19,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "booksapi" : "nodemon s-booksapi"
+    "booksapi": "nodemon s-booksapi"
   },
   "author": "",
   "license": "ISC",

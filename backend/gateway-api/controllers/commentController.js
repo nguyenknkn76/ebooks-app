@@ -1,26 +1,14 @@
-const bookClient = require('../services/bookClient');
-
-exports.getCommentsByChapterId = async (req, res) => {
-    try {
-        const comments = await bookClient.getCommentsByChapterId(req.params.chapterId);
-        console.log(comments)
-        res.json(comments);
-    } catch (error) {
-        console.error('Error in getCommentsByChapterId:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-};
+const CommentClient = require('../services/bookClient');
 
 exports.createComment = async (req, res) => {
-    console.log('THIS IS GET COMMENT BY CHAPTER ID IN COMMENT CONTROLLER ================================================================')
+  const { chapter_id } = req.params;
+  const { user, comment } = req.body;
 
-    try {
-        const { chapterId } = req.params;
-        const { userId, comment } = req.body;
-        const newComment = await bookClient.createComment(chapterId, userId, comment);
-        res.status(201).json(newComment);
-    } catch (error) {
-        console.error('Error in createComment:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+  try {
+    const response = await CommentClient.createComment(chapter_id, user, comment);
+    res.status(201).json(response);
+  } catch (error) {
+    console.error('Error creating comment:', error);
+    res.status(500).json({ message: 'Failed to create comment', error });
+  }
 };

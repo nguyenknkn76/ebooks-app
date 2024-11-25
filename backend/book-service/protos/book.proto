@@ -13,8 +13,73 @@ service BookService {
   rpc CreateChapter(CreateChapterRequest) returns (CreateChapterResponse);
   rpc GetAllChapters(GetAllChaptersRequest) returns (GetAllChaptersResponse);
   rpc GetChaptersByBookId(GetChaptersByBookIdRequest) returns (GetChaptersByBookIdResponse);
+  rpc GetChapterById(GetChapterByIdRequest) returns (GetChapterByIdResponse);
+  rpc EditChapter(EditChapterRequest) returns (EditChapterResponse);
+  rpc AddAudioFile(AddAudioFileRequest) returns (AddAudioFileResponse);
+
+  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse);
 
 }
+
+message AddAudioFileRequest {
+  string chapter_id = 1;
+  string file_name = 2;
+  bytes file_content = 3; // File content (binary data)
+  string file_type = 4;   // e.g., "audio/mpeg"
+  int32 file_size = 5;
+}
+
+message AddAudioFileResponse {
+  string media_file_id = 1;
+  string chapter_id = 2;
+  string file_url = 3;
+}
+
+message CreateCommentRequest {
+  string chapter_id = 1;
+  string user = 2;
+  string comment = 3;
+}
+
+message CreateCommentResponse {
+  string id = 1;
+  string chapter_id = 2;
+  string user = 3;
+  string comment = 4;
+  string created_at = 5;
+}
+
+message EditChapterRequest {
+  string chapter_id = 1;
+  string name = 2;
+  string text_file_id = 3;
+  repeated string audio_file_ids = 4;
+}
+
+message EditChapterResponse {
+  string message = 1;
+}
+
+message GetChapterByIdRequest {
+  string chapter_id = 1;
+}
+
+message GetChapterByIdResponse {
+  string id = 1;
+  string name = 2;
+  string book_id = 3;
+  string text_file_id = 4;
+  repeated string audio_file_ids = 5;
+  repeated Comment comments = 6;
+}
+
+message Comment {
+  string id = 1;
+  string user = 2;
+  string comment = 3;
+  string created_at = 4;
+}
+
 message GetChaptersByBookIdRequest {
   string book_id = 1;
 }

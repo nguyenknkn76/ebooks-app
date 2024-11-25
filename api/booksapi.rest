@@ -59,3 +59,25 @@ GET http://localhost:5000/api/books/chapters
 @book_id = 67405659dfe3478b3de8f36c
 ### get chapters by book id
 GET http://localhost:5000/api/books/chapters/{{book_id}}
+###
+@chapter_id = 674354680dc06ae1b52310a3
+###
+GET http://localhost:5000/api/books/chapters/chapter/{{chapter_id}}
+###
+PUT http://localhost:5000/api/books/chapters/{{chapter_id}}
+Content-Type: application/json
+
+{
+  "name": "Updated Chapter Name",
+  "text_file_id": "64fdfc1e839be305c43d6a2f",
+  "audio_file_ids": ["64fdfc4b839be305c43d6a3a"]
+}
+
+### comments
+POST http://localhost:5000/api/books/chapters/{{chapter_id}}/comments
+Content-Type: application/json
+
+{
+  "user": "useroneidinuserservice",
+  "comment": "I love this chapter <3 fall i luv with u>"
+}
