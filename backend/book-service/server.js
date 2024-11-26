@@ -320,7 +320,7 @@ const createComment = async (call, callback) => {
   const { chapter_id, user, comment } = call.request;
 
   try {
-    // Kiểm tra chapter tồn tại
+    // check chapter exist 
     const chapter = await Chapter.findById(chapter_id);
     if (!chapter) {
       return callback({
@@ -329,7 +329,7 @@ const createComment = async (call, callback) => {
       });
     }
 
-    // Tạo comment mới
+    // create new comment 
     const newComment = new Comment({
       user,
       chapter: chapter_id,
@@ -338,11 +338,11 @@ const createComment = async (call, callback) => {
 
     await newComment.save();
 
-    // Thêm comment vào chapter
+    // add comment to chapter
     chapter.comments.push(newComment._id);
     await chapter.save();
 
-    // Trả về response
+    // return res
     const response = {
       id: newComment._id.toString(),
       chapter_id: chapter_id,
@@ -365,7 +365,7 @@ const addAudioFile = async (call, callback) => {
   const { chapter_id, file_name, file_content, file_type, file_size } = call.request;
 
   try {
-    // Kiểm tra chapter tồn tại
+    // check chapter
     const chapter = await Chapter.findById(chapter_id);
     if (!chapter) {
       return callback({
@@ -374,7 +374,7 @@ const addAudioFile = async (call, callback) => {
       });
     }
 
-    // Upload file lên S3
+    // Upload file to s3
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: `audio/${Date.now()}_${file_name}`,
@@ -384,7 +384,7 @@ const addAudioFile = async (call, callback) => {
 
     const s3Response = await s3Client.upload(params).promise();
 
-    // Tạo MediaFile mới
+    // create new media file
     const newMediaFile = new MediaFile({
       file_collection: 'audio',
       file_url: s3Response.Location,
@@ -394,11 +394,11 @@ const addAudioFile = async (call, callback) => {
 
     await newMediaFile.save();
 
-    // Thêm file vào danh sách audio_file của chapter
+    // add file to list audio_file of chapter
     chapter.audio_file.push(newMediaFile._id);
     await chapter.save();
 
-    // Trả về response
+    // return res
     const response = {
       media_file_id: newMediaFile._id.toString(),
       chapter_id: chapter_id,
