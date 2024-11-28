@@ -3,8 +3,8 @@ POST http://localhost:5000/api/books
 Content-Type: application/json
 
 {
-    "title": "CPP in one day",
-    "author": "645c9fbd9c5e7c0015c1a4d9",
+    "title": "DSA daily",
+    "author": "67405cacb632cceae59213d7",
     "genres": ["Technology", "Programming"],
     "description": "A comprehensive guide to microservice architecture.",
     "publish_year": 2024

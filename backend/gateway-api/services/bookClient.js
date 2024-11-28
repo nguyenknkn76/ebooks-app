@@ -17,6 +17,7 @@ exports.createChapter = (data) => {
 };
 
 exports.createBook = (bookData) => {
+  // console.log(bookData);
   return new Promise((resolve, reject) => {
     client.CreateBook(bookData, (error, response) => {
       if (error) return reject(error);
