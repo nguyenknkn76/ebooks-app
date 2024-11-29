@@ -7,6 +7,14 @@ const bookProto = grpc.loadPackageDefinition(packageDefinition).book;
 
 const client = new bookProto.BookService('localhost:50053', grpc.credentials.createInsecure());
 
+exports.createRating = (data) =>
+  new Promise((resolve, reject) => {
+    client.CreateRating(data, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
 exports.createChapter = (data) => {
   return new Promise((resolve, reject) => {
     client.CreateChapter(data, (error, response) => {
@@ -52,6 +60,31 @@ exports.uploadMediaFile = (fileData) => {
     });
   });
 };
+
+exports.getAllBooks = () => 
+  new Promise((resolve, reject) => {
+    client.GetAllBooks({}, (error, response) => {
+      if(error) return reject(error);
+      resolve(response);
+    });
+  });
+
+exports.getAllAuthors = () =>
+  new Promise((resolve, reject) => {
+    client.GetAllAuthors({}, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
+exports.getAuthorById = (id) =>
+  new Promise((resolve, reject) => {
+    client.GetAuthorById({ id }, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
 
 exports.getAllChapters = () =>
   new Promise((resolve, reject) => {

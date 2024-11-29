@@ -3,13 +3,26 @@ POST http://localhost:5000/api/books
 Content-Type: application/json
 
 {
-    "title": "DSA daily",
+    "title": "DSA for life <3 1>",
     "author": "67405cacb632cceae59213d7",
     "genres": ["Technology", "Programming"],
     "description": "A comprehensive guide to microservice architecture.",
     "publish_year": 2024
 }
+### books
+GET http://localhost:5000/api/books
 
+### rating
+POST http://localhost:5000/api/books/rating
+Content-Type: application/json
+
+{
+  "id": "64fe0b23a1d4b637c7654321",
+  "user": "user123",
+  "book_id": "67405659dfe3478b3de8f36c",
+  "rating": 3,
+  "review": "Great book!"
+}
 ### authors
 POST http://localhost:5000/api/books/authors
 Content-Type: application/json
@@ -20,6 +33,13 @@ Content-Type: application/json
   "name": "Jonathan Doe",
   "description": "An experienced author specializing in science fiction."
 }
+
+### get all authors 
+GET http://localhost:5000/api/books/authors
+###
+@author_id = 67405cacb632cceae59213d7
+### get author by id
+GET http://localhost:5000/api/books/authors/{{author_id}}
 
 ### mediafiles
 POST http://localhost:5000/api/books/mediafiles
@@ -46,8 +66,8 @@ POST http://localhost:5000/api/books/chapters
 Content-Type: application/json
 
 {
-  "name": "Chapter 3",
-  "book_id": "64fdfb2c839be305c43d6a1e"
+  "name": "Chapter 4",
+  "book_id": "67405659dfe3478b3de8f36c"
 }
 
 ### "text_file_id": "64fdfc1e839be305c43d6a2f",

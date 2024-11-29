@@ -4,8 +4,11 @@ package book;
 
 service BookService {
   rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
+  rpc GetAllBooks(GetAllBooksRequest) returns (GetAllBooksResponse);
 
   rpc CreateAuthor(CreateAuthorRequest) returns (CreateAuthorResponse);
+  rpc GetAllAuthors(GetAllAuthorsRequest) returns (GetAllAuthorsResponse);
+  rpc GetAuthorById(GetAuthorByIdRequest) returns (GetAuthorByIdResponse);
 
   rpc CreateMediaFile(CreateMediaFileRequest) returns (CreateMediaFileResponse);
   rpc UploadMediaFile(UploadMediaFileRequest) returns (UploadMediaFileResponse);
@@ -19,6 +22,66 @@ service BookService {
 
   rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse);
 
+  rpc CreateRating(CreateRatingRequest) returns (CreateRatingResponse);
+}
+
+message GetAllBooksRequest {}
+message GetAllBooksResponse {
+  repeated Book books = 1;
+}
+message Book {
+  string id = 1;
+  string title = 2;
+  Author author = 3;
+  repeated string genres = 4;
+  string description = 5;
+  int32 publish_year = 6;
+  float avg_rating = 7;
+  MediaFile cover_img = 8;
+}
+
+message MediaFile {
+  string id = 1;
+  string file_url = 2;
+  string file_type = 3;
+}
+
+message CreateRatingRequest {
+  string user = 1;
+  string book_id = 2;
+  int32 rating = 3;
+  string review = 4;
+}
+message CreateRatingResponse {
+  string id = 1;
+  string user = 2;
+  string book_id = 3;
+  int32 rating = 4;
+  string review = 5;
+}
+
+message GetAuthorByIdRequest {
+  string id = 1;
+}
+message GetAuthorByIdResponse {
+  Author author = 1;
+}
+
+message GetAllAuthorsRequest {}
+message GetAllAuthorsResponse {
+  repeated Author authors = 1;
+}
+message Author {
+  string id = 1;
+  string user = 2;
+  string pen_name = 3;
+  string name = 4;
+  string description = 5;
+  repeated BookFnGetAllAuthors books = 6;
+}
+message BookFnGetAllAuthors {
+  string id = 1;
+  string title = 2;
 }
 
 message AddAudioFileRequest {
@@ -28,7 +91,6 @@ message AddAudioFileRequest {
   string file_type = 4;   // e.g., "audio/mpeg"
   int32 file_size = 5;
 }
-
 message AddAudioFileResponse {
   string media_file_id = 1;
   string chapter_id = 2;

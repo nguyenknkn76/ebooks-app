@@ -7,6 +7,8 @@ const bookSchema = new mongoose.Schema({
   publish_year: Number,
   cover_img: { type: mongoose.Schema.Types.ObjectId, ref: 'MediaFile' },
   chapters: [{type: mongoose.Schema.Types.ObjectId, ref: 'Chapter' }],
+  ratings: [{type: mongoose.Schema.Types.ObjectId, ref: 'Rating'}],
+  avg_rating: { type: Number, default: 0 },
   created_at: Date,
   updated_at: Date,
 });
