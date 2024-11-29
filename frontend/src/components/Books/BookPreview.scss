@@ -1,0 +1,53 @@
+.book-preview {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #1e293b;
+  line-height: 1.6;
+
+  .book-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .book-series {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 10px;
+  }
+
+  .book-author,
+  .book-narrators,
+  .book-length,
+  .book-format {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+
+  .ratings {
+    margin: 15px 0;
+
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 5px;
+
+      span.stars {
+        font-size: 14px;
+        color: #fbbf24;
+      }
+
+      .rating-value {
+        font-size: 14px;
+        color: #64748b;
+      }
+    }
+  }
+
+  .book-description {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #374151;
+  }
+}

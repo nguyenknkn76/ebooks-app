@@ -1,0 +1,36 @@
+.genre-card {
+  background-color: #1e293b;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .genre-cover {
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .genre-info {
+    padding: 15px;
+
+    .genre-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .genre-description {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+  }
+}
