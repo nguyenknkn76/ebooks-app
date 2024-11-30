@@ -7,6 +7,22 @@ const bookProto = grpc.loadPackageDefinition(packageDefinition).book;
 
 const client = new bookProto.BookService('localhost:50053', grpc.credentials.createInsecure());
 
+exports.getAllLibraries = () =>
+  new Promise((resolve, reject) => {
+    client.GetAllLibraries({}, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
+exports.createLibrary = (libraryData) =>
+  new Promise((resolve, reject) => {
+    client.CreateLibrary(libraryData, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
 exports.createRating = (data) =>
   new Promise((resolve, reject) => {
     client.CreateRating(data, (error, response) => {
@@ -61,13 +77,14 @@ exports.uploadMediaFile = (fileData) => {
   });
 };
 
-exports.getAllBooks = () => 
+exports.getAllBooks = () =>
   new Promise((resolve, reject) => {
     client.GetAllBooks({}, (error, response) => {
-      if(error) return reject(error);
+      if (error) return reject(error);
       resolve(response);
     });
   });
+
 
 exports.getAllAuthors = () =>
   new Promise((resolve, reject) => {
@@ -77,6 +94,14 @@ exports.getAllAuthors = () =>
     });
   });
 
+exports.getBookById = (id) =>
+  new Promise((resolve, reject) => {
+    client.GetBookById({ id }, (error, response) => {
+      if (error) return reject(error);
+      resolve(response.book);
+    });
+  });
+    
 exports.getAuthorById = (id) =>
   new Promise((resolve, reject) => {
     client.GetAuthorById({ id }, (error, response) => {
@@ -84,7 +109,6 @@ exports.getAuthorById = (id) =>
       resolve(response);
     });
   });
-
 
 exports.getAllChapters = () =>
   new Promise((resolve, reject) => {

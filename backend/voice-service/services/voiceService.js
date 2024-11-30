@@ -9,5 +9,4 @@ const getVoices = async (call, callback) => {
     }
   };
 
-
 module.exports = { getVoices };

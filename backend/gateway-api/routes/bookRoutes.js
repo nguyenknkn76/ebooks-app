@@ -7,8 +7,11 @@ const mediaFileController = require('../controllers/mediaFileController');
 const chapterController = require('../controllers/chapterController');
 const commentController = require('../controllers/commentController');
 const ratingController = require('../controllers/ratingController');
+const libraryController = require('../controllers/libraryController');
+
 router.post('/books', bookController.createBook);
 router.get('/books', bookController.getAllBooks);
+router.get('/books/:id', bookController.getBookById);
 
 router.post('/books/authors', authorController.createAuthor);
 router.get('/books/authors', authorController.getAllAuthors);
@@ -21,6 +24,9 @@ router.post('/books/chapters', chapterController.createChapter);
 router.get('/books/chapters', chapterController.getAllChapters);
 router.get('/books/chapters/:book_id', chapterController.getChaptersByBookId);
 router.get('/books/chapters/chapter/:chapter_id',chapterController.getChapterById);
+
+router.post('/books/libraries', libraryController.createLibrary);
+router.get('/books/libraries', libraryController.getAllLibraries);
 
 router.post('/books/rating', ratingController.createRating);
 //! ====> still bug here <===

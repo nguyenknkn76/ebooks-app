@@ -1,4 +1,4 @@
-### books
+### ! books
 POST http://localhost:5000/api/books
 Content-Type: application/json
 
@@ -11,7 +11,27 @@ Content-Type: application/json
 }
 ### books
 GET http://localhost:5000/api/books
+### get book by id
+@book_id = 67405659dfe3478b3de8f36c
+@book_id2 = 67498961c8d0ce78b4c95647
+###
+GET http://localhost:5000/api/books/{{book_id2}}
 
+###! library
+### create
+POST http://localhost:5000/api/books/libraries
+Content-Type: application/json
+
+{
+  "user": "user123",
+  "name": "My Favorite Books",
+  "book_ids": ["67405659dfe3478b3de8f36c", "67405c086cbc1caa79d149d3"]
+}
+
+### get all
+GET http://localhost:5000/api/books/libraries
+
+###! ratings
 ### rating
 POST http://localhost:5000/api/books/rating
 Content-Type: application/json

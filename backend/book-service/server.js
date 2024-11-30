@@ -8,6 +8,7 @@ const MediaFileService = require('./services/mediaFileService');
 const ChapterService = require('./services/chapterService');
 const CommentService = require('./services/commentService');
 const RatingService = require('./services/ratingService');
+const LibraryService = require('./services/libraryService');
 
 const PROTO_PATH = './protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
@@ -20,9 +21,8 @@ const server = new grpc.Server();
 
 server.addService(bookProto.BookService.service, { 
   CreateBook: BookService.createBook,
-  //! get all books still bug ~ can't populate author, cover image
   GetAllBooks: BookService.getAllBooks,
-  // GetBookById: BookService.getBookById,
+  GetBookById: BookService.getBookById,
 
   CreateAuthor: AuthorService.createAuthor,
   GetAllAuthors: AuthorService.getAllAuthors,
@@ -37,6 +37,10 @@ server.addService(bookProto.BookService.service, {
   CreateComment: CommentService.createComment,
 
   CreateRating: RatingService.createRating,
+
+  CreateLibrary: LibraryService.createLibrary,
+  GetAllLibraries: LibraryService.getAllLibraries,
+
 });
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
   console.log('gRPC server running on port 50053');

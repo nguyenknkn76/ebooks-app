@@ -40,36 +40,35 @@ const createBook = async (call, callback) => {
     callback(error);
   }
 }
-
 const getAllBooks = async (call, callback) => {
   try {
-    const books = await Book.find()
-      .populate('author', '_id pen_name name')
-      // .populate('chapters', '_id name')
-      .populate('cover_img', '_id file_url file_type')
-      .populate('ratings', '_id user rating review');
+    const books = await Book.find({})
+      .populate({
+        path: 'author',
+        select: '_id pen_name name',
+      })
+      .populate({
+        path: 'cover_img',
+        select: 'file_url',
+      });
 
-    const response = books.map((book) => ({
+    const formattedBooks = books.map((book) => ({
       id: book._id.toString(),
       title: book.title,
-      author: book.author,
+      author: book.author ? {
+        id: book.author._id.toString(),
+        pen_name: book.author.pen_name,
+        name: book.author.name,
+      } : null,
       genres: book.genres,
-      description: book.description,
-      publish_year: book.publish_year,
-      created_at: book.created_at,
-      updated_at: book.updated_at,
-      cover_img: book.cover_img,
+      description: book.description || '',
+      publish_year: book.publish_year || 0,
+      cover_img: book.cover_img?.file_url || '',
       avg_rating: book.avg_rating,
-      // ratings: book.ratings.map((rating) => ({
-      //   id: rating._id.toString(),
-      //   user: rating.user,
-      //   rating: rating.rating,
-      //   review: rating.review || '',
-      // })),
+      count_rating: book.ratings.length,
     }));
-    // console.log(books[0]);
-    console.log('this is book service response:', response[0]);
-    callback(null, { books: response });
+
+    callback(null, { books: formattedBooks });
   } catch (error) {
     console.error('Error fetching books:', error);
     callback({
@@ -80,21 +79,28 @@ const getAllBooks = async (call, callback) => {
 };
 
 const getBookById = async (call, callback) => {
+  const { id } = call.request;
+  // console.log('this is book_id:', call.request);
   try {
-    const { id } = call.request;
-
     const book = await Book.findById(id)
-      .populate('author', 'id pen_name name')
-      .populate('cover_img', 'id file_url file_type')
       .populate({
-        path: 'ratings',
-        select: 'id user rating review',
+        path: 'author',
+        select: '_id pen_name name',
+      })
+      .populate({
+        path: 'cover_img',
+        select: '_id file_url',
       })
       .populate({
         path: 'chapters',
-        select: 'id name text_file audio_file',
+        select: '_id name',
+      })
+      .populate({
+        path: 'ratings',
+        select: '_id user rating review',
+        options: {limit: 3},
+        // options: {slice: -3}
       });
-
     if (!book) {
       return callback({
         code: 404,
@@ -102,22 +108,38 @@ const getBookById = async (call, callback) => {
       });
     }
 
+    //* use to get exactly 3 recent ratings records
+    // const ratings = await Rating.find({ _id: { $in: book.ratings } }) 
+    //   .sort({ _id: -1 }) 
+    //   .limit(3);
+
     const response = {
       id: book._id.toString(),
       title: book.title,
-      author: book.author,
+      author: {
+        id: book.author?._id.toString() || '',
+        pen_name: book.author?.pen_name || '',
+        name: book.author?.name || '',
+      },
       genres: book.genres,
-      description: book.description,
-      publish_year: book.publish_year,
-      created_at: book.created_at,
-      updated_at: book.updated_at,
-      avg_rating: book.avg_rating.toFixed(2),
-      cover_img: book.cover_img,
-      chapters: book.chapters,
-      ratings: book.ratings,
+      description: book.description || '',
+      publish_year: book.publish_year || 0,
+      cover_img: book.cover_img?.file_url || '',
+      chapters: book.chapters.map((chapter) => ({
+        id: chapter._id.toString(),
+        name: chapter.name,
+      })),
+      ratings: book.ratings.map((r) => ({
+        id: r._id.toString(),
+        user: r.user,
+        rating: r.rating.toFixed(2),
+        review: r.review
+      })),
+      count_rating: book.ratings.length,
+      avg_rating: book.avg_rating,
     };
-
-    callback(null, response);
+    // console.log(response);
+    callback(null, { book: response });
   } catch (error) {
     console.error('Error fetching book by ID:', error);
     callback({
@@ -126,6 +148,7 @@ const getBookById = async (call, callback) => {
     });
   }
 };
+
 
 const updateBook = async (call, callback) => {
   const { id, title, author, genres, description, publish_year } = call.request;
