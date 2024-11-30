@@ -27,22 +27,63 @@ service BookService {
 
   rpc CreateLibrary(CreateLibraryRequest) returns (CreateLibraryResponse);
   rpc GetAllLibraries(GetAllLibrariesRequest) returns (GetAllLibrariesResponse);
+  rpc GetLibraryById(GetLibraryByIdRequest) returns (GetLibraryByIdResponse);
+  rpc GetLibrariesByUserId(GetLibrariesByUserIdRequest) returns (GetLibrariesByUserIdResponse);
 
 }
-message GetAllLibrariesRequest {}
-message GetAllLibrariesResponse {
-  repeated Library libraries = 1;
+
+message GetLibrariesByUserIdRequest {
+  string id = 1; 
 }
-message Library {
+message LibraryForGlbui {
+  string id = 1;
+  string name = 2;
+  repeated BookInLibrary books = 3;
+}
+message GetLibrariesByUserIdResponse {
+  repeated LibraryForGlbui libraries = 1;
+}
+
+message GetLibraryByIdRequest {
+  string id = 1;
+}
+message GetLibraryByIdResponse {
   string id = 1;
   string user = 2;
   string name = 3;
-  // repeated BookInLibrary books = 4;
+  repeated BookInLibrary books = 4;
+}
+
+message GetAllLibrariesRequest {}
+message GetAllLibrariesResponse {
+  repeated Library libraries = 1;
 }
 message BookInLibrary {
   string id = 1;
   string title = 2;
 }
+message Library {
+  string id = 1;
+  string user = 2;
+  string name = 3;
+  repeated BookInLibrary books = 4;
+}
+
+
+// message GetAllLibrariesRequest {}
+// message GetAllLibrariesResponse {
+//   repeated Library libraries = 1;
+// }
+// message Library {
+//   string id = 1;
+//   string user = 2;
+//   string name = 3;
+//   // repeated BookInLibrary books = 4;
+// }
+// message BookInLibrary {
+//   string id = 1;
+//   string title = 2;
+// }
 
 message CreateLibraryRequest {
   string user = 1;
@@ -111,7 +152,6 @@ message CreateRatingRequest {
   int32 rating = 3;
   string review = 4;
 }
-
 message CreateRatingResponse {
   string id = 1;
   string user = 2;
@@ -147,8 +187,8 @@ message BookFnGetAllAuthors {
 message AddAudioFileRequest {
   string chapter_id = 1;
   string file_name = 2;
-  bytes file_content = 3;
-  string file_type = 4;  
+  bytes file_content = 3; // File content (binary data)
+  string file_type = 4;   // e.g., "audio/mpeg"
   int32 file_size = 5;
 }
 message AddAudioFileResponse {
@@ -236,12 +276,12 @@ message CreateChapterResponse {
 
 message UploadMediaFileRequest {
   string file_name = 1;
-  bytes file_content = 2;
+  bytes file_content = 2; // File dưới dạng byte
   string file_type = 3;
 }
 
 message UploadMediaFileResponse {
-  string file_url = 1;
+  string file_url = 1; // URL public của file
 }
 
 message CreateMediaFileRequest {

@@ -19,12 +19,41 @@ exports.createLibrary = async (req, res) => {
 };
 
 exports.getAllLibraries = async (req, res) => {
-  console.log('call controller')
   try {
     const response = await libraryClient.getAllLibraries();
     res.status(200).json(response.libraries);
   } catch (error) {
     console.error('Error fetching libraries:', error);
+    res.status(500).json({
+      message: 'Failed to fetch libraries',
+      error: error.details || 'Internal server error',
+    });
+  }
+};
+
+exports.getLibraryById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const response = await libraryClient.getLibraryById(id);
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error fetching library by ID:', error);
+    res.status(500).json({
+      message: 'Failed to fetch library',
+      error: error.details || 'Internal server error',
+    });
+  }
+};
+
+exports.getLibrariesByUserId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const response = await libraryClient.getLibrariesByUserId(id);
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error fetching libraries by userId:', error);
     res.status(500).json({
       message: 'Failed to fetch libraries',
       error: error.details || 'Internal server error',

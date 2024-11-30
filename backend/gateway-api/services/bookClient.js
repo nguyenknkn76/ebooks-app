@@ -7,6 +7,14 @@ const bookProto = grpc.loadPackageDefinition(packageDefinition).book;
 
 const client = new bookProto.BookService('localhost:50053', grpc.credentials.createInsecure());
 
+exports.getLibrariesByUserId = (id) =>
+  new Promise((resolve, reject) => {
+    client.GetLibrariesByUserId({ id }, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
 exports.getAllLibraries = () =>
   new Promise((resolve, reject) => {
     client.GetAllLibraries({}, (error, response) => {
@@ -14,6 +22,15 @@ exports.getAllLibraries = () =>
       resolve(response);
     });
   });
+
+exports.getLibraryById = (id) =>
+  new Promise((resolve, reject) => {
+    client.GetLibraryById({ id }, (error, response) => {
+      if (error) return reject(error);
+      resolve(response);
+    });
+  });
+
 
 exports.createLibrary = (libraryData) =>
   new Promise((resolve, reject) => {

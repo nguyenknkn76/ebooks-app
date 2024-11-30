@@ -81,6 +81,7 @@ const getAllBooks = async (call, callback) => {
 const getBookById = async (call, callback) => {
   const { id } = call.request;
   // console.log('this is book_id:', call.request);
+  console.log(id);
   try {
     const book = await Book.findById(id)
       .populate({

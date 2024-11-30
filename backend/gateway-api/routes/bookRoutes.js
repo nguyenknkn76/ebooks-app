@@ -11,7 +11,7 @@ const libraryController = require('../controllers/libraryController');
 
 router.post('/books', bookController.createBook);
 router.get('/books', bookController.getAllBooks);
-router.get('/books/:id', bookController.getBookById);
+router.get('/books/book/:id', bookController.getBookById);
 
 router.post('/books/authors', authorController.createAuthor);
 router.get('/books/authors', authorController.getAllAuthors);
@@ -27,6 +27,8 @@ router.get('/books/chapters/chapter/:chapter_id',chapterController.getChapterByI
 
 router.post('/books/libraries', libraryController.createLibrary);
 router.get('/books/libraries', libraryController.getAllLibraries);
+router.get('/books/libraries/:id', libraryController.getLibraryById);
+router.get('/books/libraries/user/:id', libraryController.getLibrariesByUserId);
 
 router.post('/books/rating', ratingController.createRating);
 //! ====> still bug here <===

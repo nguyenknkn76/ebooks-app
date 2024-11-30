@@ -40,6 +40,8 @@ server.addService(bookProto.BookService.service, {
 
   CreateLibrary: LibraryService.createLibrary,
   GetAllLibraries: LibraryService.getAllLibraries,
+  GetLibraryById: LibraryService.getLibraryById,
+  GetLibrariesByUserId: LibraryService.getLibrariesByUserId,
 
 });
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {

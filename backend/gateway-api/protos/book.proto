@@ -27,22 +27,63 @@ service BookService {
 
   rpc CreateLibrary(CreateLibraryRequest) returns (CreateLibraryResponse);
   rpc GetAllLibraries(GetAllLibrariesRequest) returns (GetAllLibrariesResponse);
+  rpc GetLibraryById(GetLibraryByIdRequest) returns (GetLibraryByIdResponse);
+  rpc GetLibrariesByUserId(GetLibrariesByUserIdRequest) returns (GetLibrariesByUserIdResponse);
 
 }
-message GetAllLibrariesRequest {}
-message GetAllLibrariesResponse {
-  repeated Library libraries = 1;
+
+message GetLibrariesByUserIdRequest {
+  string id = 1; 
 }
-message Library {
+message LibraryForGlbui {
+  string id = 1;
+  string name = 2;
+  repeated BookInLibrary books = 3;
+}
+message GetLibrariesByUserIdResponse {
+  repeated LibraryForGlbui libraries = 1;
+}
+
+message GetLibraryByIdRequest {
+  string id = 1;
+}
+message GetLibraryByIdResponse {
   string id = 1;
   string user = 2;
   string name = 3;
-  // repeated BookInLibrary books = 4;
+  repeated BookInLibrary books = 4;
+}
+
+message GetAllLibrariesRequest {}
+message GetAllLibrariesResponse {
+  repeated Library libraries = 1;
 }
 message BookInLibrary {
   string id = 1;
   string title = 2;
 }
+message Library {
+  string id = 1;
+  string user = 2;
+  string name = 3;
+  repeated BookInLibrary books = 4;
+}
+
+
+// message GetAllLibrariesRequest {}
+// message GetAllLibrariesResponse {
+//   repeated Library libraries = 1;
+// }
+// message Library {
+//   string id = 1;
+//   string user = 2;
+//   string name = 3;
+//   // repeated BookInLibrary books = 4;
+// }
+// message BookInLibrary {
+//   string id = 1;
+//   string title = 2;
+// }
 
 message CreateLibraryRequest {
   string user = 1;
