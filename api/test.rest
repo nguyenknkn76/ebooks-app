@@ -73,7 +73,7 @@ GET http://localhost:5000/api/notes/users
 #================================================================================================================================
 ### material
 ### try voice
-GET http://localhost:3000/api/voices
+GET http://localhost:5000/api/voices
 
 ### GET user data
 GET http://localhost:4000/api/user/3
@@ -99,5 +99,5 @@ Content-Type: application/json
 }
 
 ### Voice
-GET http://localhost:4000/api/voice/1
+GET http://localhost:5000/api/voice/
 

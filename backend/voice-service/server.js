@@ -8,7 +8,7 @@ const protoLoader = require('@grpc/proto-loader');
 // const DeviceProfile = require('../models/deviceProfile');
 // const MediaFile = require('../models/mediaFile');
 // const Type = require('../models/type');
-const {getVoices} = require('./services/voiceService');
+const VoiceService = require('./services/voiceService');
 const PROTO_PATH = './protos/voice.proto';
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
@@ -17,7 +17,7 @@ const voiceProto = grpc.loadPackageDefinition(packageDefinition).VoiceService;
 const startGrpcServer = () => {
   const server = new grpc.Server();
   server.addService(voiceProto.service, { 
-    GetVoices: getVoices,
+    GetVoices: VoiceService.getVoices,
   });
   server.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), () => {
     console.log("Voice Service gRPC server running at http://0.0.0.0:50052");
