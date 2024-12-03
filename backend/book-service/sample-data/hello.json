@@ -1,0 +1,84 @@
+[
+  {
+    "book": {
+      "_id": "5f8f8c44b54764421b7156e7",
+      "title": "The Great Adventure",
+      "views": 150,
+      "chapters": [
+        "5f8f8c44b54764421b7156e8",
+        "5f8f8c44b54764421b7156e9"
+      ]
+    },
+    "voices": [
+      {
+        "voice": {
+          "_id": "5f8f8c44b54764421b715700",
+          "name": "Voice Actor 1",
+          "usedCount": 70
+        },
+        "count": 30
+      },
+      {
+        "voice": {
+          "_id": "5f8f8c44b54764421b715701",
+          "name": "Voice Actor 2",
+          "usedCount": 50
+        },
+        "count": 20
+      },
+      {
+        "voice": {
+          "_id": "5f8f8c44b54764421b715702",
+          "name": "Voice Actor 3",
+          "usedCount": 30
+        },
+        "count": 15
+      }
+    ],
+    "mostUsedVoice": {
+      "voice": {
+        "_id": "5f8f8c44b54764421b715700",
+        "name": "Voice Actor 1",
+        "usedCount": 70
+      },
+      "count": 30
+    }
+  },
+  {
+    "book": {
+      "_id": "5f8f8c44b54764421b7156e1",
+      "title": "Mystery of the Lost City",
+      "views": 200,
+      "chapters": [
+        "5f8f8c44b54764421b7156e2",
+        "5f8f8c44b54764421b7156e3"
+      ]
+    },
+    "voices": [
+      {
+        "voice": {
+          "_id": "5f8f8c44b54764421b715703",
+          "name": "Voice Actor 4",
+          "usedCount": 90
+        },
+        "count": 45
+      },
+      {
+        "voice": {
+          "_id": "5f8f8c44b54764421b715704",
+          "name": "Voice Actor 5",
+          "usedCount": 80
+        },
+        "count": 40
+      }
+    ],
+    "mostUsedVoice": {
+      "voice": {
+        "_id": "5f8f8c44b54764421b715703",
+        "name": "Voice Actor 4",
+        "usedCount": 90
+      },
+      "count": 45
+    }
+  }
+]

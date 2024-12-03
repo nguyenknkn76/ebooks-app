@@ -9,6 +9,7 @@ const ChapterService = require('./services/chapterService');
 const CommentService = require('./services/commentService');
 const RatingService = require('./services/ratingService');
 const LibraryService = require('./services/libraryService');
+const HistoryService = require('./services/historyService');
 
 const PROTO_PATH = './protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
@@ -42,6 +43,9 @@ server.addService(bookProto.BookService.service, {
   GetAllLibraries: LibraryService.getAllLibraries,
   GetLibraryById: LibraryService.getLibraryById,
   GetLibrariesByUserId: LibraryService.getLibrariesByUserId,
+
+  CreateHistory: HistoryService.createHistory,
+
 
 });
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {

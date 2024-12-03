@@ -38,7 +38,17 @@ GET http://localhost:5000/api/books/libraries/{{library_id}}
 ### get by user id 
 GET http://localhost:5000/api/books/libraries/user/{{user_id}}
 
-###
+### ! history
+### create 
+POST http://localhost:5000/api/books/histories
+Content-Type: application/json
+
+{
+  "user": "user123",
+  "chapterId": "6743180a61ab1cc98bfadcb7",
+  "voice": "Voice123"
+}
+
 ###! ratings
 ### rating
 POST http://localhost:5000/api/books/rating

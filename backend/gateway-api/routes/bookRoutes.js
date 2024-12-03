@@ -8,6 +8,7 @@ const chapterController = require('../controllers/chapterController');
 const commentController = require('../controllers/commentController');
 const ratingController = require('../controllers/ratingController');
 const libraryController = require('../controllers/libraryController');
+const historyController = require('../controllers/historyController');
 
 router.post('/books', bookController.createBook);
 router.get('/books', bookController.getAllBooks);
@@ -29,6 +30,8 @@ router.post('/books/libraries', libraryController.createLibrary);
 router.get('/books/libraries', libraryController.getAllLibraries);
 router.get('/books/libraries/:id', libraryController.getLibraryById);
 router.get('/books/libraries/user/:id', libraryController.getLibrariesByUserId);
+
+router.post('/books/histories',historyController.createHistory);
 
 router.post('/books/rating', ratingController.createRating);
 //! ====> still bug here <===

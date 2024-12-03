@@ -30,6 +30,17 @@ service BookService {
   rpc GetLibraryById(GetLibraryByIdRequest) returns (GetLibraryByIdResponse);
   rpc GetLibrariesByUserId(GetLibrariesByUserIdRequest) returns (GetLibrariesByUserIdResponse);
 
+  rpc CreateHistory(CreateHistoryRequest) returns (CreateHistoryResponse);
+
+}
+message CreateHistoryRequest {
+  string user = 1;
+  string chapterId = 2;
+  string voice = 3;
+}
+message CreateHistoryResponse {
+  string id = 1;
+  string message = 2;
 }
 
 message GetLibrariesByUserIdRequest {
