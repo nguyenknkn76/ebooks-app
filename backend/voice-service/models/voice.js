@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-// const { getDB } = require('../config/db');
 
-const voiceSchema = new Schema({
-    id: { type: String, required: true },
+const voiceSchema = new mongoose.Schema({
     name: { type: String, required: true },
     type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type', required: true },
     language: { type: mongoose.Schema.Types.ObjectId, ref: 'Language', required: true },
@@ -12,5 +9,5 @@ const voiceSchema = new Schema({
     gender: {type: String},
     age: {type: Number}
 });
-  
+
 module.exports = mongoose.model('Voice', voiceSchema);

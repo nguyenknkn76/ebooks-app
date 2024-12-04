@@ -32,7 +32,51 @@ service BookService {
 
   rpc CreateHistory(CreateHistoryRequest) returns (CreateHistoryResponse);
 
+  rpc GetAllHistories (GetAllHistoriesRequest) returns (GetAllHistoriesResponse);
+  rpc GetHistoryById (GetHistoryByIdRequest) returns (GetHistoryByIdResponse);
+  rpc GetHistoriesByUserId (GetHistoriesByUserIdRequest) returns (GetHistoriesByUserIdResponse);
 }
+
+message GetHistoriesByUserIdRequest {
+  string userId = 1;
+}
+message GetHistoriesByUserIdResponse {
+  repeated History histories = 1;
+}
+
+message GetHistoryByIdRequest {
+  string id = 1;
+}
+message GetHistoryByIdResponse {
+  string id = 1;
+  string user = 2;
+  ChapterForHistory chapter = 3;
+  string voice = 4;
+  string timestamp = 5;
+}
+
+message GetAllHistoriesRequest {}
+message GetAllHistoriesResponse {
+  repeated History histories = 1;
+}
+message History {
+  string id = 1;
+  string user = 2;
+  ChapterForHistory chapter = 3; // populated chapter (id and name)
+  string voice = 4;
+  string timestamp = 5;
+}
+message ChapterForHistory {
+  string id = 1;
+  string name = 2;
+  BookForHistoryChapter book = 3;
+}
+message BookForHistoryChapter {
+  string id = 1;
+  string title = 2;
+}
+
+
 message CreateHistoryRequest {
   string user = 1;
   string chapterId = 2;

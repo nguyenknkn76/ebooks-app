@@ -32,6 +32,9 @@ router.get('/books/libraries/:id', libraryController.getLibraryById);
 router.get('/books/libraries/user/:id', libraryController.getLibrariesByUserId);
 
 router.post('/books/histories',historyController.createHistory);
+router.get('/books/histories', historyController.getAllHistories);
+router.get('/books/histories/:id', historyController.getHistoryById);
+router.get('/books/histories/user/:userId', historyController.getHistoriesByUserId);
 
 router.post('/books/rating', ratingController.createRating);
 //! ====> still bug here <===

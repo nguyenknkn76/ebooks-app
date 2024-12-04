@@ -45,8 +45,9 @@ server.addService(bookProto.BookService.service, {
   GetLibrariesByUserId: LibraryService.getLibrariesByUserId,
 
   CreateHistory: HistoryService.createHistory,
-
-
+  GetAllHistories: HistoryService.getAllHistories,
+  GetHistoryById: HistoryService.getHistoryById,
+  GetHistoriesByUserId: HistoryService.getHistoriesByUserId,
 });
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
   console.log('gRPC server running on port 50053');
