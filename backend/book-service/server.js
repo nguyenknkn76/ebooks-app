@@ -1,6 +1,5 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const mongoose = require('mongoose');
 
 const BookService = require('./services/bookService');
 const AuthorService = require('./services/authorService');

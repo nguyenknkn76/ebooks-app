@@ -59,19 +59,17 @@ const getHistoriesByUserId = async (call, callback) => {
 
 const getAllHistories = async (call, callback) => {
   try {
-    // Lấy danh sách lịch sử và populate chapter cùng book
     const histories = await History.find()
       .populate({
         path: 'chapter',
-        select: '_id name book', // Chỉ lấy _id, name, và book từ chapter
+        select: '_id name book',
         populate: {
           path: 'book',
-          select: '_id title', // Chỉ lấy _id và title từ book
+          select: '_id title', 
         },
       })
       .exec();
 
-    // Chuyển đổi dữ liệu để trả về
     const response = {
       histories: histories.map((history) => ({
         id: history._id.toString(),
@@ -109,7 +107,6 @@ const getHistoryById = async (call, callback) => {
   try {
     const { id } = call.request;
 
-    // Tìm history theo ID và populate chapter, book
     const history = await History.findById(id)
       .populate({
         path: 'chapter',
@@ -128,7 +125,6 @@ const getHistoryById = async (call, callback) => {
       });
     }
 
-    // Chuẩn hóa dữ liệu trả về
     const response = {
       id: history._id.toString(),
       user: history.user,
@@ -162,7 +158,6 @@ const createHistory = async (call, callback) => {
   try {
     const { user, chapterId, voice } = call.request;
 
-    // Tạo bản ghi mới cho lịch sử
     const newHistory = new History({
       user,
       chapter: chapterId,

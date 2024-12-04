@@ -1,0 +1,23 @@
+POST http://localhost:5000/api/voices
+Content-Type: application/json
+
+{
+  "name": "Sample Voice",
+  "typeId": "64fe5678abcd1234ef907890",
+  "languageId": "64fe1234abcd5678ef901234",
+  "deviceProfileId": "64fe3456abcd7890ef123456",
+  "gender": "Male",
+  "age": 30,
+  "fileName": "sample.mp3",
+  "fileContent": "BASE64_ENCODED_STRING_HERE",
+  "fileType": "audio/mpeg"
+}
+
+### get all
+GET http://localhost:5000/api/voices
+### 
+@voice_id = 67506330d84107073dcdeaea
+### get by id 
+GET http://localhost:5000/api/voices/{{voice_id}}
+### 
+

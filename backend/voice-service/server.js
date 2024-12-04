@@ -1,27 +1,22 @@
-require('dotenv').config();
 const { connectDB } = require('./config/db');
-// const startGrpcServer = require('./services/voiceService');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-// const Voice = require('../models/voice');
-// const Language = require('../models/language');
-// const DeviceProfile = require('../models/deviceProfile');
-// const MediaFile = require('../models/mediaFile');
-// const Type = require('../models/type');
 const VoiceService = require('./services/voiceService');
 const PROTO_PATH = './protos/voice.proto';
 
-const packageDefinition = protoLoader.loadSync(PROTO_PATH);
-const voiceProto = grpc.loadPackageDefinition(packageDefinition).VoiceService;
-
-const startGrpcServer = () => {
-  const server = new grpc.Server();
-  server.addService(voiceProto.service, { 
-    GetVoices: VoiceService.getVoices,
-  });
-  server.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), () => {
-    console.log("Voice Service gRPC server running at http://0.0.0.0:50052");
-  });
-};
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
+const voiceProto = grpc.loadPackageDefinition(packageDefinition).voice;
+require('dotenv').config();
 connectDB();
-startGrpcServer();
+
+const server = new grpc.Server();
+server.addService(voiceProto.VoiceService.service, { 
+  GetVoices: VoiceService.getVoices,
+  CreateVoice: VoiceService.createVoice,
+  GetAllVoices: VoiceService.getAllVoices,
+  GetVoiceById: VoiceService.getVoiceById,
+});
+
+server.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), () => {
+  console.log("Voice Service gRPC server running at http://0.0.0.0:50052");
+});

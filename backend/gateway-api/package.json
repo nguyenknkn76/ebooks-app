@@ -19,7 +19,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "booksapi": "nodemon s-booksapi"
+    "booksapi": "nodemon s-booksapi",
+    "voicesapi": "nodemon s-voicesapi"
   },
   "author": "",
   "license": "ISC",
