@@ -1,62 +1,40 @@
+const client = require('../config/ggc');
 const fs = require('fs');
 const util = require('util');
-const { TextToSpeechClient } = require('@google-cloud/text-to-speech');
-
-const client = new TextToSpeechClient();
-
-async function convertTextToSpeech({ props }) {
-    const {
-        text,
-        language,
-        gender,
-        type,
-        deviceprofile,
-        age,
-        rate,
-        pitch,
-        volume,
-        time,
-        technology,
-        label,
-        outputFile
-    } = props;
-
+// const tempPath = '../temp/';
+const path = require('path');
+require('dotenv').config();
+const absoluteDir = process.env.ABSOLUTE_DIR;
+const convertTextToSpeech = async (props) => {
+	const { text, voiceConfig, audioConfig, outputFile } = props;
+  try {
     const request = {
-        input: {
-            ssml: `
-                <speak>
-                <voice gender="${gender}" age="${age}">${text}</voice>
-                <break time="${time}"/>
-                <prosody rate="${rate}" pitch="${pitch}" volume="${volume}">
-                    ${label}
-                </prosody>
-                <audio src="${type}">${text}</audio>
-                </speak>`
-        },
-        voice: {
-            languageCode: language,
-            ssmlGender: gender,
-            name: technology
-        },
-        audioConfig: {
-            audioEncoding: 'MP3',
-            speakingRate: parseFloat(rate),
-            pitch: parseFloat(pitch),
-            volumeGainDb: parseFloat(volume),
-            effectsProfileId: [deviceprofile]
-        }
+      input: { text },
+      voice: voiceConfig,
+      audioConfig: audioConfig,
     };
 
-    try {
-        const [response] = await client.synthesizeSpeech(request);
-        const writeFile = util.promisify(fs.writeFile);
-        await writeFile(outputFile, response.audioContent, 'binary');
-        console.log('Audio content written to file:', outputFile);
-    } catch (error) {
-        console.error('Error synthesizing speech:', error);
-    }
-}
+    //send req to ggc text to speech
+    const [response] = await client.synthesizeSpeech(request);
+		const dirname = path.join(absoluteDir, 'temp');
+		const outputFilePath = path.join(dirname, outputFile);
+		const deletedFilePath = path.join(dirname, "draf");
+		console.log(dirname);
+		console.log(outputFilePath);
+		// console.log(__dirname);
+		// console.log(__filename);
+    //save audio file 
+    const writeFile = util.promisify(fs.writeFile);
+    await writeFile(outputFilePath, response.audioContent, 'binary');
+    console.log(`Audio content written to file: ${outputFilePath}`);
+		const unlinkFile = util.promisify(fs.unlink);
+		await unlinkFile (deletedFilePath);
+		console.log('file be deleted', deletedFilePath)
+    return { success: true, filePath: outputFilePath };
+  } catch (error) {
+    console.error('Error in convertTextToSpeech:', error);
+    return { success: false, error: error.message };
+  }
+};
 
-// convertTextToSpeech('Hello world', 'output.mp3');
-
-module.exports = {convertTextToSpeech};
+module.exports = { convertTextToSpeech };

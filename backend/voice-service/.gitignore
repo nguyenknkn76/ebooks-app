@@ -1,3 +1,6 @@
 .env
 node_modules
 data
+ggc-tts-key.json
+
+backup.js

@@ -21,3 +21,15 @@ GET http://localhost:5000/api/voices
 GET http://localhost:5000/api/voices/{{voice_id}}
 ### 
 
+### 
+POST http://localhost:5001/api/convert
+Content-Type: application/json
+
+{
+  "text": "Hello, how are you?",
+  "languageCode": "en-US",
+  "voiceName": "en-US-Wavenet-D",
+  "gender": "MALE",
+  "outputFile": "output2.mp3"
+}
+
