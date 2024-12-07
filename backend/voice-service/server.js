@@ -1,13 +1,16 @@
-const { connectDB } = require('./config/db');
+const DBConfig = require('./config/db');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const VoiceService = require('./services/voiceService');
+const KafkaHandler = require('./src/kafka/index');
 const PROTO_PATH = './protos/voice.proto';
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
 const voiceProto = grpc.loadPackageDefinition(packageDefinition).voice;
 require('dotenv').config();
-connectDB();
+
+DBConfig.connectDB();
+KafkaHandler.startKafkaConsumer();
 
 const server = new grpc.Server();
 server.addService(voiceProto.VoiceService.service, { 

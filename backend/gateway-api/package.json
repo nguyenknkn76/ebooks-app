@@ -8,6 +8,7 @@
     "express": "^4.21.1",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4",
     "mongoose": "^8.8.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.7"
@@ -20,7 +21,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "booksapi": "nodemon s-booksapi",
-    "voicesapi": "nodemon s-voicesapi"
+    "voicesapi": "nodemon s-voicesapi",
+    "sagaapi": "nodemon s-sagaapi"
   },
   "author": "",
   "license": "ISC",

@@ -25,7 +25,7 @@ const consumer = kafka.consumer({ groupId: 'service1-group' }); // consumer here
 
       // do smt
       const result = { status: 'processed-ev1', originalPayload: event.payload };
-      
+
       // send res back to orchestrator
       await producer.send({
         topic: 'service1-response',
