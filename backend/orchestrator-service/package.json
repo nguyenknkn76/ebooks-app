@@ -7,7 +7,8 @@
     "dev": "nodemon index.js",
     "s1": "nodemon service1.js",
     "s2": "nodemon service2.js",
-    "api": "nodemon callapi.js"
+    "api": "nodemon callapi.js",
+    "server": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
