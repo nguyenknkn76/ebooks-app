@@ -1,3 +1,7 @@
+const saga = require('./src/sagas/index');
+
+saga.startSagas();
+
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 
@@ -48,6 +52,7 @@ server.addService(bookProto.BookService.service, {
   GetHistoryById: HistoryService.getHistoryById,
   GetHistoriesByUserId: HistoryService.getHistoriesByUserId,
 });
+
 server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {
   console.log('gRPC server running on port 50053');
 });
