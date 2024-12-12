@@ -19,7 +19,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "server": "nodemon server.js",
+    "server": "nodemon index.js",
     "booksapi": "nodemon s-booksapi",
     "voicesapi": "nodemon s-voicesapi",
     "sagaapi": "nodemon s-sagaapi"

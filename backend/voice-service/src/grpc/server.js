@@ -16,7 +16,7 @@ require('dotenv').config();
 
 // KafkaHandler.startKafkaConsumer();
 const server = new grpc.Server();
-const runGrpcServer = async () => {
+const startGrpcServer = async () => {
   server.addService(voiceProto.VoiceService.service, { 
     GetVoices: VoiceService.getVoices,
     CreateVoice: VoiceService.createVoice,
@@ -29,5 +29,5 @@ const runGrpcServer = async () => {
   });
 }
 
-module.exports = {runGrpcServer};
+module.exports = {startGrpcServer};
 

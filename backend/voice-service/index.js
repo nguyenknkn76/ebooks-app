@@ -1,2 +1,2 @@
-const Application = require('./src/index');
+const Application = require('./src/app');
 Application.runApp();
