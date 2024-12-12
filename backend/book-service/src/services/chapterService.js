@@ -2,7 +2,7 @@ const Book = require('../models/book');
 const Chapter = require('../models/chapter');
 const MediaFile = require('../models/mediaFile');
 const Comment = require('../models/comment');
-const MediaFileService = require('../services/mediaFileService');
+const MediaFileService = require('./mediaFileService');
 require('dotenv').config();
 
 /*

@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server.js",
+    "server": "nodemon src/index.js",
     "sampledata": "nodemon bookS-sample-data",
     "s1": "nodemon service1.js"
   },

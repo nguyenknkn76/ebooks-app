@@ -1,23 +1,22 @@
-const saga = require('./src/sagas/index');
 
-saga.startSagas();
+// saga.startSagas();
 
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 
-const BookService = require('./services/bookService');
-const AuthorService = require('./services/authorService');
-const MediaFileService = require('./services/mediaFileService');
-const ChapterService = require('./services/chapterService');
-const CommentService = require('./services/commentService');
-const RatingService = require('./services/ratingService');
-const LibraryService = require('./services/libraryService');
-const HistoryService = require('./services/historyService');
+const BookService = require('../services/bookService');
+const AuthorService = require('../services/authorService');
+const MediaFileService = require('../services/mediaFileService');
+const ChapterService = require('../services/chapterService');
+const CommentService = require('../services/commentService');
+const RatingService = require('../services/ratingService');
+const LibraryService = require('../services/libraryService');
+const HistoryService = require('../services/historyService');
 
-const PROTO_PATH = './protos/book.proto';
+const PROTO_PATH = './src/grpc/protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
 const bookProto = grpc.loadPackageDefinition(packageDefinition).book;
-const connectDB = require('./config/db');
+const connectDB = require('../../config/db');
 require('dotenv').config();
 connectDB();
 

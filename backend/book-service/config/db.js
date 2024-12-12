@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {createSampleData} = require('../sample-data/sampleData')
+const {createSampleData} = require('../src/sample-data/sampleData')
 require("dotenv").config();
 
 const connectDB = async () => {
