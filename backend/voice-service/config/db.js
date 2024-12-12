@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const {insertSampleData} = require('../sample-data/voiceS-sample-data')
+const {insertSampleData} = require('../src/sample-data/voiceS-sample-data')
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {

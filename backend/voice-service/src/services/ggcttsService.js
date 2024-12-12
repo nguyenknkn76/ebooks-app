@@ -1,4 +1,4 @@
-const client = require('../config/ggc');
+const client = require('../../config/ggc');
 const fs = require('fs');
 const util = require('util');
 // const tempPath = '../temp/';

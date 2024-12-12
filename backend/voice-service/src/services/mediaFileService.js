@@ -1,7 +1,7 @@
 const MediaFile = require('../models/mediaFile');
 // const s3 = require('./config/aws');
 const { PutObjectCommand } = require('@aws-sdk/client-s3');
-const s3Client = require('../config/aws');
+const s3Client = require('../../config/aws');
 require('dotenv').config();
 
 // const fileNaming = async (call, callback) => {
