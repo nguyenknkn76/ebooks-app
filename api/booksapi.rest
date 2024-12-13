@@ -115,7 +115,7 @@ POST http://localhost:5000/api/books/chapters
 Content-Type: application/json
 
 {
-  "name": "Chapter 4",
+  "name": "Chapter 5",
   "book_id": "67405659dfe3478b3de8f36c"
 }
 
@@ -147,6 +147,6 @@ POST http://localhost:5000/api/books/chapters/{{chapter_id}}/comments
 Content-Type: application/json
 
 {
-  "user": "useroneidinuserservice",
+  "user": "useroneidinuserservice im nguyen",
   "comment": "I love this chapter <3 fall i luv with u>"
 }

@@ -1,5 +1,5 @@
 const Comment = require('../models/comment');
-
+const Chapter = require('../models/chapter')
 /*
   
 */ 

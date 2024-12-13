@@ -20,9 +20,8 @@ const connectDB = require('../../config/db');
 require('dotenv').config();
 connectDB();
 
-const server = new grpc.Server();
-
 const startGrpcServer = async () => {
+  const server = new grpc.Server();
   server.addService(bookProto.BookService.service, { 
     CreateBook: BookService.createBook,
     GetAllBooks: BookService.getAllBooks,

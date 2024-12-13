@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/user');
-const roleController = require('../controllers/roleController');
-const authController = require('../controllers/authController');
+// const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const {User, Role} = require('../models');
 
 exports.getAllUsers = async (call, callback) => {
   try {
@@ -69,9 +69,12 @@ exports.registerUser = async (call, callback) => {
   }
 };
 
+/*
+  - func: getAllRoles() => roles
+*/
 exports.getAllRoles = async (call, callback) => {
   try {
-    const roles = await roleController.getAllRoles();
+    const roles = await Role.findAll();
     const response = { roles: roles.map(role => ({ id: role.id, role: role.role })) };
     callback(null, response);
   } catch (error) {
@@ -79,12 +82,25 @@ exports.getAllRoles = async (call, callback) => {
   }
 }
 
+/*
+  - func: login (username, password) => access_token
+  + check user exists
+  + check password ~ compare with password hash
+  + genrete token
+*/
 exports.login = async (call, callback) => {
-  const { username, password } = call.request;
-  // Simulate Express req and res for reusing controller logic
-  const res = {
-    json: (data) => callback(null, data),
-    status: (code) => ({ json: (data) => callback({ code, message: data.error }) })
-  };
-  await authController.loginUser({ body: { username, password } }, res);
+  try {
+    const { username, password } = call.request;
+    const user = await User.findOne({where: { username }});
+    if(!user) return res.status(400).json({error: 'User not found'});
+  
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+    if(!isPasswordValid) return res.status(400).json({error: 'Invalid credentials'});
+  
+    const token = jwt.sign({ id: user.id, username: user.username }, 'secretKey', { expiresIn: '1h' });
+    
+    callback(null, {access_token: token});
+  } catch (error) {
+    callback(error, null)
+  }
 }

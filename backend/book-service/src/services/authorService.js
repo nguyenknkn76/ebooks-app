@@ -28,7 +28,7 @@ const createAuthor = async (call, callback) => {
 
 const updateAuthor = async (call, callback) => {
   const { id, user, pen_name, name, description, books } = call.request;
-
+  
   try {
     const updatedAuthor = await Author.findByIdAndUpdate(
       id,

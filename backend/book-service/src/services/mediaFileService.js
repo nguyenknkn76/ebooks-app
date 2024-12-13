@@ -7,6 +7,7 @@ require('dotenv').config();
 const fileNaming = async (call, callback) => {
   
 }
+
 const uploadMediaFile = async (call, callback) => {
   try {
     const { file_name, file_content, file_type } = call.request;
@@ -51,6 +52,6 @@ const uploadMediaFile2 = (props) => {
   } catch (error) {
     console.error('Error uploading file to S3 ~ uploadMediaFile func mediaFileService:', error);
   }
-
 }
+
 module.exports = {uploadMediaFile, uploadMediaFile2}
