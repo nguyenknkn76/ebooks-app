@@ -1,4 +1,4 @@
-const CommentClient = require('../grpc/services/bookClient');
+const CommentClient = require('../grpc/clients/bookClient');
 
 exports.createComment = async (req, res) => {
   const { chapter_id } = req.params;

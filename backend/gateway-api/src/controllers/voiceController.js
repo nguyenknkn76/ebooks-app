@@ -1,4 +1,4 @@
-const voiceClient = require('../grpc/services/voiceClient');
+const voiceClient = require('../grpc/clients/voiceClient');
 
 exports.getVoices = async (req, res) => {
   try {

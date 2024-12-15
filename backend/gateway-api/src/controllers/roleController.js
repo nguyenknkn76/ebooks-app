@@ -1,4 +1,4 @@
-const userClient = require('../grpc/services/userClient');
+const userClient = require('../grpc/clients/userClient');
 
 exports.getAllRoles = (req, res) => {
   userClient.getAllRoles({}, (error, response) => {

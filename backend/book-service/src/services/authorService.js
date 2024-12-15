@@ -4,7 +4,7 @@ const Book = require('../models/book');
 const createAuthor = async (call, callback) => {
   try {
     const { user, pen_name, name, description } = call.request;
-
+    console.log("this is call request:", call.request);
     const author = new Author({
       user,
       pen_name,
@@ -13,13 +13,14 @@ const createAuthor = async (call, callback) => {
     });
 
     const savedAuthor = await author.save();
-    callback(null, {
+    const response = {
       id: savedAuthor.id,
       user: savedAuthor.user,
       pen_name: savedAuthor.pen_name,
       name: savedAuthor.name,
       description: savedAuthor.description,
-    });
+    }
+    callback(null,response);
   } catch (error) {
     console.error('Error creating author:', error);
     callback(error);

@@ -1,4 +1,4 @@
-const mediaFileClient = require('../grpc/services/bookClient');
+const mediaFileClient = require('../grpc/clients/bookClient');
 
 exports.createMediaFile = async (req, res) => {
     try {

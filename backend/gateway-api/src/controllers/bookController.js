@@ -1,4 +1,4 @@
-const bookClient = require('../grpc/services/bookClient');
+const bookClient = require('../grpc/clients/bookClient');
 
 exports.createBook = async (req, res) => {
   try {

@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon index.js",
-    "trytts": "nodemon tryggctts.js",
+    "trytts": "nodemon draf/tryggctts.js",
     "s2": "nodemon service2.js"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "@grpc/grpc-js": "^1.12.2",
     "@grpc/proto-loader": "^0.7.13",
     "axios": "^1.7.9",
+    "child-process": "^1.0.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "kafkajs": "^2.2.4",

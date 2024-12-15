@@ -26,10 +26,23 @@ POST http://localhost:5001/api/convert
 Content-Type: application/json
 
 {
-  "text": "Hello, how are you?",
-  "languageCode": "en-US",
-  "voiceName": "en-US-Wavenet-D",
+  "text": "Hello, how are you?, i love you",
+  "languageCode": "vi-VN",
+  "voiceName": "vi-VN-Neural2-D",
   "gender": "MALE",
-  "outputFile": "output2.mp3"
+  "outputFile": "output3.mp3"
 }
+
+#! too long to try again
+# {
+#   "text": "Nhà em ở nơi cao nhất của làng, vì vậy, chỉ cần ra trước sân có thể nhìn bao quát xuống cả vùng quê yên ả. Trước đôi mắt của em, là cả một vùng xanh bao la bát ngát. Đó là sắc xanh của những thửa lúa đương thì con gái tươi non mơn mởn. Đó là sắc xanh của những bãi cỏ, những luống rau, những chùm cây ăn quả xum xuê, nhờ bàn tay người nông dân chăm chỉ. Đó còn là sắc xanh của bầu trời cao ở ngay trên đỉnh đầu, nơi mà những ngày đầu đông tưởng như có thể vươn tay lên chạm tới. Vẻ đẹp mộc mạc mà giản dị ấy, khiến em luôn tha thiết yêu thương quê hương mình. Chắc chắn rằng! Dù sau này có đi đến xứ sở nào, thì quê hương vẫn mãi là nơi tuyệt vời nhất trong trái tim của em.  ",
+#   "languageCode": "vi-VN",
+#   "voiceName": "vi-VN-Standard-C",
+#   "gender": "MALE",
+#   "outputFile": "output5.mp3"
+# }
+
+
+
+
 

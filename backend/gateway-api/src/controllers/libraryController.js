@@ -1,4 +1,4 @@
-const libraryClient= require('../grpc/services/bookClient');
+const libraryClient= require('../grpc/clients/bookClient');
 
 exports.createLibrary = async (req, res) => {
   const { user, name, book_ids } = req.body;

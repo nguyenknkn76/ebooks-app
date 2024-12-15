@@ -1,4 +1,4 @@
-const historyClient = require('../grpc/services/bookClient');
+const historyClient = require('../grpc/clients/bookClient');
 
 exports.createHistory = async (req, res) => {
   try {

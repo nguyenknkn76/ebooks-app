@@ -44,9 +44,9 @@ POST http://localhost:5000/api/books/histories
 Content-Type: application/json
 
 {
-  "user": "user123",
-  "chapterId": "6743180a61ab1cc98bfadcb7",
-  "voice": "Voice123"
+  "user": "user123456",
+  "chapterId": "674354680dc06ae1b52310a3",
+  "voice": "Voice123456"
 }
 ### GET all
 ###

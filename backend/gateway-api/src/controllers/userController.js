@@ -1,4 +1,4 @@
-const userClient = require('../grpc/services/userClient');
+const userClient = require('../grpc/clients/userClient');
 
 const getAllUsers = async (req, res) => {
   try {

@@ -1,4 +1,4 @@
-const userClient = require('../grpc/services/userClient');
+const userClient = require('../grpc/clients/userClient');
 
 exports.loginUser = (req, res) => {
   const { username, password } = req.body;

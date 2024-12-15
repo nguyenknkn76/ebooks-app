@@ -1,4 +1,4 @@
-const ratingClient = require('../grpc/services/bookClient');
+const ratingClient = require('../grpc/clients/bookClient');
 
 exports.createRating = async (req, res) => {
   const { user, book_id, rating, review } = req.body;
