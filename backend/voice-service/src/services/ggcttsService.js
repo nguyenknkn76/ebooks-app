@@ -56,9 +56,9 @@ const convertTextToSpeech = async (props) => {
       },
       audioConfig: {
           audioEncoding: 'MP3',
-          speakingRate: 3, // 0 > 4
-          pitch: 20, // -20 > 20
-          volumeGainDb: 16, // -96 > 16
+          speakingRate: 3,  // [0, 4]
+          pitch: 20, // [-20, 20]
+          volumeGainDb: 16, // [-96, 16]
           effectsProfileId: ["wearable-class-device"]
       }
     };  
