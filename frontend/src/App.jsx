@@ -1,11 +1,10 @@
 import { BrowserRouter as Router, Link, Routes, Route, Navigate, useMatch} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import Footer from './components/CommonComps/Footer';
-import Header from './components/CommonComps/Header';
+import Footer from './components/common/Footer';
+import Header from './components/common/Header';
 
-import Test from './components/TestComps/Test';
-import { use } from 'react';
+import Test from './components/testComps/Test';
 
 const App = () => {
   const loggedin = useSelector(state => state.loggedin);

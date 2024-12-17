@@ -14,7 +14,7 @@ const userProto = grpc.loadPackageDefinition(packageDefinition).user;
 const client = new userProto.UserService('localhost:50051', grpc.credentials.createInsecure());
 
 
-const getAllUsers = () => {
+exports.getAllUsers = () => {
     return new Promise((resolve, reject) => {
         client.GetAllUsers({}, (error, response) => {
             if (error) reject(error);
@@ -23,7 +23,7 @@ const getAllUsers = () => {
     });
 };
 
-const getUserById = (id) => {
+exports.getUserById = (id) => {
     return new Promise((resolve, reject) => {
         client.GetUserById({ id }, (error, response) => {
             if (error) reject(error);
@@ -32,7 +32,7 @@ const getUserById = (id) => {
     });
 };    
 
-const registerUser = (username, password, email) => {
+exports.registerUser = (username, password, email) => {
     return new Promise((resolve, reject) => {
         client.RegisterUser({ username, password, email }, (error, response) => {
             if (error) reject(error);
@@ -53,7 +53,7 @@ const registerUser = (username, password, email) => {
 // };
 // module.exports = client;
 module.exports = {
-    getAllUsers, getUserById, registerUser, 
+    // getAllUsers, getUserById, registerUser, 
     getAllRoles: (data, callback) => client.GetAllRoles(data, callback),
     login: (data, callback) => client.Login(data, callback),
 };

@@ -1,9 +1,9 @@
-import Book from '../BookComps/Book';
-import BookDetail from '../BookComps/BookDetail';
-import Books from '../BookComps/Books';
-import BookPreview from '../BookComps/BookPreview';
-import TextFileDisplay from '../TextFileDisplay/TextFileDisplay';
-import ListBooks from '../BookComps/ListBooks';
+import Book from '../bookComps/Book';
+import BookDetail from '../bookComps/BookDetail';
+import Books from '../bookComps/Books';
+import BookPreview from '../bookComps/BookPreview';
+import TextFileDisplay from '../textDisplayComps/TextFileDisplay';
+import ListBooks from '../bookComps/ListBooks';
 import data from '../../sample-data/data'
 const Test = () => {
   const books = data.books;

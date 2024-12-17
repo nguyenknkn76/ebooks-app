@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-// Định nghĩa style bằng arrow function
 const styles = {
   container: {
     whiteSpace: 'pre-wrap',
