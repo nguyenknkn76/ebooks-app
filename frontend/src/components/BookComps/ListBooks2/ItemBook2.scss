@@ -1,0 +1,109 @@
+.item-book2-container {
+  display: flex;
+  align-items: flex-start;
+  background-color: #2d2d2d;
+  color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  .cover-image {
+    flex: 0 0 25%;
+    height: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    padding: 15px
+  }
+
+  .content {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+
+    .title-link {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #007bff;
+      }
+    }
+    
+    .title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      margin-top: 0; /* Căn sát trên */
+      text-align: left; /* Căn lề trái */
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); /* Mỗi thuộc tính chiếm 1/5 */
+      gap: 10px;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+
+      .stat {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Căn lề trái */
+      }
+
+      .status {
+        text-transform: uppercase;
+        font-weight: bold;
+
+        &.ongoing {
+          color: #4caf50;
+        }
+
+        &.completed {
+          color: #f44336;
+        }
+      }
+    }
+
+    .genres {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+
+      .genre-tag {
+        background: #444;
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        text-transform: capitalize;
+      }
+    }
+
+    .description-container {
+      flex: 1;
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+
+      .description {
+        line-height: 1.4;
+        text-align: left; /* Căn lề trái */
+      }
+
+      /* Scrollbar styling */
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+      }
+    }
+  }
+}

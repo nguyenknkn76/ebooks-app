@@ -1,0 +1,57 @@
+.rating-item {
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 0;
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #eee;
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center; 
+      height: 50px; 
+
+      .user-name {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0;
+        margin-bottom: 0.2rem;
+      }
+
+      .rating-stars {
+        display: flex;
+        gap: 0.2rem;
+
+        .star {
+          font-size: 1rem;
+          color: #ddd;
+        }
+
+        .star.filled {
+          color: #ff9800;
+        }
+      }
+    }
+  }
+
+  .review {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.4;
+    margin-left: 66px; 
+    background-color: bisque;
+    padding: 10px;
+    border-radius: 5%;
+  }
+}

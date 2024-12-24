@@ -3,63 +3,34 @@ const fs = require('fs');
 const util = require('util');
 // const tempPath = '../temp/';
 const path = require('path');
-const bgmusic = require('./bgmusic/index');
 require('dotenv').config();
 const absoluteDir = process.env.ABSOLUTE_DIR;
-const convertTextToSpeech = async (props) => {
-	const { text, voiceConfig, audioConfig, outputFile } = props;
-  try {
-    // const request = {
-    //   input: { text },
-    //   voice: voiceConfig,
-    //   audioConfig: audioConfig,
-    // };
-    
-    // const request = {
-    //   input: {
-    //       ssml: `
-    //           <speak>
-    //               <voice gender="MALE" age="senior">Hello, this is a basic example of text-to-speech conversion using Google Cloud's Text-to-Speech API.</voice>
-    //               <break time="2s"/>
-    //               <prosody rate="1.25" pitch="0.5" volume="1.5">
-    //                   Simple example voice synthesis.
-    //               </prosody>
-    //           </speak>`
-    //   },
-    //   voice: {
-    //       languageCode: "en-US",
-    //       ssmlGender: "MALE"
-    //   },
-    //   audioConfig: {
-    //       audioEncoding: 'MP3',
-    //       speakingRate: 1.25,
-    //       pitch: 0.5,
-    //       volumeGainDb: 1.5,
-    //       effectsProfileId: ["wearable-class-device"]
-    //   }
-    // };  
 
+const convertTextToSpeech = async (props) => {
+	const {language, type, name, device_profile, age, gender, text} = props;
+  
+  try {
     const request = {
       input: {
           ssml: `
               <speak>
-                  <voice gender="FEMALE" age="senior">Xin chào, đây là ví dụ cơ bản về việc sử dụng api của ggc text to speech</voice>
+                  <voice gender="${gender}" age="${age}">Hello guys, Have a nice good time with Love Book</voice>
                   <break time="2s"/>
                   <prosody rate="0.75" pitch="0.5" volume="1.5">
-                    Xin chào các bạn thân mến, tôi yêu các bạn, love you bro. Mãi là anh em, đưa tay đây nào mãi bên nhau bạn nhé é é.
+                    ${text}
                   </prosody>
               </speak>`
       },
       voice: {
-          languageCode: "vi-VN",
-          ssmlGender: "FEMALE"
+          languageCode: `${language.language_code}`,
+          ssmlGender: `${gender}`,
       },
       audioConfig: {
           audioEncoding: 'MP3',
           speakingRate: 3,  // [0, 4]
           pitch: 20, // [-20, 20]
           volumeGainDb: 16, // [-96, 16]
-          effectsProfileId: ["wearable-class-device"]
+          effectsProfileId: [`${device_profile.name}`]
       }
     };  
     console.log('combine bgmusic success')
@@ -111,7 +82,5 @@ const getAllVoices = async () => {
   ))
 }
 
-const combineAudio  = async () => {
-  bgmusic.combineAudio();
-}
-module.exports = { convertTextToSpeech, getAllVoices, combineAudio };
+
+module.exports = { convertTextToSpeech, getAllVoices };

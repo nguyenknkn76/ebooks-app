@@ -1,0 +1,14 @@
+// .list-cards {
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 16px; /* Khoảng cách giữa các Card */
+//   justify-content: center;
+//   padding: 20px;
+// }
+
+.list-cards {
+  display: flex;
+  gap: 16px; 
+  flex-wrap: wrap; 
+  justify-content: space-evenly; 
+}

@@ -1,0 +1,86 @@
+.filter-form {
+  background: #1e1e1e;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+    
+    .filter-field {
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      label {
+        margin-bottom: 5px;
+      }
+
+      input,
+      select,
+      .dropdown {
+        padding: 8px;
+        border: 1px solid #444;
+        background: #2e2e2e;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .genre-box-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+      }
+    }
+    .empty-field {
+      width: 80%;
+    }
+
+    .reset-button,
+    .search-button {
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      width: 9%;
+      border-radius: 5px;
+
+      &.reset-button {
+        background: #888;
+      }
+
+      &.search-button {
+        background: #ff6347;
+        color: white;
+      }
+    }
+  }
+
+  .search-bar {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #444;
+    background: #2e2e2e;
+    color: #fff;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  .hide-button {
+    width: 15%;
+    padding: 10px;
+    border: none;
+    background: #ff6347;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}

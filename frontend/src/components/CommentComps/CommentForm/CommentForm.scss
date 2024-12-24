@@ -1,0 +1,50 @@
+.comment-form {
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 100%;
+  margin: auto;
+
+  &__title {
+    color: #ffffff;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    margin-top: 0px;
+  }
+
+  &__input-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__textarea {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: none;
+    height: 3rem;
+  }
+
+  &__textarea::placeholder {
+    color: #ccc;
+  }
+
+  &__button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #555;
+    }
+  }
+}

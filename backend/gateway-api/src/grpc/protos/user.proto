@@ -6,7 +6,7 @@ package user;
 service UserService {
   rpc GetAllUsers (Empty) returns (UserList);
   rpc GetUserById (UserIdRequest) returns (User);
-  rpc RegisterUser (RegisterUserRequest) returns (UserResponse); // New RPC method
+  rpc RegisterUser (RegisterUserRequest) returns (UserResponse);
   rpc Login (LoginRequest) returns (LoginResponse);
 
   rpc GetAllRoles (Empty) returns (RoleList);

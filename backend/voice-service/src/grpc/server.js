@@ -1,7 +1,7 @@
 const DBConfig = require('../../config/db');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const VoiceService = require('../services/voiceService');
+const VoiceHandler = require('./handlers/voiceHandler');
 DBConfig.connectDB();
 
 // const KafkaHandler = require('./src/kafka/index');
@@ -18,10 +18,10 @@ require('dotenv').config();
 const server = new grpc.Server();
 const startGrpcServer = async () => {
   server.addService(voiceProto.VoiceService.service, { 
-    GetVoices: VoiceService.getVoices,
-    CreateVoice: VoiceService.createVoice,
-    GetAllVoices: VoiceService.getAllVoices,
-    GetVoiceById: VoiceService.getVoiceById,
+    // GetVoices: VoiceService.getVoices,
+    CreateVoice: VoiceHandler.createVoice,
+    GetAllVoices: VoiceHandler.getAllVoices,
+    GetVoiceById: VoiceHandler.getVoiceById,
   });
   
   server.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), () => {

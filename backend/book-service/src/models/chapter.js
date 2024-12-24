@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const chapterSchema = new mongoose.Schema({
+  // chapter_number: {type: Number}, // this is new attribute
   name: { type: String },
   book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book'},
   text_file: { type: mongoose.Schema.Types.ObjectId, ref: 'MediaFile' },

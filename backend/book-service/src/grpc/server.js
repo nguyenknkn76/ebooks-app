@@ -1,17 +1,14 @@
-
-// saga.startSagas();
-
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 
-const BookService = require('../services/bookService');
-const AuthorService = require('../services/authorService');
+const BookHandler = require('./handlers/bookHandler');
+const AuthorHandler = require('./handlers/authorHandler');
 const MediaFileService = require('../services/mediaFileService');
-const ChapterService = require('../services/chapterService');
-const CommentService = require('../services/commentService');
-const RatingService = require('../services/ratingService');
-const LibraryService = require('../services/libraryService');
-const HistoryService = require('../services/historyService');
+const ChapterHandler = require('./handlers/chapterHandler');
+const CommentHandler = require('./handlers/commentHandler');
+const RatingHandler = require('./handlers/ratingHandler');
+const LibraryHandler = require('./handlers/libraryHandler');
+const HistoryHandler = require('./handlers/historyHandler');
 
 const PROTO_PATH = './src/grpc/protos/book.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true });
@@ -23,33 +20,33 @@ connectDB();
 const startGrpcServer = async () => {
   const server = new grpc.Server();
   server.addService(bookProto.BookService.service, { 
-    CreateBook: BookService.createBook,
-    GetAllBooks: BookService.getAllBooks,
-    GetBookById: BookService.getBookById,
+    CreateBook: BookHandler.createBook,
+    GetAllBooks: BookHandler.getAllBooks,
+    GetBookById: BookHandler.getBookById,
   
-    CreateAuthor: AuthorService.createAuthor,
-    GetAllAuthors: AuthorService.getAllAuthors,
-    GetAuthorById: AuthorService.getAuthorById,
+    CreateAuthor: AuthorHandler.createAuthor,
+    GetAllAuthors: AuthorHandler.getAllAuthors,
+    GetAuthorById: AuthorHandler.getAuthorById,
   
     UploadMediaFile: MediaFileService.uploadMediaFile,
-    CreateChapter: ChapterService.createChapter,
-    GetAllChapters: ChapterService.getAllChapters,
-    GetChaptersByBookId: ChapterService.getChaptersByBookId,
-    GetChapterById: ChapterService.getChapterById,
+    CreateChapter: ChapterHandler.createChapter,
+    GetAllChapters: ChapterHandler.getAllChapters,
+    GetChaptersByBookId: ChapterHandler.getChaptersByBookId,
+    GetChapterById: ChapterHandler.getChapterById,
   
-    CreateComment: CommentService.createComment,
+    CreateComment: CommentHandler.createComment,
   
-    CreateRating: RatingService.createRating,
+    CreateRating: RatingHandler.createRating,
   
-    CreateLibrary: LibraryService.createLibrary,
-    GetAllLibraries: LibraryService.getAllLibraries,
-    GetLibraryById: LibraryService.getLibraryById,
-    GetLibrariesByUserId: LibraryService.getLibrariesByUserId,
+    CreateLibrary: LibraryHandler.createLibrary,
+    GetAllLibraries: LibraryHandler.getAllLibraries,
+    GetLibraryById: LibraryHandler.getLibraryById,
+    GetLibrariesByUserId: LibraryHandler.getLibrariesByUserId,
   
-    CreateHistory: HistoryService.createHistory,
-    GetAllHistories: HistoryService.getAllHistories,
-    GetHistoryById: HistoryService.getHistoryById,
-    GetHistoriesByUserId: HistoryService.getHistoriesByUserId,
+    CreateHistory: HistoryHandler.createHistory,
+    GetAllHistories: HistoryHandler.getAllHistories,
+    GetHistoryById: HistoryHandler.getHistoryById,
+    GetHistoriesByUserId: HistoryHandler.getHistoriesByUserId,
   });
   
   server.bindAsync('0.0.0.0:50053', grpc.ServerCredentials.createInsecure(), () => {

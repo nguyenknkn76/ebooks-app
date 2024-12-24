@@ -13,7 +13,6 @@ const userProto = grpc.loadPackageDefinition(packageDefinition).user;
 
 const client = new userProto.UserService('localhost:50051', grpc.credentials.createInsecure());
 
-
 exports.getAllUsers = () => {
     return new Promise((resolve, reject) => {
         client.GetAllUsers({}, (error, response) => {

@@ -15,7 +15,7 @@ GET http://localhost:5000/api/books
 @book_id = 67405659dfe3478b3de8f36c
 @book_id2 = 67498961c8d0ce78b4c95647
 ###
-GET http://localhost:5000/api/books/{{book_id2}}
+GET http://localhost:5000/api/books/book/{{book_id2}}
 
 ###! library
 ### create
@@ -72,6 +72,8 @@ Content-Type: application/json
   "rating": 3,
   "review": "Great book!"
 }
+
+###! AUTHORS
 ### authors
 POST http://localhost:5000/api/books/authors
 Content-Type: application/json
@@ -110,6 +112,7 @@ Content-Type: application/json
   "file_content": "BASE64_ENCODED_FILE_CONTENT",
   "file_type": "image/jpeg"
 }
+###! Chapter
 ### chapters
 POST http://localhost:5000/api/books/chapters
 Content-Type: application/json
@@ -142,11 +145,12 @@ Content-Type: application/json
   "audio_file_ids": ["64fdfc4b839be305c43d6a3a"]
 }
 
+# ! comments
 ### comments
 POST http://localhost:5000/api/books/chapters/{{chapter_id}}/comments
 Content-Type: application/json
 
 {
   "user": "useroneidinuserservice im nguyen",
-  "comment": "I love this chapter <3 fall i luv with u>"
+  "comment": "I love this chapter <3 fall i luv with u> guys"
 }

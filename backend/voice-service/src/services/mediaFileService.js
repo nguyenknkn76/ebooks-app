@@ -1,12 +1,29 @@
 const MediaFile = require('../models/mediaFile');
-// const s3 = require('./config/aws');
 const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const s3Client = require('../../config/aws');
 require('dotenv').config();
 
-// const fileNaming = async (call, callback) => {
-  
-// }
+const createMediaFile = async (data) => {
+  const mediaFile = new MediaFile(data);
+  return await mediaFile.save();
+};
+
+const getAllMediaFiles = async () => {
+  return await MediaFile.find();
+};
+
+const getMediaFileById = async (id) => {
+  return await MediaFile.findById(id);
+};
+
+const updateMediaFile = async (id, data) => {
+  return await MediaFile.findByIdAndUpdate(id, data, { new: true });
+};
+
+const deleteMediaFile = async (id) => {
+  return await MediaFile.findByIdAndDelete(id);
+};
+
 const uploadMediaFile2 = (props) => {
   try {
     const {bucket_name ,file_name, file_content, file_type} = props;
@@ -24,4 +41,11 @@ const uploadMediaFile2 = (props) => {
   }
 }
 
-module.exports = { uploadMediaFile2}
+module.exports = { 
+  uploadMediaFile2,
+  createMediaFile,
+  getAllMediaFiles,
+  getMediaFileById,
+  updateMediaFile,
+  deleteMediaFile
+}

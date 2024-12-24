@@ -30,7 +30,7 @@ exports.getAllBooks = async (req, res) => {
 
 exports.getBookById = async (req, res) => {
   const id  = req.params.id;
-  // console.log('this is book controller: ',id);
+  console.log('this is book controller: ',id);
   try {
     const response = await bookClient.getBookById(id);
     if (!response) {

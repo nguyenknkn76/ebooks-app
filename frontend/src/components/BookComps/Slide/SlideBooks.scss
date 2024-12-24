@@ -1,0 +1,45 @@
+.slide-books-container {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  border-top: 2px solid #000;
+  padding-top: 20px;
+
+  .slide-books {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+  }
+
+  .slide-navigation {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 3;
+
+    .nav-button {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 10px;
+      position: absolute;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      &:first-of-type {
+        left: 0;
+      }
+
+      &:last-of-type {
+        right: 0;
+      }
+    }
+  }
+}

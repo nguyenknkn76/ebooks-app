@@ -1,0 +1,96 @@
+.book-table-wrapper {
+  padding: 16px;
+  background-color: #f9f9f9;
+
+  .book-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+
+    th,
+    td {
+      text-align: left;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+    }
+
+    .cover-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .rating {
+      color: #ffa500;
+    }
+
+    .actions {
+      text-align: center;
+
+      .view-btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 4px 8px;
+        border: none;
+        border-radius: 4px;
+        margin-right: 8px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #45a049;
+        }
+      }
+
+      .delete-btn {
+        background-color: #f44336;
+        color: white;
+        padding: 4px 8px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #e41f1f;
+        }
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+
+    .page-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &.active {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      &:disabled {
+        background-color: #e0e0e0;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+}

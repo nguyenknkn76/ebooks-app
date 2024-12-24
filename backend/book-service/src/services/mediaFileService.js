@@ -4,9 +4,20 @@ const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const s3Client = require('../../config/aws');
 require('dotenv').config();
 
-const fileNaming = async (call, callback) => {
-  
-}
+const getMediaFileById = async (id) => {
+  return await MediaFile.findById(id);
+};
+
+const createMediaFile = async (data) => {
+  const { file_collection, file_url, file_type, file_size } = data;
+  const mediaFile = new MediaFile({
+    file_collection,
+    file_url,
+    file_type,
+    file_size
+  });
+  return await mediaFile.save();
+};
 
 const uploadMediaFile = async (call, callback) => {
   try {
@@ -54,4 +65,4 @@ const uploadMediaFile2 = (props) => {
   }
 }
 
-module.exports = {uploadMediaFile, uploadMediaFile2}
+module.exports = {uploadMediaFile, uploadMediaFile2, getMediaFileById, createMediaFile}

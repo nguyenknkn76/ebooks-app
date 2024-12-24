@@ -1,0 +1,49 @@
+.homepage-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .banner-aside {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 10px;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+header,
+footer {
+  background-color: #fdbf50;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.banner {
+  background-color: #e04d4d;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.aside {
+  background-color: #4caf50;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.main-content {
+  background-color: #2196f3;
+  text-align: center;
+  padding: 20px;
+  color: white;
+}
+
+.low-content {
+  background-color: #4caf50;
+  text-align: center;
+  padding: 10px 0;
+}
