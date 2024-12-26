@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Link, Routes, Route, Navigate, useMatch} from 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Footer from './components/common/Footer/Footer';
-import Header from './components/common/Header/Header';
+import Header from './components/Common/Header/Header';
 import HomePage from './pages/HomePage/HomePage';
 import BookDetailPage from './pages/BookDetailPage/BookDetailPage';
 import Container from './components/common/Container/Container';
@@ -20,6 +20,10 @@ import AdminStatPage from './pages/AdminStatisticPage/AdminStatPage';
 import AdminVoicePage from './pages/AdminVoicePage/AdminVoicePage';
 import AdminBookPage from './pages/AdminBookPage/AdminBookPage';
 import AdminUserPage from './pages/AdminUserPage/AdminUserPage';
+import UpdateProfileForm from './components/UserComps/UserInfoForm/UpdateProfileForm';
+import Card from './components/StatComps/Card/Card';
+import data from './sample-data/data';
+import LineChart from './components/StatComps/Chart/LineChart';
 const App = () => {
   // const loggedin = useSelector(state => state.loggedin);
   // const users = useSelector(state => state.users);
@@ -28,6 +32,13 @@ const App = () => {
     <div>
       <ScrollToTop/>
       <Header/>
+
+      {/* ========================DRAF =============================== */}
+      <LineChart />
+      <Card cardInfo={data.cardInfo}/>
+      <UpdateProfileForm/>
+      {/* ========================DRAF =============================== */}
+
       <Container>
         <Routes>
           <Route path="/" exact element={<HomePage/>} />

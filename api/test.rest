@@ -1,4 +1,4 @@
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyMzAwZTBjLTFlNTctNDAzMy05Zjg4LWY4YTc5MGU5Y2UzMSIsInVzZXJuYW1lIjoibmd1eWVuIiwiaWF0IjoxNzM0MDgyODE1LCJleHAiOjE3MzQwODY0MTV9.kJDu_puCubeRKGV-JN6wbV-n6b75gVuoBV63jXKsWdc
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyMzAwZTBjLTFlNTctNDAzMy05Zjg4LWY4YTc5MGU5Y2UzMSIsInVzZXJuYW1lIjoibmd1eWVuIiwiaWF0IjoxNzM1MTMyODcxLCJleHAiOjE3MzUxMzY0NzF9.JjRkkt3CdBMAgfLTneFYdsVymgrqzoKZJj5gqHuvOYU
 @id = b2300e0c-1e57-4033-9f88-f8a790e9ce31
 @bookid = 672cff09ce6db4a604611b1a
 @authorid = 672cff09ce6db4a604611b17
@@ -16,10 +16,11 @@ POST http://localhost:5000/api/register
 Content-Type: application/json
 
 {
-    "username": "nguyen",
+    "username": "nguyenknkn76",
     "password": "123456",
-    "email": "nguyen@example.com"
+    "email": "nguyenknkn76@example.com"
 }
+
 ###
 GET http://localhost:5000/api/roles
 

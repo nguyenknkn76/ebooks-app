@@ -1,15 +1,70 @@
-// protos/user.proto
 syntax = "proto3";
 
 package user;
 
 service UserService {
-  rpc GetAllUsers (Empty) returns (UserList);
-  rpc GetUserById (UserIdRequest) returns (User);
-  rpc RegisterUser (RegisterUserRequest) returns (UserResponse);
-  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
 
-  rpc GetAllRoles (Empty) returns (RoleList);
+  rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse);
+
+  rpc CountUsers(CountUsersRequest) returns (CountUsersResponse);
+  rpc CountUsersThisMonth(CountUsersThisMonthRequest) returns (CountUsersResponse);
+}
+message CountUsersThisMonthRequest {}
+
+message CountUsersRequest {}
+
+message CountUsersResponse {
+  int32 total = 1;
+}
+
+message CreateProfileRequest {
+  string user_id = 1;
+  string name = 2;
+  string phone = 3;
+  string address = 4;
+  MediaFileRequest avatar = 5;
+}
+
+message MediaFileRequest {
+  string file_name = 1;
+  string file_content = 2;
+  string file_type = 3;
+}
+
+message CreateProfileResponse {
+  Profile profile = 1;
+  string message = 2;
+}
+
+message GetAllUsersRequest {}
+
+message GetAllUsersResponse {
+  repeated User users = 1;
+}
+
+message GetUserByIdRequest {
+  string id = 1;
+}
+
+message GetUserByIdResponse {
+  User user = 1;
+}
+
+message RegisterUserRequest {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+}
+
+message RegisterUserResponse {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string message = 4;
 }
 
 message LoginRequest {
@@ -19,41 +74,28 @@ message LoginRequest {
 
 message LoginResponse {
   string access_token = 1;
-}
-
-message Empty {}
-
-message UserIdRequest {
-  string id = 1;
-}
-
-message RegisterUserRequest {
-  string username = 1;
-  string password = 2;
-  string email = 3;
-}
-
-message UserResponse {
-  string id = 1;
-  string username = 2;
-  string email = 3;
+  User user = 2;
+  string message = 3;
 }
 
 message User {
   string id = 1;
   string username = 2;
   string email = 3;
+  string role = 4;
+  Profile profile = 5;
 }
 
-message UserList {
-  repeated User users = 1;
-}
-
-message Role {
+message Profile {
   string id = 1;
-  string role = 2;
+  string name = 2;
+  string phone = 3;
+  string address = 4;
+  MediaFile avatar = 5;
 }
 
-message RoleList {
-  repeated Role roles = 1;
+message MediaFile {
+  string id = 1;
+  string file_url = 2;
+  string file_type = 3;
 }

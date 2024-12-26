@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import './LoginForm.scss';
-
+import AuthService from '../../../services/AuthService';
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log('Logging in with:', username, password);
+        const authData = {
+            username,
+            password
+        }
+        const token = await AuthService.login(authData);
+        console.log(token)
     };
 
     const handleRegister = () => {

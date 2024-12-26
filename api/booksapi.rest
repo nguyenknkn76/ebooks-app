@@ -133,8 +133,9 @@ GET http://localhost:5000/api/books/chapters
 GET http://localhost:5000/api/books/chapters/{{book_id}}
 ###
 @chapter_id = 674354680dc06ae1b52310a3
+@chapter_id2 = 674354680dc06ae1b52310a3
 ###
-GET http://localhost:5000/api/books/chapters/chapter/{{chapter_id}}
+GET http://localhost:5000/api/books/chapters/chapter/{{chapter_id2}}
 ###
 PUT http://localhost:5000/api/books/chapters/{{chapter_id}}
 Content-Type: application/json

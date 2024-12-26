@@ -1,5 +1,6 @@
 const bookService = require('../../services/bookService');
 const grpc = require('@grpc/grpc-js');
+const {getMostReadBooks, getAllBooksWithAvgRating, getMostUsedVoiceForBook, getBookDetails} = require('../../try')
 
 const formatBookResponse = (book) => ({
   id: book._id.toString(),
@@ -9,11 +10,11 @@ const formatBookResponse = (book) => ({
     pen_name: book.author.pen_name,
     name: book.author.name,
   } : null,
-  genres: book.genres,
+  genres: book.genres || [],
   description: book.description || '',
   publish_year: book.publish_year || 0,
   cover_img: book.cover_img?.file_url || '',
-  avg_rating: book.avg_rating,
+  avg_rating: book.avg_rating || 0,
   count_rating: book.ratings?.length || 0,
 });
 
@@ -63,6 +64,23 @@ const createBook = async (call, callback) => {
 const getAllBooks = async (call, callback) => {
   try {
     const books = await bookService.getAllBooks();
+    // ===========================
+    /*
+      ! draf here
+    */
+
+    // const books3 = await getAllBooksWithAvgRating();
+    // console.log(books3);
+
+    // const books2 = await getMostReadBooks();
+    // console.log(books2);
+
+    // console.log('this is voice')
+    // const books4 = await getMostUsedVoiceForBook('67405659dfe3478b3de8f36c');
+    // console.log(books4);
+    // const book5 = await getBookDetails('67405659dfe3478b3de8f36c');
+    // console.log(book5);
+    // ===========================
     callback(null, {
       books: books.map(formatBookResponse)
     });

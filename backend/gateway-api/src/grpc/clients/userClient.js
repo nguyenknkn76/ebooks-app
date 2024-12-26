@@ -13,7 +13,16 @@ const userProto = grpc.loadPackageDefinition(packageDefinition).user;
 
 const client = new userProto.UserService('localhost:50051', grpc.credentials.createInsecure());
 
-exports.getAllUsers = () => {
+const createProfile = (data) => {
+    return new Promise((resolve, reject) => {
+        client.CreateProfile(data, (error, response) => {
+            if (error) reject(error);
+            else resolve(response);
+        });
+    });
+};
+
+const getAllUsers = () => {
     return new Promise((resolve, reject) => {
         client.GetAllUsers({}, (error, response) => {
             if (error) reject(error);
@@ -22,7 +31,7 @@ exports.getAllUsers = () => {
     });
 };
 
-exports.getUserById = (id) => {
+const getUserById = (id) => {
     return new Promise((resolve, reject) => {
         client.GetUserById({ id }, (error, response) => {
             if (error) reject(error);
@@ -31,7 +40,7 @@ exports.getUserById = (id) => {
     });
 };    
 
-exports.registerUser = (username, password, email) => {
+const registerUser = (username, password, email) => {
     return new Promise((resolve, reject) => {
         client.RegisterUser({ username, password, email }, (error, response) => {
             if (error) reject(error);
@@ -40,19 +49,43 @@ exports.registerUser = (username, password, email) => {
     });
 };
 
-// const getAllRoles = (data, callback) => client.GetAllRoles(data, callback);
+const login = (data, callback) => {
+    return client.Login(data, callback);
+}
 
-// const getAllRoles = () => {
+// const login = (data) => {
 //     return new Promise((resolve, reject) => {
-//         client.GetAllRoles({}, (error, response) => {
+//         client.Login(data, (error, response) => {
 //             if (error) reject(error);
-//             else resolve(respo   nse.roles);
+//             else resolve(response);
 //         });
 //     });
 // };
-// module.exports = client;
+
+const countUsers = () => {
+  return new Promise((resolve, reject) => {
+    client.CountUsers({}, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const countUsersThisMonth = () => {
+  return new Promise((resolve, reject) => {
+    client.CountUsersThisMonth({}, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
 module.exports = {
-    // getAllUsers, getUserById, registerUser, 
-    getAllRoles: (data, callback) => client.GetAllRoles(data, callback),
-    login: (data, callback) => client.Login(data, callback),
+    getAllUsers, 
+    getUserById, 
+    registerUser, 
+    login,
+    createProfile,
+    countUsers,
+    countUsersThisMonth
 };

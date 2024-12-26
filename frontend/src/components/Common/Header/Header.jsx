@@ -26,16 +26,7 @@ const Header = () => {
           <Link to='/adminvoices'className="nav-link">Voices</Link>
         </div>
 
-        {/* <div className="header-search">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Find your next great listen"
-          />
-          <button className="search-button">
-            <FaSearch />
-          </button>
-        </div> */}
+        
       </div>
       {/* Bottom Header */}
       <div className="header-bottom">

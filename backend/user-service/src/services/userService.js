@@ -1,106 +1,94 @@
-// const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const {User, Role} = require('../models');
+const { User, Profile, MediaFile, sequelize, Op } = require('../models');
 
-exports.getAllUsers = async (call, callback) => {
+const createUser = async (data) => {
+  const transaction = await sequelize.transaction();
+  
   try {
-    const users = await User.findAll({ attributes: ['id', 'username', 'email'] });
-    const userList = users.map(user => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-    }));
-    callback(null, { users: userList });
-  } catch (error) {
-    callback(error, null);
-  }
-};
+    const user = await User.create({
+      username: data.username,
+      email: data.email,
+      password_hash: data.password_hash
+    }, { transaction });
 
-exports.getUserById = async (call, callback) => {
-  const userId = call.request.id;
-  try {
-    const user = await User.findOne({
-      where: { id: userId },
-      attributes: ['id', 'username', 'email'],
-    });
-    if (user) {
-      callback(null, user.toJSON());
-    } else {
-      callback({
-        code: grpc.status.NOT_FOUND,
-        message: 'User not found',
-      });
-    }
-  } catch (error) {
-    callback(error, null);
-  }
-};
-
-exports.registerUser = async (call, callback) => {
-  const { username, password, email } = call.request;
-  try {
-    // Check if user already exists
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return callback({
-        code: grpc.status.ALREADY_EXISTS,
-        message: 'User with this email already exists',
-      });
+    if (data.profile) {
+      await Profile.create({
+        ...data.profile,
+        user: user.id
+      }, { transaction });
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
-    const newUser = await User.create({
-      username,
-      password_hash: hashedPassword,
-      email,
-    });
-
-    callback(null, {
-      id: newUser.id,
-      username: newUser.username,
-      email: newUser.email,
-    });
+    await transaction.commit();
+    return user;
   } catch (error) {
-    callback(error, null);
+    await transaction.rollback();
+    throw error;
   }
 };
 
-/*
-  - func: getAllRoles() => roles
-*/
-exports.getAllRoles = async (call, callback) => {
-  try {
-    const roles = await Role.findAll();
-    const response = { roles: roles.map(role => ({ id: role.id, role: role.role })) };
-    callback(null, response);
-  } catch (error) {
-    callback(error, null);
-  }
-}
+const getAllUsers = async () => {
+  return await User.findAll({
+    include: [{
+      model: Profile,
+      include: [MediaFile]
+    }]
+  });
+};
 
-/*
-  - func: login (username, password) => access_token
-  + check user exists
-  + check password ~ compare with password hash
-  + genrete token
-*/
-exports.login = async (call, callback) => {
-  try {
-    const { username, password } = call.request;
-    const user = await User.findOne({where: { username }});
-    if(!user) return res.status(400).json({error: 'User not found'});
-  
-    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-    if(!isPasswordValid) return res.status(400).json({error: 'Invalid credentials'});
-  
-    const token = jwt.sign({ id: user.id, username: user.username }, 'secretKey', { expiresIn: '1h' });
-    
-    callback(null, {access_token: token});
-  } catch (error) {
-    callback(error, null)
-  }
-}
+const getUserById = async (id) => {
+  return await User.findByPk(id, {
+    include: [{
+      model: Profile,
+      include: [MediaFile]
+    }]
+  });
+};
+
+const updateUser = async (id, data) => {
+  const user = await User.findByPk(id);
+  if (!user) throw new Error('User not found');
+  return await user.update(data);
+};
+
+const deleteUser = async (id) => {
+  const user = await User.findByPk(id);
+  if (!user) throw new Error('User not found');
+  return await user.destroy();
+};
+
+const findByUsername = async (username) => {
+  return await User.findOne({ 
+    where: { username },
+    include: [{
+      model: Profile,
+      include: [MediaFile]
+    }]
+  });
+};
+
+const countUsers = async () => {
+  return await User.count();
+};
+
+const countUsersThisMonth = async () => {
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  return await User.count({
+    where: {
+      createdAt: {
+        [Op.between]: [startOfMonth, endOfMonth]
+      }
+    }
+  });
+};
+module.exports = {
+  findByUsername,
+  createUser,
+  getAllUsers, 
+  getUserById,
+  updateUser,
+  deleteUser,
+  countUsers,
+  countUsersThisMonth
+};

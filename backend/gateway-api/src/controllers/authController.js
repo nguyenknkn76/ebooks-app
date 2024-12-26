@@ -7,6 +7,6 @@ exports.loginUser = (req, res) => {
     if (error) {
       return res.status(400).json({ error: error.message });
     }
-    res.json({ access_token: response.access_token });
+    res.json({ access_token: response.access_token, user: response.user });
   });
 };

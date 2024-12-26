@@ -1,17 +1,71 @@
 'use strict';
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-    username: { type: DataTypes.STRING, unique: true, allowNull: false},
-    password_hash: {type: DataTypes.STRING, allowNull: false},
-    email: { type: DataTypes.STRING, unique: true, allowNull: false },
-    access_token: {type: DataTypes.STRING},
-    refresh_token: {type: DataTypes.STRING},
+    id: { 
+      type: DataTypes.UUID, 
+      defaultValue: DataTypes.UUIDV4, 
+      primaryKey: true 
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        msg: 'Username already exists'
+      },
+      validate: {
+        notEmpty: {
+          msg: 'Username cannot be empty'
+        }
+      }
+    },
+    password_hash: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        msg: 'Email already exists'
+      },
+      validate: {
+        isEmail: {
+          msg: 'Must be a valid email address'
+        }
+      }
+    },
+    access_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    refresh_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'reader',
+      validate: {
+        isIn: [['reader', 'admin']]
+      }
+    },
+  }, {
+    timestamps: true
   });
+
   User.associate = (models) => {
-    User.hasOne(models.Profile, { foreignKey: 'user_id' });
-    User.hasMany(models.UserRole, { foreignKey: 'user_id' });
-    User.hasMany(models.MediaFile, { foreignKey: 'user_id' });
+    User.hasOne(models.Profile, { 
+      foreignKey: 'user', 
+      unique: true,
+      onDelete: 'CASCADE' 
+    });
   };
+
   return User;
 };

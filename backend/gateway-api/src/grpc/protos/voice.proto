@@ -60,7 +60,6 @@ message MediaFileForGetAll {
   int32 size = 4;
 }
 
-
 message CreateVoiceRequest {
   string name = 1;
   string typeId = 2;
