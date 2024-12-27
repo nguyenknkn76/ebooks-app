@@ -45,7 +45,7 @@ const VoiceTable = ({ voices }) => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            {/* <th>ID</th> */}
             <th>Name</th>
             <th>Casual Name</th>
             <th>Language</th>
@@ -59,7 +59,7 @@ const VoiceTable = ({ voices }) => {
         <tbody>
           {currentVoices.map((voice) => (
             <tr key={voice.id}>
-              <td>{voice.id}</td>
+              {/* <td>{voice.id}</td> */}
               <td>{voice.name}</td>
               <td>{voice.causual_name}</td>
               <td>{voice.language}</td>

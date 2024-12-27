@@ -1,4 +1,6 @@
-import { FaUserAlt, FaBook } from 'react-icons/fa';
+import { FaUserAlt, FaBook, FaUser } from 'react-icons/fa';
+import { MdKeyboardVoice } from "react-icons/md";
+
 const avatar_default = "https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fw6jckbkvw8fc1.png%3Fwidth%3D900%26format%3Dpng%26auto%3Dwebp%26s%3De4938675d0af6b52e7a7cd30420c49b600232a64&rdt=59628";
 const img_url = "https://nguyentdkptit02-cover-images.s3.ap-southeast-2.amazonaws.com/example-cat-2.jpg";
 const img_url2 = "https://nguyentdkptit02-cover-images.s3.ap-southeast-2.amazonaws.com/nan-nan.jpg";
@@ -87,7 +89,7 @@ const books5 = Array.from({ length: 100 }, (_, index) => ({
 }));
 
 const book1 = {
-  title: "The Last Human",
+  title: "Book Title 1",
   cover_image: img_url,
   genre: ["comedy", "fantasy", "action", "drama"],
   description:
@@ -98,7 +100,7 @@ const book1 = {
   total_views: 101000,
 
   status: "Ongoing",
-  publisher: "Webnovel",
+  author: "Author 1",
   release_year: 2021,
   language: "English",
 };
@@ -306,8 +308,48 @@ const chapter = {
   text_file: txt_url,
 };
 
+// const cardInfo2 = {
+//   title: 'Books',
+//   data: '300',
+//   link_text: 'View all books',
+//   icon: FaBook,
+//   iconColor: '#ff6347'
+// };
+
+const cardData = [
+  {
+    title: "Total Users",
+    data: "13",
+    link_text: "View all users",
+    icon: FaUser,
+    iconColor: "black",
+  },
+  {
+    title: "New Users",
+    data: "3",
+    link_text: "View all users",
+    icon: FaUser,
+    iconColor: "black",
+  },
+  {
+    title: "Total Books",
+    data: "23",
+    link_text: "View all books",
+    icon: FaBook,
+    iconColor: "black",
+  },
+  {
+    title: "Total Voices",
+    data: "35",
+    link_text: "View all voices",
+    icon: MdKeyboardVoice,
+    iconColor: "black",
+  },
+];
+
 // http://audiofile1.mp3
 export default {
+  cardData,
   voices, voices1,
   comment, comments, genres, user,users, users1, cardInfo, cardInfo2,cardInfos, avatar_default,
   rating1, ratings,

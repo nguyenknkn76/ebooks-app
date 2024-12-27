@@ -1,7 +1,7 @@
 const DeviceProfile = require('../models/deviceProfile');
 
-const createDeviceProfile = async (data) => {
-  const deviceProfile = new DeviceProfile(data);
+const createDeviceProfile = async (deviceData) => {
+  const deviceProfile = new DeviceProfile(deviceData);
   return await deviceProfile.save();
 };
 
@@ -13,8 +13,8 @@ const getDeviceProfileById = async (id) => {
   return await DeviceProfile.findById(id);
 };
 
-const updateDeviceProfile = async (id, data) => {
-  return await DeviceProfile.findByIdAndUpdate(id, data, { new: true });
+const updateDeviceProfile = async (id, deviceData) => {
+  return await DeviceProfile.findByIdAndUpdate(id, deviceData, { new: true });
 };
 
 const deleteDeviceProfile = async (id) => {

@@ -1,7 +1,7 @@
 const Language = require('../models/language');
 
-const createLanguage = async (data) => {
-  const language = new Language(data);
+const createLanguage = async (languageData) => {
+  const language = new Language(languageData);
   return await language.save();
 };
 
@@ -13,8 +13,8 @@ const getLanguageById = async (id) => {
   return await Language.findById(id);
 };
 
-const updateLanguage = async (id, data) => {
-  return await Language.findByIdAndUpdate(id, data, { new: true });
+const updateLanguage = async (id, languageData) => {
+  return await Language.findByIdAndUpdate(id, languageData, { new: true });
 };
 
 const deleteLanguage = async (id) => {

@@ -36,12 +36,12 @@ const BookInfo = ({ book }) => {
                 </span>
               ))}
             </div>
-            <div className="stats">
+            {/* <div className="stats">
               <span>⭐ {avg_rating.toFixed(2)}</span>
               <span>👥 {total_followers}</span>
               <span>👁️ {total_views}</span>
               <span>💬 {total_comments}</span>
-            </div>
+            </div> */}
           </div>
         </div>
 

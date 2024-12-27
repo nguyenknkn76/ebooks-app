@@ -32,7 +32,7 @@ const TextFileDisplay = ({ fileUrl }) => {
 
   return (
     <div>
-      <h1 style={styles.heading}>Text File Content</h1>
+      <h1 style={styles.heading}>Chapter 1: The beginning</h1>
       <div style={styles.container}>
         {content}
       </div>

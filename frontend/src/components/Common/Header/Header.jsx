@@ -16,7 +16,7 @@ const Header = () => {
       </div>
 
       {/* For Admin */}
-      <div className="header-bottom">
+      {/* <div className="header-bottom">
         <div className="header-navigation">
           <Link to="/admin" className="nav-link"> Home </Link>
           <Link to="/admin" className="nav-link">Dashboard</Link>
@@ -27,7 +27,7 @@ const Header = () => {
         </div>
 
         
-      </div>
+      </div> */}
       {/* Bottom Header */}
       <div className="header-bottom">
         <div className="header-navigation">

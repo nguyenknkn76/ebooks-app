@@ -22,4 +22,5 @@ router.post('/profile',
 
 router.get('/users/count/total', userController.countUsers);
 router.get('/users/count/monthly',userController.countUsersThisMonth);
+
 module.exports = router;

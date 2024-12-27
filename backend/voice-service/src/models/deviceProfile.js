@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const deviceProfileSchema = new mongoose.Schema({
-  causual_name: {type: String},
-  effect_profile: {type: String},
-  name: { type: String, required: true },
+  casual_name: {type: String},   // Small home speaker
+  name: { type: String }, // small-bluetooth-speaker-class-device
   description: { type: String }
 });
 

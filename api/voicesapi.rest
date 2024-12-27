@@ -1,48 +1,72 @@
-POST http://localhost:5000/api/voices
-Content-Type: application/json
+@baseUrl = http://localhost:5000/api
+@authToken = your_jwt_token_here
 
-{
-  "name": "Sample Voice",
-  "typeId": "64fe5678abcd1234ef907890",
-  "languageId": "64fe1234abcd5678ef901234",
-  "deviceProfileId": "64fe3456abcd7890ef123456",
-  "gender": "Male",
-  "age": 30,
-  "fileName": "sample.mp3",
-  "fileContent": "BASE64_ENCODED_STRING_HERE",
-  "fileType": "audio/mpeg"
-}
+###! AGE
+### Create Age
+# POST {{baseUrl}}/voices/ages
+# # Authorization: Bearer {{authToken}}
+# Content-Type: application/json
 
-### get all
-GET http://localhost:5000/api/voices
-### 
-@voice_id = 67506330d84107073dcdeaea
-### get by id 
-GET http://localhost:5000/api/voices/{{voice_id}}
-### 
-
-### 
-POST http://localhost:5001/api/convert
-Content-Type: application/json
-
-{
-  "text": "Hello, how are you?, i love you",
-  "languageCode": "vi-VN",
-  "voiceName": "vi-VN-Neural2-D",
-  "gender": "MALE",
-  "outputFile": "output3.mp3"
-}
-
-#! too long to try again
 # {
-#   "text": "Nhà em ở nơi cao nhất của làng, vì vậy, chỉ cần ra trước sân có thể nhìn bao quát xuống cả vùng quê yên ả. Trước đôi mắt của em, là cả một vùng xanh bao la bát ngát. Đó là sắc xanh của những thửa lúa đương thì con gái tươi non mơn mởn. Đó là sắc xanh của những bãi cỏ, những luống rau, những chùm cây ăn quả xum xuê, nhờ bàn tay người nông dân chăm chỉ. Đó còn là sắc xanh của bầu trời cao ở ngay trên đỉnh đầu, nơi mà những ngày đầu đông tưởng như có thể vươn tay lên chạm tới. Vẻ đẹp mộc mạc mà giản dị ấy, khiến em luôn tha thiết yêu thương quê hương mình. Chắc chắn rằng! Dù sau này có đi đến xứ sở nào, thì quê hương vẫn mãi là nơi tuyệt vời nhất trong trái tim của em.  ",
-#   "languageCode": "vi-VN",
-#   "voiceName": "vi-VN-Standard-C",
-#   "gender": "MALE",
-#   "outputFile": "output5.mp3"
+#   "name": "Senior",
+#   "rate": 1.0,
+#   "pitch": 1.0,
+#   "volumn": 1.0
 # }
 
+### Get All Ages
+GET {{baseUrl}}/voices/ages
 
+### Get Age by ID
+GET {{baseUrl}}/voices/ages/676d11aac7d51c6412be9adf
 
+###! device profile
+# ### Create Device Profile
+# POST {{baseUrl}}/voices/device-profiles
+# Content-Type: application/json
 
+# {
+#     "casual_name": "Smartphone",
+#     "name": "handset-class-device",
+#     "description": "Smart Phone"
+# }
+### Get All Device Profiles
+GET {{baseUrl}}/voices/device-profiles
 
+### Get Device Profile by ID
+GET {{baseUrl}}/voices/device-profiles/676d11f4c7d51c6412be9ae3
+
+###! language
+# ### Create Language
+# POST {{baseUrl}}/voices/languages
+# Content-Type: application/json
+
+# {
+#     "language_code": "vi-VN",
+#     "language": "Vietnamese",
+#     "description": "Vietnamese language"
+# }
+### Get All Languages
+GET {{baseUrl}}/voices/languages
+
+@vi-VN=676d0de796ffe37f31eec984
+### Get Language by ID
+GET {{baseUrl}}/voices/languages/{{vi-VN}}
+
+### ! types
+### Create Type
+POST {{baseUrl}}/voices/types
+Content-Type: application/json
+
+{
+    "type": "WaveNet",
+    "description": "WaveNet"
+}
+
+### Get All Types
+GET {{baseUrl}}/voices/types
+
+@wave_net=676d24e4a1998db20f2c953d
+@standard=676d248ea1998db20f2c953b
+### Get Type by ID
+GET {{baseUrl}}/voices/types/{{wave_net}}

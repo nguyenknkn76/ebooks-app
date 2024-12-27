@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use('/api/auth', authRoutes);
 app.use('/api', userRoutes);
-app.use('/api/', voiceRoutes);
+app.use('/api', voiceRoutes);
 app.use('/api', bookRoutes);
 // app.use('/api', noteRoutes);
 

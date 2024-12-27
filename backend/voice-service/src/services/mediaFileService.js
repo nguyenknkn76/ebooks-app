@@ -1,11 +1,29 @@
 const MediaFile = require('../models/mediaFile');
-const { PutObjectCommand } = require('@aws-sdk/client-s3');
-const s3Client = require('../../config/aws');
-require('dotenv').config();
+const { uploadMediaFile2 } = require('../utils/upload');
 
-const createMediaFile = async (data) => {
-  const mediaFile = new MediaFile(data);
-  return await mediaFile.save();
+const createMediaFile = async (fileData, file) => {
+  try {
+    let fileUrl;
+    if (file) {
+      fileUrl = await uploadMediaFile2({
+        bucket_name: process.env.AWS_BUCKET_NAME_SAMPLE_VOICE,
+        file_name: file.originalname,
+        file_content: file.buffer,
+        file_type: file.mimetype
+      });
+    }
+
+    const mediaFile = new MediaFile({
+      file_collection: fileData.file_collection,
+      file_url: fileUrl,
+      file_type: file?.mimetype,
+      file_size: file?.size
+    });
+
+    return await mediaFile.save();
+  } catch (error) {
+    throw new Error(`Error creating media file: ${error.message}`);
+  }
 };
 
 const getAllMediaFiles = async () => {
@@ -16,36 +34,18 @@ const getMediaFileById = async (id) => {
   return await MediaFile.findById(id);
 };
 
-const updateMediaFile = async (id, data) => {
-  return await MediaFile.findByIdAndUpdate(id, data, { new: true });
+const updateMediaFile = async (id, fileData) => {
+  return await MediaFile.findByIdAndUpdate(id, fileData, { new: true });
 };
 
 const deleteMediaFile = async (id) => {
   return await MediaFile.findByIdAndDelete(id);
 };
 
-const uploadMediaFile2 = (props) => {
-  try {
-    const {bucket_name ,file_name, file_content, file_type} = props;
-    const params = {
-      Bucket: bucket_name, 
-      Key: file_name,
-      Body: Buffer.from(file_content, 'base64'), 
-      ContentType: file_type, 
-    };
-    const uploadResult = s3Client.send(new PutObjectCommand(params));
-    const fileUrl = `https://${params.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${file_name}`;
-    return fileUrl;
-  } catch (error) {
-    console.error('Error uploading file to S3 ~ uploadMediaFile func mediaFileService:', error);
-  }
-}
-
-module.exports = { 
-  uploadMediaFile2,
+module.exports = {
   createMediaFile,
   getAllMediaFiles,
   getMediaFileById,
   updateMediaFile,
   deleteMediaFile
-}
+};

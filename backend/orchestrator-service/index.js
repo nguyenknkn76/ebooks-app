@@ -40,7 +40,7 @@ const consumer = kafka.consumer({ groupId: 'orchestrator-group' });
       } else if (topic === 'service2-response') {
         console.log('received from service2:', response);
         // end saga
-        console.log('saga completed nhe. this is final response:', response);
+        // console.log('saga completed nhe. this is final response:', response);
       }
     },
   });

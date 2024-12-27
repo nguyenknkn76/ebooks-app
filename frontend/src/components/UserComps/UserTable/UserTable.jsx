@@ -20,7 +20,7 @@ const UserTable = ({ users }) => {
       <table className="user-table">
         <thead>
           <tr>
-            <th>ID</th>
+            {/* <th>ID</th> */}
             <th>Name</th>
             <th>Username</th>
             <th>Email</th>
@@ -32,7 +32,7 @@ const UserTable = ({ users }) => {
         <tbody>
           {currentUsers.map((user) => (
             <tr key={user.id}>
-              <td>{user.id}</td>
+              {/* <td>{user.id}</td> */}
               <td>{user.profile.name}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>

@@ -1,7 +1,7 @@
 const Type = require('../models/type');
 
-const createType = async (data) => {
-  const type = new Type(data);
+const createType = async (typeData) => {
+  const type = new Type(typeData);
   return await type.save();
 };
 
@@ -13,8 +13,8 @@ const getTypeById = async (id) => {
   return await Type.findById(id);
 };
 
-const updateType = async (id, data) => {
-  return await Type.findByIdAndUpdate(id, data, { new: true });
+const updateType = async (id, typeData) => {
+  return await Type.findByIdAndUpdate(id, typeData, { new: true });
 };
 
 const deleteType = async (id) => {

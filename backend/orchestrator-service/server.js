@@ -16,6 +16,6 @@ app.post('/start-saga', async (req, res) => {
   res.send({ message: 'Saga started' });
 });
 
-app.listen(3000, () => {
-  console.log('Orchestrator Service running on port 3000');
+app.listen(3333, () => {
+  console.log('Orchestrator Service running on port 3333');
 });

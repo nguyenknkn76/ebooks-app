@@ -31,7 +31,7 @@ const ChapterTable = ({ chapters }) => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            {/* <th>ID</th> */}
             <th>Chapter</th>
             <th>Name</th>
             <th>Action</th>
@@ -40,7 +40,7 @@ const ChapterTable = ({ chapters }) => {
         <tbody>
           {currentChapters.map((chapter) => (
             <tr key={chapter.id}>
-              <td>{chapter.id}</td>
+              {/* <td>{chapter.id}</td> */}
               <td>Chapter {chapter.chapter_number}</td>
               <td>{chapter.name}</td>
               <td>

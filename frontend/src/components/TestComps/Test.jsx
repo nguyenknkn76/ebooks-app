@@ -20,6 +20,10 @@ import AudioCustom from '../AudioComps/AudioCustom/AudioCustom';
 import React from 'react';
 import CommentForm from '../CommentComps/CommentForm/CommentForm';
 import GenreBox from '../GenresComps/GenreBox/GenreBox';
+import UpdateProfileForm from '../UserComps/UserInfoForm/UpdateProfileForm';
+import Card from '../StatComps/Card/Card';
+import LineChart from '../StatComps/Chart/LineChart';
+import ListCards from '../StatComps/Card/ListCards';
 
 const Test = () => {
   const books = data.books;
@@ -36,6 +40,11 @@ const Test = () => {
   console.log(fileUrl)
   return(
     <div>
+      <ListCards/>
+      <LineChart />
+      {/* <Card cardInfo={data.cardInfo}/> */}
+      <UpdateProfileForm/>
+
       this is audio custom
       <AudioCustom/>
 

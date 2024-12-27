@@ -5,7 +5,7 @@ import Footer from './components/common/Footer/Footer';
 import Header from './components/Common/Header/Header';
 import HomePage from './pages/HomePage/HomePage';
 import BookDetailPage from './pages/BookDetailPage/BookDetailPage';
-import Container from './components/common/Container/Container';
+import Container from './components/Common/Container/Container';
 import Test from './components/TestComps/Test';
 import ScrollToTop from './components/Common/ScrollToTop/ScrollToTop';
 import AdminTest from './components/TestComps/AdminTest';
@@ -33,13 +33,10 @@ const App = () => {
       <ScrollToTop/>
       <Header/>
 
-      {/* ========================DRAF =============================== */}
-      <LineChart />
-      <Card cardInfo={data.cardInfo}/>
-      <UpdateProfileForm/>
-      {/* ========================DRAF =============================== */}
+
 
       <Container>
+        {/* <Test/> */}
         <Routes>
           <Route path="/" exact element={<HomePage/>} />
           <Route path="/bookdetails/:id" exact element={<BookDetailPage/>} />

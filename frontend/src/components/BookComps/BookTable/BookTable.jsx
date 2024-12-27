@@ -20,7 +20,7 @@ const BookTable = ({ books }) => {
       <table className="book-table">
         <thead>
           <tr>
-            <th>ID</th>
+            {/* <th>ID</th> */}
             <th>Cover</th>
             <th>Title</th>
             <th>Author</th>
@@ -32,7 +32,7 @@ const BookTable = ({ books }) => {
         <tbody>
           {currentBooks.map((book, index) => (
             <tr key={index}>
-              <td>{book.id}</td>
+              {/* <td>{book.id}</td> */}
               <td>
                 <img
                   src={book.cover_image}

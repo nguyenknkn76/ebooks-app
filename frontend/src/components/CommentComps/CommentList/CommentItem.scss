@@ -1,5 +1,6 @@
 .comment-item {
-  background-color: antiquewhite;
+  border-top: #474B4F 2px solid;
+  // background-color: #474B4F;
   padding: 10px;
   margin: 8px 0;
   border-radius: 5px;
@@ -26,6 +27,6 @@
   .comment-body {
     color: black;
     padding: 5px;
-    background-color: aliceblue;
+    background-color: #F0EBF4;
   }
 }

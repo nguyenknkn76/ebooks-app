@@ -1,66 +1,152 @@
 const voiceClient = require('../grpc/clients/voiceClient');
 
-exports.getVoices = async (req, res) => {
+const createAge = async (req, res) => {
   try {
-    const voices = await voiceClient.getVoices();
-    res.json(voices);
+    const { name, rate, pitch, volumn } = req.body;
+    const response = await voiceClient.createAge({ name, rate, pitch, volumn });
+    res.status(201).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.getAllVoices = async (req, res) => {
+const createDeviceProfile = async (req, res) => {
   try {
-    // console.log('this is voice controller');
-    const voices = await voiceClient.getAllVoices();
-    res.status(200).json(voices);
-  } catch (error) {
-    console.error('Error fetching voices:', error);
-    res.status(error.code || 500).json({
-      message: error.details || 'Failed to fetch voices',
+    const { casual_name, name, description } = req.body;
+    const response = await voiceClient.createDeviceProfile({ 
+      casual_name, 
+      name, 
+      description 
     });
-  }
-};
-
-exports.getVoiceById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const voice = await voiceClient.getVoiceById(id);
-
-    res.status(200).json(voice);
-  } catch (error) {
-    console.error('Error fetching voice by ID:', error);
-    res.status(error.code || 500).json({
-      message: error.details || 'Failed to fetch voice',
-    });
-  }
-};
-
-exports.createVoice = async (req, res) => {
-  try {
-    const { name, typeId, languageId, deviceProfileId, gender, age, fileName, fileContent, fileType } = req.body;
-
-    const voiceData = {
-      name,
-      typeId,
-      languageId,
-      deviceProfileId,
-      gender,
-      age,
-      sampleVoiceFile: {
-        file_name: fileName,
-        file_content: fileContent,
-        file_type: fileType,
-      },
-    };
-
-    const response = await voiceClient.createVoice(voiceData);
-
     res.status(201).json(response);
   } catch (error) {
-    console.error('Error creating voice:', error);
-    res.status(error.code || 500).json({
-      message: error.details || 'Failed to create voice',
-    });
+    res.status(500).json({ error: error.message });
   }
+};
+
+const createLanguage = async (req, res) => {
+  try {
+    const { language_code, language, description } = req.body;
+    const response = await voiceClient.createLanguage({ 
+      language_code, 
+      language, 
+      description 
+    });
+    res.status(201).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const createType = async (req, res) => {
+  try {
+    const { type, description } = req.body;
+    const response = await voiceClient.createType({ type, description });
+    res.status(201).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllLanguages = async (req, res) => {
+  try {
+    const response = await voiceClient.getAllLanguages();
+    res.json(response.languages);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getLanguageById = async (req, res) => {
+  try {
+    const response = await voiceClient.getLanguageById(req.params.id);
+    res.json(response);
+  } catch (error) {
+    if (error.code === grpc.status.NOT_FOUND) {
+      res.status(404).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  }
+};
+
+const getAllAges = async (req, res) => {
+  try {
+    const response = await voiceClient.getAllAges();
+    res.json(response.ages);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getAgeById = async (req, res) => {
+  try {
+    const response = await voiceClient.getAgeById(req.params.id);
+    res.json(response);
+  } catch (error) {
+    if (error.code === grpc.status.NOT_FOUND) {
+      res.status(404).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  }
+};
+
+const getAllDeviceProfiles = async (req, res) => {
+  try {
+    const response = await voiceClient.getAllDeviceProfiles();
+    res.json(response.device_profiles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getDeviceProfileById = async (req, res) => {
+  try {
+    const response = await voiceClient.getDeviceProfileById(req.params.id);
+    res.json(response);
+  } catch (error) {
+    if (error.code === grpc.status.NOT_FOUND) {
+      res.status(404).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  }
+};
+
+const getAllTypes = async (req, res) => {
+  try {
+    const response = await voiceClient.getAllTypes();
+    res.json(response.types);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getTypeById = async (req, res) => {
+  try {
+    const response = await voiceClient.getTypeById(req.params.id);
+    res.json(response);
+  } catch (error) {
+    if (error.code === grpc.status.NOT_FOUND) {
+      res.status(404).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  }
+};
+
+module.exports = { 
+  createType,
+  getAllTypes,
+  getTypeById,
+  createAge, 
+  createDeviceProfile, 
+  createLanguage ,
+  getAllLanguages,
+  getLanguageById,
+  getAllAges,
+  getAgeById,
+  getAllDeviceProfiles,
+  getDeviceProfileById
 };
