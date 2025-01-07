@@ -3,7 +3,7 @@ import RatingItem from "./RatingItem";
 import "./RatingList.scss";
 
 const RatingList = ({ ratings }) => {
-  const ratingsPerPage = 3;
+  const ratingsPerPage = 4;
   const totalPages = Math.ceil(ratings.length / ratingsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -19,8 +19,8 @@ const RatingList = ({ ratings }) => {
   return (
     <div className="rating-list-container">
       <div className="rating-list">
-        {currentRatings.map((rating1, index) => (
-          <RatingItem key={index} rating1={rating1} />
+        {currentRatings.map((rating, index) => (
+          <RatingItem key={index} rating={rating} />
         ))}
       </div>
 

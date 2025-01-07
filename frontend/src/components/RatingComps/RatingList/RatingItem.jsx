@@ -1,34 +1,40 @@
 import React from "react";
 import "./RatingItem.scss";
 
-const RatingItem = ({ rating1 }) => {
-  // { rating, review, user }
-  const { rating, review, user } = rating1;
+const RatingItem = ({ rating }) => {
+  console.log(rating);
+  const { created_at, star, review, user } = rating;
 
+  // Hàm định dạng ngày tháng
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
 
   return (
     <div className="rating-item">
-      <div className="user-info">
-        <img
-          src={user.cover_image?.file_url || "https://via.placeholder.com/50"}
-          alt={user.name}
-          className="user-avatar"
-        />
-        <div className="user-details">
-          <h4 className="user-name">{user.name}</h4>
-          <div className="rating-stars">
-            {Array.from({ length: 5 }, (_, index) => (
-              <span
-                key={index}
-                className={`star ${index < rating ? "filled" : ""}`}
-              >
-                ★
-              </span>
-            ))}
-          </div>
+      <div className="rating-header">
+        <span className="user-name">{user.username}</span>
+        <div className="rating-stars">
+          {Array.from({ length: 5 }, (_, index) => (
+            <span
+              key={index}
+              className={`star ${index < star ? "filled" : ""}`}
+            >
+              ★
+            </span>
+          ))}
         </div>
+        <span className="rating-date">{formatDate(created_at)}</span>
       </div>
-      <p className="review">{review}</p>
+      <div className="rating-review">{review}</div>
     </div>
   );
 };

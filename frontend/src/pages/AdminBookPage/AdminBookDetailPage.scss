@@ -1,0 +1,14 @@
+.admin-book-detail {
+  padding: 24px;
+
+  .admin-book-detail__section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    margin-top: 24px;
+    h2 {
+      margin: 0;
+    }
+  }
+}

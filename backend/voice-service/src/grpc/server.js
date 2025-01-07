@@ -6,7 +6,7 @@ const AgeHandler = require('./handlers/ageHandler');
 const DeviceProfileHandler = require('./handlers/deviceProfileHandler');
 const LanguageHandler = require('./handlers/languageHandler');
 const TypeHandler = require('./handlers/typeHandler');
-
+const MediaFileHandler = require('./handlers/mediaFileHandler');
 DBConfig.connectDB();
 
 const PROTO_PATH = './src/grpc/protos/voice.proto';
@@ -32,7 +32,19 @@ const startGrpcServer = async () => {
 
     CreateLanguage: LanguageHandler.createLanguage,
     GetAllLanguages: LanguageHandler.getAllLanguages,
-    GetLanguageById: LanguageHandler.getLanguageById
+    GetLanguageById: LanguageHandler.getLanguageById,
+
+    CreateVoice: VoiceHandler.createVoice,
+    GetAllVoices: VoiceHandler.getAllVoices,
+    GetAllVoices2: VoiceHandler.getAllVoices2,
+    GetVoiceById: VoiceHandler.getVoiceById,
+    DeleteVoice: VoiceHandler.deleteVoice,
+
+    CreateAudioFiles: MediaFileHandler.createAudioFiles,
+
+    CountVoices: VoiceHandler.countVoices,
+    GetGgcVoiceName: VoiceHandler.getGgcVoiceName
+
   });
   
   server.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), () => {

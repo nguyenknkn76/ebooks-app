@@ -14,16 +14,16 @@ const formatDate = (isoString) => {
 };
 
 const CommentItem = ({ comment1 }) => {
-    const { comment, created_at, user } = comment1;
+    const { content, created_at, user } = comment1;
 
     return (
         <div className="comment-item">
             <div className="comment-header">
-                <span className="user-name">{user.profile.name}</span>
+                <span className="user-name">{user.username}</span>
                 <span className="comment-time">{formatDate(created_at)}</span>
             </div>
             <div className="comment-body">
-                {comment}
+                {content}
             </div>
         </div>
     );

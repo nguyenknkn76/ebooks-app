@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const voiceSchema = new mongoose.Schema({
-    causual_name: { type: String}, // Alex
+    casual_name: { type: String}, // Alex
     name: { type: String}, //en-US-Journey-F
     type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type'},
     language: { type: mongoose.Schema.Types.ObjectId, ref: 'Language'},

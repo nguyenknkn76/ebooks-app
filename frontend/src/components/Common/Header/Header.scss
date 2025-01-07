@@ -1,4 +1,10 @@
 .header-container {
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
+  // z-index: 1000;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +23,21 @@
       height: 75px;
     }
 
+    .logout-btn {
+      padding: 4px 12px;
+      border: none;
+      border-radius: 4px;
+      background-color: #dc3545;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 20px;
+  
+      &:hover {
+        background-color: #c82333;
+      }
+    }
+
     .account-link {
       padding: 10px 20px;
       border: 1px solid #ccc;
@@ -31,12 +52,15 @@
     }
   }
 
+  
   .header-bottom {
     width: 80%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+
+
 
     .header-navigation {
       display: flex;
@@ -71,7 +95,7 @@
 
       .search-button {
         padding: 8px;
-        background-color: #007bff;
+        background-color: #F172A1;
         color: white;
         border: none;
         border-radius: 5px;

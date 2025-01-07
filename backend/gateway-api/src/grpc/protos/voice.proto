@@ -18,6 +18,96 @@ service VoiceService {
   rpc CreateLanguage(CreateLanguageRequest) returns (Language);
   rpc GetAllLanguages(Empty) returns (LanguagesResponse);
   rpc GetLanguageById(LanguageByIdRequest) returns (Language);
+
+  rpc CreateVoice(CreateVoiceRequest) returns (Voice);
+  rpc GetAllVoices(Empty) returns (VoicesResponse);
+  rpc GetVoiceById(VoiceByIdRequest) returns (Voice);
+
+  rpc CreateAudioFiles(CreateAudioFilesRequest) returns (AudioFilesResponse);
+  
+  rpc CountVoices(Empty) returns (CountResponse);
+  
+  rpc GetGgcVoiceName(GetGgcVoiceNameRequest) returns (GgcVoiceNameResponse);
+  rpc GetAllVoices2(GetAllVoices2Request) returns (VoicesResponse);
+  
+  rpc DeleteVoice(VoiceByIdRequest) returns (DeleteVoiceResponse);
+}
+
+message DeleteVoiceResponse {
+  string message = 1;
+}
+
+message GetAllVoices2Request {
+  string type_id = 1;
+  string language_id = 2;
+  string device_profile_id = 3;
+  string age_id = 4;
+  string gender = 5;
+}
+
+message GetGgcVoiceNameRequest {
+  string type_id = 1;
+  string language_id = 2;
+  string gender = 3;
+}
+
+message GgcVoiceNameResponse {
+  repeated string voice_names = 1;
+}
+
+message CountResponse {
+  int32 count = 1;
+}
+
+message CreateAudioFilesRequest {
+  string text_file_url = 1;
+}
+
+message AudioFile {
+  string voice_id = 1;
+  string audio_url = 2;
+}
+
+message AudioFilesResponse {
+  repeated AudioFile audio_files = 1;
+}
+
+message VoicesResponse {
+  repeated Voice voices = 1;
+}
+
+message VoiceByIdRequest {
+  string id = 1;
+}
+
+message CreateVoiceRequest {
+  string age_id = 1;
+  string device_profile_id = 2;
+  string language_id = 3;
+  string type_id = 4;
+  string name = 5;
+  string gender = 6;
+  string casual_name = 7;
+}
+
+message Voice {
+  string id = 1;
+  string casual_name = 2;
+  string name = 3;
+  Type type = 4;
+  Language language = 5;  
+  DeviceProfile device_profile = 6;
+  string gender = 7;
+  Age age = 8;
+  MediaFile sample_voice = 9;
+}
+
+message MediaFile {
+  string id = 1;
+  string file_collection = 2;
+  string file_url = 3;
+  string file_type = 4;
+  int32 file_size = 5;
 }
 
 message TypeByIdRequest {

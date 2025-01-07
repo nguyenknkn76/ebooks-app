@@ -43,7 +43,7 @@ const ListBooks2 = ({ books }) => {
               onClick={() => handlePageChange(page)}
               className={`page-btn ${currentPage === page ? "active" : ""}`}
             >
-              Page: {page}
+              {page}
             </button>
         ))}
         <button

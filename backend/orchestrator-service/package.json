@@ -7,6 +7,7 @@
     "dev": "nodemon index.js",
     "s1": "nodemon service1.js",
     "s2": "nodemon service2.js",
+    "s3": "nodemon service3.js",
     "api": "nodemon callapi.js",
     "server": "nodemon server.js"
   },

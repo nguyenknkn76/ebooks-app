@@ -1,5 +1,5 @@
 import React from "react";
-import { FaDiscord, FaTwitter, FaReddit, FaGithub  } from "react-icons/fa";
+import { FaDiscord, FaTwitter, FaReddit, FaGithub } from "react-icons/fa";
 import "./Footer.scss";
 
 const Footer = () => {
@@ -9,11 +9,11 @@ const Footer = () => {
         <FaDiscord className="footer-icon" />
         <FaTwitter className="footer-icon" />
         <FaReddit className="footer-icon" />
-        <FaGithub  className="footer-icon" />
+        <FaGithub className="footer-icon" />
       </div>
 
       <div className="footer-copyright">
-        © Copyright ଘ(੭ˊᵕˋ)੭ ੈ♡‧₊˚ footero?dayhu'hu' helloguysaiaisai
+        © Copyright ଘ(੭ˊᵕˋ)੭ ੈ♡‧₊˚
       </div>
     </div>
   );

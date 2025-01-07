@@ -1,7 +1,9 @@
 import React from "react";
 import "./ItemBook2.scss";
 import { Link } from "react-router-dom";
-
+import { IoMdStar } from "react-icons/io";
+import { FaEye } from "react-icons/fa";
+import { AiFillLike } from "react-icons/ai";
 const ItemBook2 = ({ book }) => {
   const {
     title,
@@ -25,10 +27,9 @@ const ItemBook2 = ({ book }) => {
           <h2 className="title">{title}</h2>
         </Link>
         <div className="stats">
-          <span className="stat">⭐ {avg_rating.toFixed(2)}</span>
-          <span className="stat">👥 {total_followers} </span>
-          <span className="stat">👁️ {total_views} </span>
-          <span className="stat">💬 {total_comments} </span>
+          <span className="stat"><IoMdStar/>&nbsp;&nbsp;{avg_rating.toFixed(2)}</span>
+          <span className="stat"><AiFillLike/>&nbsp;&nbsp;{total_followers} </span>
+          <span className="stat"><FaEye />&nbsp;&nbsp;{total_views} </span>
           <span className={`status ${status.toLowerCase()}`}>{status}</span>
         </div>
         <div className="genres">

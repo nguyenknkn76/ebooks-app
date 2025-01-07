@@ -5,7 +5,7 @@ const loggedInSlice = createSlice({
   initialState: null,
   reducers: {
     setLoggedIn(state, action){
-      return action;
+      return action.payload;
     },
   }
 })

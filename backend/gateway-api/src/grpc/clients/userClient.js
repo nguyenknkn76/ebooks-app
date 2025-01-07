@@ -80,12 +80,42 @@ const countUsersThisMonth = () => {
   });
 };
 
+const getTotalUsersInTwelveMonths = () => {
+  return new Promise((resolve, reject) => {
+    client.GetTotalUsersInTwelveMonths({}, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const updateUser = (data) => {
+  return new Promise((resolve, reject) => {
+    client.UpdateUser(data, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const getUsersByUserIds = (userIds) => {
+  return new Promise((resolve, reject) => {
+    client.GetUsersByUserIds({ user_ids: userIds }, (error, response) => {
+      if (error) reject(error);
+      else resolve(response.users);
+    });
+  });
+};
+
 module.exports = {
-    getAllUsers, 
-    getUserById, 
-    registerUser, 
-    login,
-    createProfile,
-    countUsers,
-    countUsersThisMonth
+  getUsersByUserIds,
+  updateUser,
+  getTotalUsersInTwelveMonths,
+  getAllUsers, 
+  getUserById, 
+  registerUser, 
+  login,
+  createProfile,
+  countUsers,
+  countUsersThisMonth
 };

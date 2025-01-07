@@ -7,7 +7,6 @@ const createProfile = async (call, callback) => {
   try {
     const { user_id, name, phone, address, avatar } = call.request;
     
-    // Create profile
     const profile = await Profile.create({
       user: user_id,
       name,
@@ -17,7 +16,6 @@ const createProfile = async (call, callback) => {
 
     let mediaFile = null;
     
-    // Handle avatar upload if provided
     if (avatar) {
       const fileUrl = await uploadMediaFile2({
         bucket_name: process.env.AWS_BUCKET_NAME_AVATAR,
@@ -26,7 +24,6 @@ const createProfile = async (call, callback) => {
         file_type: avatar.file_type
       });
 
-      // Create media file record
       mediaFile = await MediaFile.create({
         profile: profile.id,
         file_url: fileUrl,

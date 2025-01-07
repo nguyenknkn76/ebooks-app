@@ -4,26 +4,48 @@ import { Chart, registerables } from 'chart.js';
 import './LineChart.scss'
 Chart.register(...registerables);
 
-const LineChart = () => {
+const LineChart = ({ usersData, booksData }) => {
   const data = {
-    labels: ['November', 'December'],
+    labels: usersData.map(item => item.month),
     datasets: [
       {
         label: 'Users',
-        data: [15,5],
+        data: usersData.map(item => item.total),
         fill: false,
         backgroundColor: 'rgb(75, 192, 192)',
-        borderColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
       },
+      {
+        label: 'Books',
+        data: booksData.map(item => item.total),
+        fill: false,
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        tension: 0.1
+      }
     ],
   };
 
   const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Monthly Statistics'
+      }
+    },
     scales: {
       y: {
         beginAtZero: true,
-      },
-    },
+        ticks: {
+          stepSize: 1
+        }
+      }
+    }
   };
 
   return (

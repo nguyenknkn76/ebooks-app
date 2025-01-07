@@ -3,370 +3,304 @@ syntax = "proto3";
 package book;
 
 service BookService {
-  rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
+  rpc CreateAuthor(CreateAuthorRequest) returns (Author);
+  rpc GetAllAuthors(Empty) returns (GetAllAuthorsResponse);
+  rpc GetAuthorById(GetAuthorByIdRequest) returns (Author);
+
+  rpc CreateGenre(CreateGenreRequest) returns (Genre);
+  rpc GetAllGenres(Empty) returns (GetAllGenresResponse);
+  rpc GetGenreById(GetGenreByIdRequest) returns (Genre);
+
+  rpc CreateBook(CreateBookRequest) returns (Book);
   rpc GetAllBooks(GetAllBooksRequest) returns (GetAllBooksResponse);
-  rpc GetBookById(GetBookByIdRequest) returns (GetBookByIdResponse);
+  rpc GetBookById(GetBookByIdRequest) returns (Book);
+  rpc GetBooksByMonthly(Empty) returns (GetBooksResponse);
+  rpc GetBooksByViews(Empty) returns (GetBooksResponse);
+  rpc GetBooksByCreatedTime(Empty) returns (GetBooksResponse);
+  rpc GetBooksByUpdatedTime(Empty) returns (GetBooksResponse);
+  
+  rpc CreateBookWithCover(CreateBookWithCoverRequest) returns (Book);
+  rpc UpdateBook(UpdateBookRequest) returns (Book);
 
-  rpc CreateAuthor(CreateAuthorRequest) returns (CreateAuthorResponse);
-  rpc GetAllAuthors(GetAllAuthorsRequest) returns (GetAllAuthorsResponse);
-  rpc GetAuthorById(GetAuthorByIdRequest) returns (GetAuthorByIdResponse);
+  rpc CreateChapter(CreateChapterRequest) returns (Chapter);
+  rpc GetChaptersByBookId(GetChaptersByBookIdRequest) returns (GetChaptersResponse);
+  rpc GetChapterById(GetChapterByIdRequest) returns (Chapter);
+  rpc UpdateChapter(UpdateChapterRequest) returns (Chapter);
+  rpc UpdateChapter2(UpdateChapter2Request) returns (Chapter);
+  
+  rpc CreateComment(CreateCommentRequest) returns (Comment);
+  rpc GetCommentsByChapterId(GetCommentsByChapterIdRequest) returns (GetCommentsResponse);
+  rpc CreateRating(CreateRatingRequest) returns (Rating);
+  rpc GetRatingsByBookId(GetRatingsByBookIdRequest) returns (GetRatingsResponse);
 
-  rpc CreateMediaFile(CreateMediaFileRequest) returns (CreateMediaFileResponse);
-  rpc UploadMediaFile(UploadMediaFileRequest) returns (UploadMediaFileResponse);
+  rpc CreateLibrary(CreateLibraryRequest) returns (Library);
+  rpc GetLibrariesByUserId(GetLibrariesByUserIdRequest) returns (GetLibrariesResponse);
+  rpc UpdateLibrary(UpdateLibraryRequest) returns (Library);
+  rpc DeleteLibrary(DeleteLibraryRequest) returns (Empty);
+  rpc GetLibraryById(GetLibraryByIdRequest) returns (Library);
 
-  rpc CreateChapter(CreateChapterRequest) returns (CreateChapterResponse);
-  rpc GetAllChapters(GetAllChaptersRequest) returns (GetAllChaptersResponse);
-  rpc GetChaptersByBookId(GetChaptersByBookIdRequest) returns (GetChaptersByBookIdResponse);
-  rpc GetChapterById(GetChapterByIdRequest) returns (GetChapterByIdResponse);
-  rpc EditChapter(EditChapterRequest) returns (EditChapterResponse);
-  rpc AddAudioFile(AddAudioFileRequest) returns (AddAudioFileResponse);
+  rpc CreateHistory(CreateHistoryRequest) returns (History);
+  rpc GetAllHistories(Empty) returns (GetHistoriesResponse);
+  rpc GetHistoriesByUserId(GetHistoriesByUserIdRequest) returns (GetHistoriesResponse);
+  rpc GetHistoriesByBookId(GetHistoriesByBookIdRequest) returns (GetHistoriesResponse);
+  rpc GetMostUsedVoiceFromHistories(GetMostUsedVoiceRequest) returns (MostUsedVoiceResponse);
+  rpc GetLastUsedVoiceFromHistories(GetLastUsedVoiceRequest) returns (LastUsedVoiceResponse);
 
-  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse);
-
-  rpc CreateRating(CreateRatingRequest) returns (CreateRatingResponse);
-
-  rpc CreateLibrary(CreateLibraryRequest) returns (CreateLibraryResponse);
-  rpc GetAllLibraries(GetAllLibrariesRequest) returns (GetAllLibrariesResponse);
-  rpc GetLibraryById(GetLibraryByIdRequest) returns (GetLibraryByIdResponse);
-  rpc GetLibrariesByUserId(GetLibrariesByUserIdRequest) returns (GetLibrariesByUserIdResponse);
-
-  rpc CreateHistory(CreateHistoryRequest) returns (CreateHistoryResponse);
-
-  rpc GetAllHistories (GetAllHistoriesRequest) returns (GetAllHistoriesResponse);
-  rpc GetHistoryById (GetHistoryByIdRequest) returns (GetHistoryByIdResponse);
-  rpc GetHistoriesByUserId (GetHistoriesByUserIdRequest) returns (GetHistoriesByUserIdResponse);
+  rpc CountBooks(Empty) returns (CountBooksResponse);
+  rpc CountBooksThisMonth(Empty) returns (CountBooksResponse);
+  rpc GetTotalBooksInTwelveMonths(Empty) returns (MonthlyBooksResponse);
+  rpc GetHistoriesBooksByUserId(GetHistoriesBooksByUserIdRequest) returns (GetHistoriesBooksByUserIdResponse);
 }
-
-message GetHistoriesByUserIdRequest {
-  string userId = 1;
-}
-message GetHistoriesByUserIdResponse {
-  repeated History histories = 1;
-}
-
-message GetHistoryByIdRequest {
+message DeleteLibraryRequest {
   string id = 1;
-}
-message GetHistoryByIdResponse {
-  string id = 1;
-  string user = 2;
-  ChapterForHistory chapter = 3;
-  string voice = 4;
-  string timestamp = 5;
-}
-
-message GetAllHistoriesRequest {}
-message GetAllHistoriesResponse {
-  repeated History histories = 1;
-}
-message History {
-  string id = 1;
-  string user = 2;
-  ChapterForHistory chapter = 3; // populated chapter (id and name)
-  string voice = 4;
-  string timestamp = 5;
-}
-message ChapterForHistory {
-  string id = 1;
-  string name = 2;
-  BookForHistoryChapter book = 3;
-}
-message BookForHistoryChapter {
-  string id = 1;
-  string title = 2;
-}
-
-
-message CreateHistoryRequest {
-  string user = 1;
-  string chapterId = 2;
-  string voice = 3;
-}
-message CreateHistoryResponse {
-  string id = 1;
-  string message = 2;
-}
-
-message GetLibrariesByUserIdRequest {
-  string id = 1; 
-}
-message LibraryForGlbui {
-  string id = 1;
-  string name = 2;
-  repeated BookInLibrary books = 3;
-}
-message GetLibrariesByUserIdResponse {
-  repeated LibraryForGlbui libraries = 1;
 }
 
 message GetLibraryByIdRequest {
   string id = 1;
 }
-message GetLibraryByIdResponse {
+
+message UpdateLibraryRequest {
   string id = 1;
-  string user = 2;
-  string name = 3;
-  repeated BookInLibrary books = 4;
+  string name = 2;
+  repeated string books = 3;
 }
 
-message GetAllLibrariesRequest {}
-message GetAllLibrariesResponse {
+message AddBookToLibraryRequest {
+  string library_id = 1;
+  string book_id = 2;
+}
+
+message RemoveBookFromLibraryRequest {
+  string library_id = 1;
+  string book_id = 2;
+}
+
+message UpdateLibraryNameRequest {
+  string library_id = 1;
+  string name = 2;
+}
+
+message GetBooksResponse {
+  repeated Book books = 1;
+}
+
+message GetHistoriesBooksByUserIdRequest {
+  string user_id = 1;
+}
+
+message GetHistoriesBooksByUserIdResponse {
+  repeated Book books = 1;
+}
+
+message MonthlyBooksResponse {
+  repeated MonthlyTotal monthly_totals = 1;
+}
+
+message MonthlyTotal {
+  string month = 1;
+  int32 total = 2;
+}
+
+message CountBooksResponse {
+  int32 count = 1;
+}
+
+message GetLastUsedVoiceRequest {
+  string user_id = 1;
+}
+
+message LastUsedVoiceResponse {
+  string voice_id = 1;
+  string created_at = 2;
+}
+
+message GetMostUsedVoiceRequest {
+  string book_id = 1;
+}
+
+message MostUsedVoiceResponse {
+  string voice_id = 1;
+  int32 use_count = 2;
+}
+
+message GetHistoriesByBookIdRequest {
+  string book_id = 1;
+}
+
+message CreateHistoryRequest {
+  string user = 1;
+  string chapter = 2;
+  string voice = 3;
+}
+
+message GetHistoriesByUserIdRequest {
+  string user_id = 1;
+}
+
+message GetHistoriesResponse {
+  repeated History histories = 1;
+}
+
+message History {
+  string id = 1;
+  string user = 2;
+  Chapter chapter = 3;
+  string voice = 4;
+  string created_at = 5;
+}
+
+message GetLibrariesByUserIdRequest {
+  string user_id = 1;
+}
+
+message GetLibrariesResponse {
   repeated Library libraries = 1;
 }
-message BookInLibrary {
-  string id = 1;
-  string title = 2;
-}
-message Library {
-  string id = 1;
-  string user = 2;
-  string name = 3;
-  repeated BookInLibrary books = 4;
-}
-
-
-// message GetAllLibrariesRequest {}
-// message GetAllLibrariesResponse {
-//   repeated Library libraries = 1;
-// }
-// message Library {
-//   string id = 1;
-//   string user = 2;
-//   string name = 3;
-//   // repeated BookInLibrary books = 4;
-// }
-// message BookInLibrary {
-//   string id = 1;
-//   string title = 2;
-// }
 
 message CreateLibraryRequest {
   string user = 1;
   string name = 2;
-  repeated string book_ids = 3;
-}
-message CreateLibraryResponse {
-  string id = 1;
-  string message = 2;
+  // repeated string books = 3;
 }
 
-message GetBookByIdRequest {
-  string id = 1;
-}
-message GetBookByIdResponse {
-  BookForGetBookById book = 1;
-}
-message BookForGetBookById {
-  string id = 1;
-  string title = 2;
-  Author author = 3;
-  repeated string genres = 4;
-  string description = 5;
-  int32 publish_year = 6;
-  string cover_img = 7;
-  repeated Chapter chapters = 8;
-  repeated RatingForGetBookById ratings = 9;
-  int32 count_rating = 10;
-  float avg_rating = 11;
-}
-message ChapterForGetBookById {
-  string id = 1;
-  string name = 2;
-}
-message RatingForGetBookById {
+message Library {
   string id = 1;
   string user = 2;
-  int32 rating = 3;
-  string review = 4;
+  string name = 3;
+  repeated Book books = 4;
+  string created_at = 5;
+  string updated_at = 6;
 }
 
-message GetAllBooksRequest {}
-message GetAllBooksResponse {
-  repeated Book books = 1;
+message GetRatingsByBookIdRequest {
+  string book_id = 1;
 }
-message Book {
-  string id = 1;
-  string title = 2;
-  AuthorForGetAllBooks author = 3;
-  repeated string genres = 4;
-  string description = 5;
-  int32 publish_year = 6;
-  string cover_img = 7;
-  float avg_rating = 8;
-  int32 count_rating = 9;
-}
-message AuthorForGetAllBooks {
-  string id = 1;
-  string pen_name = 2;
-  string name = 3;
+
+message GetRatingsResponse {
+  repeated Rating ratings = 1;
 }
 
 message CreateRatingRequest {
   string user = 1;
-  string book_id = 2;
-  int32 rating = 3;
+  string book = 2;
+  int32 star = 3;
   string review = 4;
 }
-message CreateRatingResponse {
+
+message Rating {
   string id = 1;
   string user = 2;
-  string book_id = 3;
-  int32 rating = 4;
+  string book = 3;
+  int32 star = 4;
   string review = 5;
+  string created_at = 6;
+  string updated_at = 7;
 }
 
-message GetAuthorByIdRequest {
-  string id = 1;
-}
-message GetAuthorByIdResponse {
-  Author author = 1;
-}
-
-message GetAllAuthorsRequest {}
-message GetAllAuthorsResponse {
-  repeated Author authors = 1;
-}
-message Author {
-  string id = 1;
-  string user = 2;
-  string pen_name = 3;
-  string name = 4;
-  string description = 5;
-  repeated BookFnGetAllAuthors books = 6;
-}
-message BookFnGetAllAuthors {
-  string id = 1;
-  string title = 2;
-}
-
-message AddAudioFileRequest {
+message GetCommentsByChapterIdRequest {
   string chapter_id = 1;
-  string file_name = 2;
-  bytes file_content = 3; // File content (binary data)
-  string file_type = 4;   // e.g., "audio/mpeg"
-  int32 file_size = 5;
 }
-message AddAudioFileResponse {
-  string media_file_id = 1;
-  string chapter_id = 2;
-  string file_url = 3;
+
+message GetCommentsResponse {
+  repeated Comment comments = 1;
 }
 
 message CreateCommentRequest {
-  string chapter_id = 1;
+  string content = 1;
   string user = 2;
-  string comment = 3;
+  string chapter = 3;
 }
 
-message CreateCommentResponse {
+message UpdateChapter2Request {
   string id = 1;
-  string chapter_id = 2;
-  string user = 3;
-  string comment = 4;
-  string created_at = 5;
+  repeated AudioFile audio_files = 2;
 }
 
-message EditChapterRequest {
-  string chapter_id = 1;
-  string name = 2;
-  string text_file_id = 3;
-  repeated string audio_file_ids = 4;
+message AudioFile {
+  string voice_id = 1;
+  string audio_url = 2;
 }
 
-message EditChapterResponse {
-  string message = 1;
-}
-
-message GetChapterByIdRequest {
-  string chapter_id = 1;
-}
-
-message GetChapterByIdResponse {
+message UpdateChapterRequest {
   string id = 1;
-  string name = 2;
-  string book_id = 3;
-  string text_file_id = 4;
-  repeated string audio_file_ids = 5;
-  repeated Comment comments = 6;
+  int32 chapter_number = 2;
+  string name = 3;
+  string book = 4;
+  TextFile text_file = 5;
 }
 
-message Comment {
-  string id = 1;
-  string user = 2;
-  string comment = 3;
-  string created_at = 4;
+message TextFile {
+  string file_name = 1;
+  string file_content = 2;
+  string file_type = 3;
 }
 
 message GetChaptersByBookIdRequest {
   string book_id = 1;
 }
-message GetChaptersByBookIdResponse {
+
+message GetChaptersResponse {
   repeated Chapter chapters = 1;
 }
-message Chapter {
+
+message GetChapterByIdRequest {
   string id = 1;
-  string name = 2;
-  string book_id = 3;
-  string text_file_id = 4;
-  repeated string audio_file_ids = 5;
-}
-message GetAllChaptersRequest {}
-message GetAllChaptersResponse {
-  repeated Chapter chapters = 1;
 }
 
 message CreateChapterRequest {
-  string name = 1;
-  string book_id = 2;
-  string text_file_name = 3;
-  string text_file_content = 4;
-  string audio_file_name = 5;
-  string audio_file_content = 6;
+  int32 chapter_number = 1;
+  string name = 2;
+  string book = 3;
 }
 
-message CreateChapterResponse {
-  string chapter_id = 1;
-  string message = 2;
-}
-
-message UploadMediaFileRequest {
-  string file_name = 1;
-  bytes file_content = 2; // File dưới dạng byte
-  string file_type = 3;
-}
-
-message UploadMediaFileResponse {
-  string file_url = 1; // URL public của file
-}
-
-message CreateMediaFileRequest {
-  string file_collection = 1;
-  string file_url = 2;
-  string file_type = 3;
-  int32 file_size = 4;
-}
-
-message CreateMediaFileResponse {
+message UpdateBookRequest {
   string id = 1;
-  string file_collection = 2;
-  string file_url = 3;
-  string file_type = 4;
-  int32 file_size = 5;
-}
-
-message CreateAuthorRequest {
-  string user = 1;
-  string pen_name = 2;
-  string name = 3;
-  string description = 4;
-}
-
-message CreateAuthorResponse {
-  string id = 1;
-  string user = 2;
-  string pen_name = 3;
-  string name = 4;
+  string title = 2;
+  string author = 3;
+  repeated string genres = 4;
   string description = 5;
+  int32 publish_year = 6;
+  string status = 7;
+  CoverImage new_cover_image = 8;
+}
+
+message CreateBookWithCoverRequest {
+  string title = 1;
+  string author = 2;
+  repeated string genres = 3;
+  string description = 4;
+  int32 publish_year = 5;
+  string status = 6;
+  CoverImage cover_image = 7;
+}
+
+message CoverImage {
+  string file_name = 1;
+  string file_content = 2;
+  string file_type = 3;
+}
+
+message GetAllBooksRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string sort = 3;
+  string status = 4;
+  repeated string genres = 5; 
+  string search = 6;
+  string author = 7;
+  int32 publish_year = 8;  
+  string rating_filter = 9;   
+}
+
+message GetAllBooksResponse {
+  repeated Book books = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 pages = 4;
+}
+
+message GetBookByIdRequest {
+  string id = 1;
 }
 
 message CreateBookRequest {
@@ -375,11 +309,94 @@ message CreateBookRequest {
   repeated string genres = 3;
   string description = 4;
   int32 publish_year = 5;
+  string cover_img = 6;
+  string status = 7;
 }
 
-message CreateBookResponse {
+message Book {
   string id = 1;
   string title = 2;
-  string author = 3;
+  Author author = 3;
+  repeated Genre genres = 4;
+  string description = 5;
+  int32 publish_year = 6;
+  MediaFile cover_img = 7;
+  repeated Chapter chapters = 8;
+  float avg_rating = 9;
+  int32 views = 10;
+  int32 followers = 11;
+  int32 monthly_views = 12;
+  string status = 13;
+  string created_at = 14;
+  string updated_at = 15;
 }
 
+message Chapter {
+  string id = 1;
+  int32 chapter_number = 2;
+  string name = 3;
+  string book = 4;
+  MediaFile text_file = 5;
+  repeated MediaFile audio_file = 6;
+  repeated Comment comments = 7;
+}
+
+message Comment {
+  string id = 1;
+  string content = 2;
+  string user = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message MediaFile {
+  string id = 1;
+  string voice = 2;
+  string file_collection = 3;
+  string file_url = 4;
+  string file_type = 5;
+  int32 file_size = 6;
+}
+
+message CreateGenreRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message GetGenreByIdRequest {
+  string id = 1;
+}
+
+message GetAllGenresResponse {
+  repeated Genre genres = 1;
+}
+
+message Genre {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message Empty {}
+
+message GetAuthorByIdRequest {
+  string id = 1;
+}
+
+message GetAllAuthorsResponse {
+  repeated Author authors = 1;
+}
+
+message CreateAuthorRequest {
+  string pen_name = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message Author {
+  string id = 1;
+  string pen_name = 2;
+  string name = 3;
+  string description = 4;
+  repeated string books = 5;
+}

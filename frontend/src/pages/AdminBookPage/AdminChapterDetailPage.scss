@@ -1,0 +1,63 @@
+.admin-chapter-detail {
+  padding: 20px;
+
+  &__section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0 0 20px 0;
+      color: #333;
+    }
+  }
+
+  .chapter-info {
+    .info-row {
+      display: flex;
+      margin-bottom: 12px;
+
+      label {
+        width: 120px;
+        color: #666;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .chapter-content {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+  }
+
+  .chapter-comments {
+    .comment {
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        .username {
+          font-weight: 500;
+        }
+
+        .date {
+          color: #666;
+          font-size: 0.9em;
+        }
+      }
+
+      &-content {
+        margin: 0;
+        color: #333;
+      }
+    }
+  }
+}

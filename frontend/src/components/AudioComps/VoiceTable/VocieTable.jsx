@@ -41,7 +41,7 @@ const VoiceTable = ({ voices }) => {
 
   return (
     <div className="voice-table">
-      <h2>Voices</h2>
+      {/* <h2>Voices</h2> */}
       <table>
         <thead>
           <tr>
@@ -61,7 +61,7 @@ const VoiceTable = ({ voices }) => {
             <tr key={voice.id}>
               {/* <td>{voice.id}</td> */}
               <td>{voice.name}</td>
-              <td>{voice.causual_name}</td>
+              <td>{voice.casual_name}</td>
               <td>{voice.language}</td>
               <td>{voice.device_profile}</td>
               <td>{voice.gender}</td>

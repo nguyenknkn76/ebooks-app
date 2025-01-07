@@ -24,6 +24,9 @@ const startGrpcServer = () => {
       CreateProfile: ProfileHandler.createProfile,
       CountUsers: UserHandler.countUsers,
       CountUsersThisMonth: UserHandler.countUsersThisMonth,
+      GetTotalUsersInTwelveMonths: UserHandler.getTotalUsersInTwelveMonths,
+      UpdateUser: UserHandler.updateUser,
+      GetUsersByUserIds: UserHandler.getUsersByUserIds,
     });
   
     server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {

@@ -46,7 +46,7 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr); /* Mỗi thuộc tính chiếm 1/5 */
       gap: 10px;
-      font-size: 0.9rem;
+      font-size: 12px;
       margin-bottom: 15px;
 
       .stat {
@@ -58,6 +58,7 @@
       .status {
         text-transform: uppercase;
         font-weight: bold;
+        font-size: 12px;
 
         &.ongoing {
           color: #4caf50;

@@ -143,7 +143,7 @@ const BookInfoForm = ({ book }) => {
 
       {/* Book Description */}
       <div className="form-group description">
-        <label>Description</label>
+        <label><strong>Description</strong></label>
         <textarea
           className="no-resize"
           name="description"

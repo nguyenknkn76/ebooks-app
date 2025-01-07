@@ -5,6 +5,7 @@
   justify-content: center;
   height: 400px;
   width: 100%;
+  max-width: 1135px;
   background-size: cover;
   background-position: center;
   padding: 15px;
@@ -35,6 +36,8 @@
       object-fit: cover;
       border-radius: 10px;
       margin-right: 20px;
+      width: 100%;
+      max-width: 300px;
     }
 
     .banner-info {

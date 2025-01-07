@@ -4,9 +4,9 @@ import axios from 'axios';
 import "./UserInfoForm.scss";
 import { FiUpload } from "react-icons/fi";
 
-const UpdateProfileForm = () => {
+const UpdateProfileForm = ({userId}) => {
   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhYjEzYTYwLWQ3MTctNGViYS04OTQ2LTVlYzk2N2IwYWU1NCIsInVzZXJuYW1lIjoibmd1eWVua25rbjc2MiIsImlhdCI6MTczNTE2MDY3NCwiZXhwIjoxNzM1MjQ3MDc0fQ.XFJotu7xyVpNnvplI-cpvE3dHjF6fy50MTVDdMsya8U';
-  const id = '2ab13a60-d717-4eba-8946-5ec967b0ae54'
+  const id = userId
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -28,7 +28,7 @@ const UpdateProfileForm = () => {
         data.append('avatar', avatar);
       }
   
-      const response = await axios.post('http://localhost:5000/api/profile', data, { // Updated endpoint
+      const response = await axios.post('http://localhost:5000/api/profile', data, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

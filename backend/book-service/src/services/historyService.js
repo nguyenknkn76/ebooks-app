@@ -1,91 +1,150 @@
+const mongoose = require('mongoose');
 const History = require('../models/history');
+const Chapter = require('../models/chapter');
+const Book = require('../models/book');
+const grpc = require('@grpc/grpc-js');
 
-const createHistory = async (data) => {
-  const { user, chapterId, voice } = data;
-  const newHistory = new History({
-    user,
-    chapter: chapterId,
-    voice,
-  });
-  return await newHistory.save();
+const createHistory = async (historyData) => {
+  try {
+    // Create history
+    const history = new History(historyData);
+    await history.save();
+
+    // Get chapter details to get book ID
+    const chapter = await Chapter.findById(historyData.chapter)
+      .populate('book');
+
+    if (chapter && chapter.book) {
+      // Increment book views
+      await Book.findByIdAndUpdate(
+        chapter.book._id,
+        { 
+          $inc: { 
+            views: 1,
+            monthly_views: 1 
+          } 
+        }
+      );
+    }
+
+    return history;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getUserHistory = async (userId) => {
+  return await History.find({ user: userId })
+    .populate('chapter')
+    .sort({ created_at: -1 });
+};
+
+const deleteHistory = async (id) => {
+  return await History.findByIdAndDelete(id);
 };
 
 const getAllHistories = async () => {
   return await History.find()
-    .populate({
-      path: 'chapter',
-      select: '_id name book',
-      populate: {
-        path: 'book',
-        select: '_id title', 
-      },
-    });
+    .populate('chapter')
+    .sort({ created_at: -1 });
 };
 
 const getHistoryById = async (id) => {
   return await History.findById(id)
-    .populate({
-      path: 'chapter',
-      select: '_id name book',
-      populate: {
-        path: 'book',
-        select: '_id title',
-      },
-    });
+    .populate('chapter')
+    // .populate('voice');
 };
 
-const getHistoriesByUserId = async (userId) => {
-  return await History.find({ user: userId })
+const getHistoriesByBookId = async (bookId) => {
+  return await History.find()
     .populate({
       path: 'chapter',
-      select: '_id name book',
-      populate: {
-        path: 'book',
-        select: '_id title',
-      },
-    });
+      match: { book: bookId }
+    })
+    .sort({ created_at: -1 })
+    .then(histories => histories.filter(h => h.chapter)); 
 };
 
-const getMostUsedVoice = async (bookId) => {
+const getHistoriesByBookId2 = async (bookId) => {
+  return await History.find()
+    .populate({
+      path: 'chapter',
+      match: { book: bookId }
+    })
+};
+
+const getMostUsedVoiceFromHistories = async (bookId) => {
   const histories = await History.find()
     .populate({
       path: 'chapter',
-      select: '_id name book',
+      match: { book: bookId }
+    })
+    .select('voice');
+
+  const voiceCounts = histories
+    .filter(h => h.chapter)
+    .reduce((acc, history) => {
+      acc[history.voice] = (acc[history.voice] || 0) + 1;
+      return acc;
+    }, {});
+
+  const sortedVoices = Object.entries(voiceCounts)
+    .sort(([,a], [,b]) => b - a);
+
+  return sortedVoices.length > 0 ? {
+    voice_id: sortedVoices[0][0],
+    use_count: sortedVoices[0][1]
+  } : null;
+};
+
+const getLastUsedVoiceFromHistories = async (userId) => {
+  const lastHistory = await History.findOne({ user: userId })
+    .sort({ created_at: -1 })
+    .select('voice created_at');
+
+  return lastHistory ? {
+    voice_id: lastHistory.voice,
+    created_at: lastHistory.created_at
+  } : null;
+};
+
+// Add new service method
+const getHistoriesBooksByUserId = async (userId) => {
+  // Get histories and populate chapter with book details
+  const histories = await History.find({ user: userId })
+    .populate({
+      path: 'chapter',
       populate: {
         path: 'book',
-        match: {_id: bookId},
-        select: '_id title', 
-      },
-    });
+        model: 'Book',
+        populate: [
+          { path: 'author' },
+          { path: 'genres' },
+          { path: 'cover_img' }
+        ]
+      }
+    })
+    .sort({ created_at: -1 });
 
-  const filteredHistories = histories.filter((history) => 
-    history.chapter && history.chapter.book && history.chapter.book._id.toString() === bookId
-  );
+  // Extract unique books from histories
+  const uniqueBooks = [...new Map(
+    histories
+      .filter(h => h.chapter && h.chapter.book) // Filter out invalid entries
+      .map(h => [h.chapter.book._id.toString(), h.chapter.book])
+  ).values()];
 
-  const voiceCount = {}
-  filteredHistories.forEach((history) => {
-    if(history.voice) {
-      voiceCount[history.voice] = (voiceCount[history.voice] || 0) + 1;
-    }
-  });
-
-  let mostUsedVoice = null;
-  let maxCount = 0;
-  
-  for (const [voice, count] of Object.entries(voiceCount)){
-    if (count > maxCount){
-      mostUsedVoice = voice;
-      maxCount = count;
-    }
-  }
-  
-  return { bookId, mostUsedVoice, count: maxCount };
+  return uniqueBooks;
 };
 
 module.exports = {
-  createHistory,
+  getHistoriesBooksByUserId,
+  getLastUsedVoiceFromHistories,
+  getMostUsedVoiceFromHistories,
+  getHistoriesByBookId,
+  getHistoriesByBookId2,
   getAllHistories,
   getHistoryById,
-  getHistoriesByUserId,
-  getMostUsedVoice
+  createHistory,
+  getUserHistory,
+  deleteHistory
 };

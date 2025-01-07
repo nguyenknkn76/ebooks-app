@@ -1,0 +1,136 @@
+.book-table-container {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  .book-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0;
+      color: #333;
+    }
+
+    .search-input {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 250px;
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+    }
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .book-table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      white-space: nowrap;
+    }
+
+    th {
+      background-color: #f8f9fa;
+    }
+
+    .book-cover {
+      img {
+        width: 50px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+    }
+
+    .genre-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+
+      .genre-tag {
+        padding: 2px 8px;
+        background-color: #e9ecef;
+        border-radius: 12px;
+        font-size: 12px;
+      }
+    }
+
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .stars {
+        color: #ffd700;
+      }
+
+      .rating-value {
+        color: #666;
+      }
+    }
+
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      
+      &.status-published {
+        background-color: #28a745;
+        color: white;
+      }
+      
+      &.status-draft {
+        background-color: #ffc107;
+        color: black;
+      }
+      
+      &.status-completed {
+        background-color: #17a2b8;
+        color: white;
+      }
+    }
+
+    .view-btn {
+      padding: 6px 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .book-table-container {
+    padding: 10px;
+
+    .book-table-header {
+      flex-direction: column;
+      gap: 10px;
+
+      .search-input {
+        width: 100%;
+      }
+    }
+  }
+}

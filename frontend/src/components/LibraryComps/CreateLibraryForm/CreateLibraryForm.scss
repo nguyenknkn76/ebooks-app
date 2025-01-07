@@ -1,0 +1,26 @@
+.create-library-form {
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #333;
+  }
+
+  .ant-form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+
+  .ant-btn {
+    height: 40px;
+    font-size: 16px;
+  }
+}

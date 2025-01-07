@@ -1,0 +1,28 @@
+.edit-voice-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #333;
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+
+  .ant-select {
+    width: 100%;
+  }
+}

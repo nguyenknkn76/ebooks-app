@@ -1,5 +1,14 @@
 @baseUrl = http://localhost:5000/api
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhYjEzYTYwLWQ3MTctNGViYS04OTQ2LTVlYzk2N2IwYWU1NCIsInVzZXJuYW1lIjoibmd1eWVua25rbjc2MiIsImlhdCI6MTczNTE1NTUwOCwiZXhwIjoxNzM1MjQxOTA4fQ.juF2Ar62RogtO3c29mAtrFDh0k4aRH1SWqzfLNK6ojs
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhYjEzYTYwLWQ3MTctNGViYS04OTQ2LTVlYzk2N2IwYWU1NCIsInVzZXJuYW1lIjoibmd1eWVua25rbjc2MiIsImlhdCI6MTczNjA3MDk2OCwiZXhwIjoxNzM2MTU3MzY4fQ.sn5wGqDvM6qpF67OKQQcqwStvjukS81R8TkfDTv1DiU
+###! stat
+GET {{baseUrl}}/users/stats/monthly-totals
+###### Count Users
+GET {{baseUrl}}/users/count/total
+Authorization: Bearer {{authToken}}
+
+### Count Users This Month
+GET {{baseUrl}}/users/count/monthly
+Authorization: Bearer {{authToken}}
 
 ### Login User
 # @name login
@@ -10,30 +19,37 @@ Content-Type: application/json
     "username": "nguyenknkn762",
     "password": "123456"
 }
-###### Count Users
-GET {{baseUrl}}/users/count/total
-Authorization: Bearer {{authToken}}
-
-### Count Users This Month
-GET {{baseUrl}}/users/count/monthly
-Authorization: Bearer {{authToken}}
 
 ### Register New User
 POST {{baseUrl}}/register
 Content-Type: application/json
 
 {
-    "username": "nguyenknkn762",
-    "password": "123456",
-    "email": "nguyen2@mail.com"
+    "username": "reader",
+    "password": "reader",
+    "email": "reader@mail.com"
 }
+###
+@user_id1 = 2ab13a60-d717-4eba-8946-5ec967b0ae54
+@user_id2 = 90e76bc5-f1a7-43a3-9c24-5c5458749ab5
+@user_id3 = 30ab4afc-3b0c-44fb-872d-501ec6ab905d
+### Get Users By IDs
+POST {{baseUrl}}/users/batch
+Content-Type: application/json
 
+{
+  "user_ids": [
+    "{{user_id1}}",
+    "{{user_id2}}",
+    "{{user_id3}}"
+  ]
+}
 ### Get All Users (Protected Route)
 GET {{baseUrl}}/users
 Authorization: Bearer {{authToken}}
 
 ### Get User by ID (Protected Route)
-GET {{baseUrl}}/users/89c771e6-0059-45ae-a5cd-fdfff3e6f549
+GET {{baseUrl}}/users/user/30ab4afc-3b0c-44fb-872d-501ec6ab905d
 Authorization: Bearer {{authToken}}
 
 ###

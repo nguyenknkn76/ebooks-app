@@ -1,13 +1,16 @@
 import React, { useRef } from 'react';
 
-const AudioControl = () => {
+const AudioControl = ({fileUrl}) => {
   const style = {
     width: '100%',
   }
-
+  console.log(fileUrl);
   return (
     <div>
-      <audio style={style} src="https://nguyentdkptit02-cover-images.s3.ap-southeast-2.amazonaws.com/river+flows+in+you.mp3" controls></audio>
+      <p style={{paddingLeft: '9px'}}><strong>
+        Let's listen this audiobook!
+        </strong></p>
+      <audio style={style} src={fileUrl} controls></audio>
     </div>
   );
 };

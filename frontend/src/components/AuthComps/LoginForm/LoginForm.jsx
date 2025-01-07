@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import './LoginForm.scss';
 import AuthService from '../../../services/AuthService';
-const LoginForm = () => {
+import {setLoggedIn} from '../../../reducers/LoggedinReducer';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+const LoginForm = ({onRegisterClick}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const loggedin = useSelector(state => state.loggedin);
+    const navigation = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -11,8 +18,11 @@ const LoginForm = () => {
             username,
             password
         }
-        const token = await AuthService.login(authData);
-        console.log(token)
+        const response = await AuthService.login(authData);
+        window.localStorage.setItem('token', JSON.stringify(response.access_token));
+        window.localStorage.setItem('user', JSON.stringify(response.user));
+        dispatch(setLoggedIn(response));
+        navigation('/');
     };
 
     const handleRegister = () => {
@@ -40,7 +50,7 @@ const LoginForm = () => {
                     />
                     <button type="submit" className="signin-btn">Sign in</button>
                 </form>
-                <button onClick={handleRegister} className="register-btn">Register</button>
+                <button onClick={onRegisterClick} className="register-btn">Register</button>
                 <a href="#" className="forgot-password">Forgot password?</a>
             </div>
         </div>

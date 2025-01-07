@@ -115,7 +115,87 @@ const getTypeById = (id) => {
   });
 };
 
+const createVoice = (data) => {
+  return new Promise((resolve, reject) => {
+    client.CreateVoice(data, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const getAllVoices = () => {
+  return new Promise((resolve, reject) => {
+    client.GetAllVoices({}, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const getVoiceById = (id) => {
+  return new Promise((resolve, reject) => {
+    client.GetVoiceById({ id }, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const createAudioFiles = (data) => {
+  return new Promise((resolve, reject) => {
+    client.CreateAudioFiles(data, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const countVoices = () => {
+  return new Promise((resolve, reject) => {
+    client.CountVoices({}, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const getGgcVoiceName = (data) => {
+  return new Promise((resolve, reject) => {
+    client.GetGgcVoiceName(data, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const getAllVoices2 = (filters) => {
+  return new Promise((resolve, reject) => {
+    client.GetAllVoices2(filters, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
+const deleteVoice = (id) => {
+  return new Promise((resolve, reject) => {
+    client.DeleteVoice({ id }, (error, response) => {
+      if (error) reject(error);
+      else resolve(response);
+    });
+  });
+};
+
 module.exports = { 
+  deleteVoice,
+  getAllVoices2,
+  getGgcVoiceName,
+  countVoices,
+  createAudioFiles,
+  getAllVoices,
+  getVoiceById,
+  createVoice,
   createType,
   createAge,
   createDeviceProfile, 

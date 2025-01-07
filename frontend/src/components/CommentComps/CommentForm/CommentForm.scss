@@ -1,12 +1,14 @@
 .comment-form {
-  background-color: #474B4F;
+  background-color: white;
   padding: 1.5rem;
-  border-radius: 8px;
-  max-width: 100%;
-  margin: auto;
+  // border-radius: 8px;
+  width: 90%;
+  // max-width: 1250px;
+  margin: 20px;
+  border-top: solid 1px #6B6E70;
 
   &__title {
-    color: #ffffff;
+    color: black;
     font-size: 1.25rem;
     margin-bottom: 1rem;
     margin-top: 0px;
@@ -21,7 +23,7 @@
   &__textarea {
     flex: 1;
     padding: 0.5rem;
-    border: none;
+    border: 1px solid #6B6E70 ;
     border-radius: 8px;
     font-size: 1rem;
     font-family: inherit;

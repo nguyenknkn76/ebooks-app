@@ -1,7 +1,7 @@
 const { Kafka, Partitioners } = require('kafkajs');
 
 const kafka = new Kafka({
-  clientId: 'service1',
+  clientId: 'recommendation-service',
   brokers: ['localhost:9092'],
 });
 

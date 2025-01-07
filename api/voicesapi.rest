@@ -1,17 +1,85 @@
 @baseUrl = http://localhost:5000/api
 @authToken = your_jwt_token_here
 
+###! stat
+GET {{baseUrl}}/voices/count/total
+
+###! Audio Files Generation
+### Create Audio Files from Text File
+POST {{baseUrl}}/voices/audio-files
+Content-Type: application/json
+
+{
+    "text_file_url": "https://nguyentdkptit02-cover-images.s3.ap-southeast-2.amazonaws.com/Davin Ci Code short.txt"
+}
+
+###! Filter Voices
+### Get All Voices with Filters
+GET {{baseUrl}}/voices/filter?type_id={{type_id1}}&language_id={{language_id1}}&gender=FEMALE
+
+### Filter by Type Only
+GET {{baseUrl}}/voices/filter?type_id={{type_id1}}
+
+### Filter by Language Only  
+GET {{baseUrl}}/voices/filter?language_id={{language_id1}}
+
+### Filter by Gender Only
+GET {{baseUrl}}/voices/filter?gender=MALE
+
+### Filter by Age Only
+@age_id1=676d11aac7d51c6412be9adf
+GET {{baseUrl}}/voices/filter?age_id={{age_id1}}
+
+### Filter by Device Profile Only
+@device_profile_id1=676d11f4c7d51c6412be9ae3
+GET {{baseUrl}}/voices/filter?device_profile_id={{device_profile_id1}}
+
+### Filter with Multiple Parameters
+GET {{baseUrl}}/voices/filter?type_id={{type_id1}}&language_id={{language_id1}}&gender=FEMALE&age_id={{age_id1}}&device_profile_id={{device_profile_id1}}
+
+### Test Invalid ID
+GET {{baseUrl}}/voices/filter?type_id=invalid_id
+
+# ###! Voice
+
+# POST {{baseUrl}}/voices
+# Content-Type: application/json
+
+# {
+#     "age_id": "676d11aac7d51c6412be9adf",
+#     "device_profile_id": "676d11f4c7d51c6412be9ae3",
+#     "language_id": "676d0de796ffe37f31eec984",
+#     "type_id": "676d248ea1998db20f2c953b",
+#     "name": "vi-VN-Standard-A",
+#     "gender": "FEMALE",
+#     "casual_name": "Vietnamese Female Voice"
+# }
+###
+@type_id1=677c53b5f3fd5038392b168d
+@language_id1=677c543df3fd5038392b1696
+@language_id2=677c541cf3fd5038392b1694 
+### GET GGC VOICE NAME
+GET {{baseUrl}}/voices/ggc-names?type_id={{type_id1}}&language_id={{language_id1}}&gender=MALE
+### GEt all voice
+GET {{baseUrl}}/voices
+###
+@voice_id = 6772816c58e686ea877c81a0
+###
+GET {{baseUrl}}/voices/voice/{{voice_id}}
+###
+# DELETE {{baseUrl}}/voices/{{voice_id}}
+### Get voice
 ###! AGE
-### Create Age
+## Create Age
 # POST {{baseUrl}}/voices/ages
 # # Authorization: Bearer {{authToken}}
 # Content-Type: application/json
 
 # {
-#   "name": "Senior",
-#   "rate": 1.0,
-#   "pitch": 1.0,
-#   "volumn": 1.0
+#     "name": "Senior",
+#     "rate": 0.8,
+#     "pitch": -7.5,
+#     "volumn": 1.0
 # }
 
 ### Get All Ages
@@ -21,15 +89,16 @@ GET {{baseUrl}}/voices/ages
 GET {{baseUrl}}/voices/ages/676d11aac7d51c6412be9adf
 
 ###! device profile
-# ### Create Device Profile
+### Create Device Profile
 # POST {{baseUrl}}/voices/device-profiles
 # Content-Type: application/json
 
 # {
-#     "casual_name": "Smartphone",
-#     "name": "handset-class-device",
-#     "description": "Smart Phone"
+#     "casual_name": "Headphones",
+#     "name": "headphone-class-device",
+#     "description": "Headphones or earbuds"
 # }
+
 ### Get All Device Profiles
 GET {{baseUrl}}/voices/device-profiles
 
@@ -37,14 +106,14 @@ GET {{baseUrl}}/voices/device-profiles
 GET {{baseUrl}}/voices/device-profiles/676d11f4c7d51c6412be9ae3
 
 ###! language
-# ### Create Language
+# # ### Create Language
 # POST {{baseUrl}}/voices/languages
 # Content-Type: application/json
 
 # {
-#     "language_code": "vi-VN",
-#     "language": "Vietnamese",
-#     "description": "Vietnamese language"
+#     "language_code": "en-US",
+#     "language": "English",
+#     "description": "English (US)"
 # }
 ### Get All Languages
 GET {{baseUrl}}/voices/languages
@@ -55,13 +124,13 @@ GET {{baseUrl}}/voices/languages/{{vi-VN}}
 
 ### ! types
 ### Create Type
-POST {{baseUrl}}/voices/types
-Content-Type: application/json
+# POST {{baseUrl}}/voices/types
+# Content-Type: application/json
 
-{
-    "type": "WaveNet",
-    "description": "WaveNet"
-}
+# {
+#     "type": "Standard",
+#     "description": "Standard"
+# }
 
 ### Get All Types
 GET {{baseUrl}}/voices/types

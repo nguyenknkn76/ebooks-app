@@ -24,17 +24,31 @@ import UpdateProfileForm from './components/UserComps/UserInfoForm/UpdateProfile
 import Card from './components/StatComps/Card/Card';
 import data from './sample-data/data';
 import LineChart from './components/StatComps/Chart/LineChart';
+import BookForm from './components/BookComps/TEST/BookForm';
+import EditBookForm from './components/BookComps/TEST/EditBookForm';
+import EditChapterForm from './components/ChapterComps/EditChapterForm/EditChapterForm';
+import BookService from './services/BookService';
+import AdminBookDetailPage from './pages/AdminBookPage/AdminBookDetailPage';
+import AdminChapterDetailPage from './pages/AdminBookPage/AdminChapterDetailPage';
+import HotPage from './pages/FilterPage/HotPage';
+import RankingPage from './pages/FilterPage/RankingPage';
 const App = () => {
   // const loggedin = useSelector(state => state.loggedin);
+  // const isReader = loggedin?.user.role === 'reader';
+  // const isLoggedin = loggedin !== null;
   // const users = useSelector(state => state.users);
   const dispatch = useDispatch();
+  useEffect(() => {
+    BookService.getAllBooks()
+    .then(books => {
+      console.log(books);
+    })
+  }, []);
   return (
-    <div>
+    <div id='app' style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
+      {/* <EditBookForm bookId="67730e3bf07dbd4c85765d51"/> */}
       <ScrollToTop/>
       <Header/>
-
-
-
       <Container>
         {/* <Test/> */}
         <Routes>
@@ -44,17 +58,22 @@ const App = () => {
           <Route path="/advancedsearch" exact element={<AdvancedSearchPage/>}/>
           <Route path="/account" exact element={<AccountPage/>}/>
           <Route path="/histories" exact element={<HistoryPage/>}/>
+          <Route path="/hot" exact element={<HotPage/>}/>
+          <Route path='/ranking' exact element={<RankingPage/>}/>
           <Route path="/libraries" exact element={<LibraryPage/>}/>
-          <Route path="/userprofile" exact element={<UserProfilePage/>}/>
+          <Route path="/userprofile/:id" exact element={<UserProfilePage/>}/>
           
           <Route path="/admin" exact element={<AdminPage/>}/>
           <Route path="/adminusers" exact element={<AdminUserPage/>}/>
           <Route path="/adminbooks" exact element={<AdminBookPage/>}/>
+          <Route path="/adminbooks/:id" exact element={<AdminBookDetailPage/>}/>
+          <Route path="/adminchapters/:id" exact element={<AdminChapterDetailPage/>}/>
           <Route path="/adminvoices" exact element={<AdminVoicePage/>}/>
           <Route path="/adminstat" exact element={<AdminStatPage/>}/>
         </Routes>
       </Container>
       <Footer/>
+
       {/* <AdminTest/> */}
       {/* <Test/> */}
     </div>

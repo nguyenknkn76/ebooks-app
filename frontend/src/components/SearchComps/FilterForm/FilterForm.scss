@@ -1,9 +1,11 @@
 .filter-form {
-  background: #1e1e1e;
+  // background: #6B6E70;
   color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   position: relative;
+  border: solid 1px #6B6E70;
+  margin:20px;
 
   .filter-row {
     display: flex;
@@ -17,7 +19,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
-
+      color: black;
       label {
         margin-bottom: 5px;
       }
@@ -58,7 +60,7 @@
       }
 
       &.search-button {
-        background: #ff6347;
+        background: #F172A1;
         color: white;
       }
     }
@@ -67,8 +69,8 @@
   .search-bar {
     width: 80%;
     padding: 10px;
-    border: 1px solid #444;
-    background: #2e2e2e;
+    border: 1px solid #eee;
+    background: #eee;
     color: #fff;
     border-radius: 5px;
     margin-right: 10px;
@@ -78,7 +80,7 @@
     width: 15%;
     padding: 10px;
     border: none;
-    background: #ff6347;
+    background: #F172A1;
     color: white;
     border-radius: 5px;
     cursor: pointer;

@@ -1,59 +1,64 @@
-const bookService = require('../../services/bookService');
 const grpc = require('@grpc/grpc-js');
-const {getMostReadBooks, getAllBooksWithAvgRating, getMostUsedVoiceForBook, getBookDetails} = require('../../try')
+const bookService = require('../../services/bookService');
+const mediaFileService = require('../../services/mediaFileService');
+const {uploadMediaFile2} = require('../../utils/upload');
 
-const formatBookResponse = (book) => ({
-  id: book._id.toString(),
-  title: book.title,
-  author: book.author ? {
-    id: book.author._id.toString(),
-    pen_name: book.author.pen_name,
-    name: book.author.name,
-  } : null,
-  genres: book.genres || [],
-  description: book.description || '',
-  publish_year: book.publish_year || 0,
-  cover_img: book.cover_img?.file_url || '',
-  avg_rating: book.avg_rating || 0,
-  count_rating: book.ratings?.length || 0,
-});
-
-const formatDetailedBookResponse = (book) => ({
-  id: book._id.toString(),
-  title: book.title,
-  author: {
-    id: book.author?._id.toString() || '',
-    pen_name: book.author?.pen_name || '',
-    name: book.author?.name || '',
-  },
-  genres: book.genres,
-  description: book.description || '',
-  publish_year: book.publish_year || 0,
-  cover_img: book.cover_img?.file_url || '',
-  chapters: book.chapters?.map(chapter => ({
-    id: chapter._id.toString(),
-    name: chapter.name,
-  })) || [],
-  ratings: book.ratings?.map(r => ({
-    id: r._id.toString(),
-    user: r.user,
-    rating: r.rating.toFixed(2),
-    review: r.review
-  })) || [],
-  count_rating: book.ratings?.length || 0,
-  avg_rating: book.avg_rating,
-});
-
-const createBook = async (call, callback) => {
+const updateBook = async (call, callback) => {
   try {
-    const book = await bookService.createBook(call.request);
+    const { id, new_cover_image, ...updateData } = call.request;
+
+    // Get existing book to check old cover
+    const existingBook = await bookService.getBookById(id);
+    if (!existingBook) {
+      return callback({
+        code: grpc.status.NOT_FOUND,
+        message: 'Book not found'
+      });
+    }
+
+    // Handle new cover image if provided
+    if (new_cover_image) {
+      // Upload new image to S3
+      const fileUrl = await uploadMediaFile2({
+        bucket_name: process.env.AWS_BUCKET_NAME,
+        file_name: new_cover_image.file_name,
+        file_content: new_cover_image.file_content,
+        file_type: new_cover_image.file_type
+      });
+
+      // Create new media file record
+      const mediaFile = await mediaFileService.createMediaFile({
+        file_collection: 'covers',
+        file_url: fileUrl,
+        file_type: new_cover_image.file_type,
+        file_size: Buffer.from(new_cover_image.file_content, 'base64').length
+      });
+
+      // Delete old cover if exists
+      if (existingBook.cover_img) {
+        await mediaFileService.deleteMediaFile(existingBook.cover_img._id);
+      }
+
+      updateData.cover_img = mediaFile._id;
+    }
+
+    // Update book
+    const book = await bookService.updateBook(id, updateData);
+    const populatedBook = await bookService.getBookById(book._id);
+
     callback(null, {
-      id: book.id,
-      title: book.title,
-      author: book.author
+      id: populatedBook._id.toString(),
+      title: populatedBook.title,
+      author: populatedBook.author,
+      genres: populatedBook.genres,
+      description: populatedBook.description,
+      publish_year: populatedBook.publish_year,
+      cover_img: populatedBook.cover_img,
+      status: populatedBook.status,
+      created_at: populatedBook.created_at.toISOString(),
+      updated_at: populatedBook.updated_at?.toISOString()
     });
   } catch (error) {
-    console.error('Error creating book:', error);
     callback({
       code: grpc.status.INTERNAL,
       message: error.message
@@ -61,34 +66,122 @@ const createBook = async (call, callback) => {
   }
 };
 
-const getAllBooks = async (call, callback) => {
+const createBookWithCover = async (call, callback) => {
   try {
-    const books = await bookService.getAllBooks();
-    // ===========================
-    /*
-      ! draf here
-    */
+    const { title, author, genres, description, publish_year, status, cover_image } = call.request;
+    
+    // Save image to temp and upload to S3
+    const fileUrl = await uploadMediaFile2({
+      bucket_name: process.env.AWS_BUCKET_NAME,
+      file_name: cover_image.file_name,
+      file_content: cover_image.file_content,
+      file_type: cover_image.file_type
+    });
 
-    // const books3 = await getAllBooksWithAvgRating();
-    // console.log(books3);
+    // Create media file record
+    const mediaFile = await mediaFileService.createMediaFile({
+      file_collection: 'covers',
+      file_url: fileUrl,
+      file_type: cover_image.file_type,
+      file_size: Buffer.from(cover_image.file_content, 'base64').length
+    });
 
-    // const books2 = await getMostReadBooks();
-    // console.log(books2);
+    // Create book with cover
+    const book = await bookService.createBook({
+      title,
+      author,
+      genres,
+      description,
+      publish_year,
+      status,
+      cover_img: mediaFile._id
+    });
 
-    // console.log('this is voice')
-    // const books4 = await getMostUsedVoiceForBook('67405659dfe3478b3de8f36c');
-    // console.log(books4);
-    // const book5 = await getBookDetails('67405659dfe3478b3de8f36c');
-    // console.log(book5);
-    // ===========================
+    const populatedBook = await bookService.getBookById(book._id);
+    
     callback(null, {
-      books: books.map(formatBookResponse)
+      id: populatedBook._id.toString(),
+      title: populatedBook.title,
+      author: populatedBook.author,
+      genres: populatedBook.genres,
+      description: populatedBook.description,
+      publish_year: populatedBook.publish_year,
+      cover_img: populatedBook.cover_img,
+      status: populatedBook.status,
+      created_at: populatedBook.created_at.toISOString(),
+      updated_at: populatedBook.updated_at?.toISOString()
     });
   } catch (error) {
-    console.error('Error fetching books:', error);
     callback({
       code: grpc.status.INTERNAL,
-      message: 'Internal server error'
+      message: error.message
+    });
+  }
+};
+
+const createBook = async (call, callback) => {
+  try {
+    const bookData = call.request;
+
+    const book = await bookService.createBook(bookData);
+    const populatedBook = await bookService.getBookById(book._id);
+
+    callback(null, {
+      id: populatedBook._id.toString(),
+      title: populatedBook.title,
+      author: populatedBook.author,
+      genres: populatedBook.genres,
+      description: populatedBook.description,
+      publish_year: populatedBook.publish_year,
+      cover_img: populatedBook.cover_img,
+      chapters: populatedBook.chapters,
+      avg_rating: populatedBook.avg_rating,
+      views: populatedBook.views,
+      followers: populatedBook.followers,
+      monthly_views: populatedBook.monthly_views,
+      status: populatedBook.status,
+      created_at: populatedBook.created_at.toISOString(),
+      updated_at: populatedBook.updated_at?.toISOString()
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+
+const getAllBooks = async (call, callback) => {
+  try {
+    const result = await bookService.getAllBooks(call.request);
+    
+    callback(null, {
+      books: result.books.map(book => ({
+        id: book._id.toString(),
+        title: book.title,
+        author: book.author,
+        genres: book.genres,
+        description: book.description,
+        publish_year: book.publish_year,
+        cover_img: book.cover_img,
+        chapters: book.chapters,
+        avg_rating: book.avg_rating,
+        views: book.views,
+        followers: book.followers,
+        monthly_views: book.monthly_views,
+        status: book.status,
+        created_at: book.created_at.toISOString(),
+        updated_at: book.updated_at?.toISOString()
+      })),
+      total: result.total,
+      page: result.page,
+      pages: result.pages
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
     });
   }
 };
@@ -96,34 +189,32 @@ const getAllBooks = async (call, callback) => {
 const getBookById = async (call, callback) => {
   try {
     const book = await bookService.getBookById(call.request.id);
+    
     if (!book) {
       return callback({
         code: grpc.status.NOT_FOUND,
         message: 'Book not found'
       });
     }
-    callback(null, { book: formatDetailedBookResponse(book) });
-  } catch (error) {
-    console.error('Error fetching book by ID:', error);
-    callback({
-      code: grpc.status.INTERNAL,
-      message: 'Internal server error'
-    });
-  }
-};
 
-const updateBook = async (call, callback) => {
-  try {
-    const book = await bookService.updateBook(call.request.id, call.request);
-    if (!book) {
-      return callback({
-        code: grpc.status.NOT_FOUND,
-        message: 'Book not found'
-      });
-    }
-    callback(null, formatBookResponse(book));
+    callback(null, {
+      id: book._id.toString(),
+      title: book.title,
+      author: book.author,
+      genres: book.genres,
+      description: book.description,
+      publish_year: book.publish_year,
+      cover_img: book.cover_img,
+      chapters: book.chapters,
+      avg_rating: book.avg_rating,
+      views: book.views,
+      followers: book.followers,
+      monthly_views: book.monthly_views,
+      status: book.status,
+      created_at: book.created_at.toISOString(),
+      updated_at: book.updated_at?.toISOString()
+    });
   } catch (error) {
-    console.error('Error updating book:', error);
     callback({
       code: grpc.status.INTERNAL,
       message: error.message
@@ -131,9 +222,174 @@ const updateBook = async (call, callback) => {
   }
 };
 
-module.exports = {
+const getBooksByMonthly = async (call, callback) => {
+  try {
+    const books = await bookService.getBooksByMonthly();
+    callback(null, {
+      books: books.map(book => ({
+        id: book._id.toString(),
+        title: book.title,
+        author: book.author,
+        genres: book.genres,
+        description: book.description,
+        publish_year: book.publish_year,
+        cover_img: book.cover_img,
+        chapters: book.chapters,
+        avg_rating: book.avg_rating,
+        views: book.views,
+        followers: book.followers,
+        monthly_views: book.monthly_views,
+        status: book.status,
+        created_at: book.created_at.toISOString(),
+        updated_at: book.updated_at?.toISOString()
+      }))
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+const getBooksByViews = async (call, callback) => {
+  try {
+    const books = await bookService.getBooksByViews();
+    callback(null, {
+      books: books.map(book => ({
+        id: book._id.toString(),
+        title: book.title,
+        author: book.author,
+        genres: book.genres,
+        description: book.description,
+        publish_year: book.publish_year,
+        cover_img: book.cover_img,
+        chapters: book.chapters,
+        avg_rating: book.avg_rating,
+        views: book.views,
+        followers: book.followers,
+        monthly_views: book.monthly_views,
+        status: book.status,
+        created_at: book.created_at.toISOString(),
+        updated_at: book.updated_at?.toISOString()
+      }))
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+const getBooksByCreatedTime = async (call, callback) => {
+  try {
+    const books = await bookService.getBooksByCreatedTime();
+    callback(null, {
+      books: books.map(book => ({
+        id: book._id.toString(),
+        title: book.title,
+        author: book.author,
+        genres: book.genres,
+        description: book.description,
+        publish_year: book.publish_year,
+        cover_img: book.cover_img,
+        chapters: book.chapters,
+        avg_rating: book.avg_rating,
+        views: book.views,
+        followers: book.followers,
+        monthly_views: book.monthly_views,
+        status: book.status,
+        created_at: book.created_at.toISOString(),
+        updated_at: book.updated_at?.toISOString()
+      }))
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+const getBooksByUpdatedTime = async (call, callback) => {
+  try {
+    const books = await bookService.getBooksByUpdatedTime();
+    callback(null, {
+      books: books.map(book => ({
+        id: book._id.toString(),
+        title: book.title,
+        author: book.author,
+        genres: book.genres,
+        description: book.description,
+        publish_year: book.publish_year,
+        cover_img: book.cover_img,
+        chapters: book.chapters,
+        avg_rating: book.avg_rating,
+        views: book.views,
+        followers: book.followers,
+        monthly_views: book.monthly_views,
+        status: book.status,
+        created_at: book.created_at.toISOString(),
+        updated_at: book.updated_at?.toISOString()
+      }))
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL, 
+      message: error.message
+    });
+  }
+};
+
+const countBooks = async (call, callback) => {
+  try {
+    const count = await bookService.countBooks();
+    callback(null, { count });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+const countBooksThisMonth = async (call, callback) => {
+  try {
+    const count = await bookService.countBooksThisMonth();
+    callback(null, { count });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+const getTotalBooksInTwelveMonths = async (call, callback) => {
+  try {
+    const monthlyTotals = await bookService.getTotalBooksInTwelveMonths();
+    callback(null, { monthly_totals: monthlyTotals });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+
+module.exports = { 
+  getTotalBooksInTwelveMonths,
+  countBooks,
+  countBooksThisMonth,
+  updateBook,
   createBook,
+  createBookWithCover,
   getAllBooks,
   getBookById,
-  updateBook
+  getBooksByMonthly,
+  getBooksByViews,
+  getBooksByCreatedTime,
+  getBooksByUpdatedTime,
 };

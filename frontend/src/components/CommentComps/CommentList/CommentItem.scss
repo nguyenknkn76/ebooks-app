@@ -1,17 +1,20 @@
 .comment-item {
-  border-top: #474B4F 2px solid;
+  border: #6B6E70 1px solid;
   // background-color: #474B4F;
   padding: 10px;
-  margin: 8px 0;
+  // padding-bottom: 0px;
+  // margin: 8px 0;
   border-radius: 5px;
   color: #ddd;
   font-size: 14px;
+  width: 90%;
+  margin-left: 20px;
 
   .comment-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
 
     .user-name {
       color: #e06c75;
@@ -26,7 +29,8 @@
 
   .comment-body {
     color: black;
+    border-radius: 5px;
     padding: 5px;
-    background-color: #F0EBF4;
+    background-color: #EEE;
   }
 }

@@ -1,4 +1,4 @@
-const { User, Profile, MediaFile } = require('../../models');
+const { User, Profile, MediaFile, sequelize } = require('../../models');
 const userService = require('../../services/userService');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -50,6 +50,7 @@ const countUsers = async (call, callback) => {
 const getAllUsers = async (call, callback) => {
   try {
     const users = await userService.getAllUsers();
+    // console.log(users);
     callback(null, { 
       users: users.map(formatUserResponse) 
     });
@@ -78,11 +79,13 @@ const getUserById = async (call, callback) => {
     });
   }
 };
+
 const registerUser = async (call, callback) => {
+  const transaction = await sequelize.transaction();
   try {
     const { username, password, email } = call.request;
     
-    // Check if username exists
+    // Check existing username
     const existingUsername = await User.findOne({ where: { username }});
     if (existingUsername) {
       return callback({
@@ -91,7 +94,7 @@ const registerUser = async (call, callback) => {
       });
     }
 
-    // Check if email exists
+    // Check existing email
     const existingEmail = await User.findOne({ where: { email }});
     if (existingEmail) {
       return callback({
@@ -101,11 +104,24 @@ const registerUser = async (call, callback) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userService.createUser({
+    
+    // Create user with transaction
+    const user = await User.create({
       username,
       email,
-      password_hash: hashedPassword
-    });
+      password_hash: hashedPassword,
+      role: 'reader'
+    }, { transaction });
+
+    // Create empty profile for user
+    await Profile.create({
+      user: user.id,
+      name: username, // Default name is username
+      phone: '',
+      address: '',
+    }, { transaction });
+
+    await transaction.commit();
 
     callback(null, {
       id: user.id,
@@ -114,10 +130,28 @@ const registerUser = async (call, callback) => {
       message: 'User registered successfully'
     });
   } catch (error) {
+    await transaction.rollback();
     console.error('Registration error:', error);
     callback({
       code: grpc.status.INTERNAL,
       message: error.message || 'Internal server error'
+    });
+  }
+};
+
+const updateUser = async (call, callback) => {
+  try {
+    const { user_id, ...updateData } = call.request;
+    const updatedUser = await userService.updateUserAndProfile(user_id, updateData);
+    
+    callback(null, {
+      user: formatUserResponse(updatedUser),
+      message: 'User updated successfully'
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
     });
   }
 };
@@ -176,11 +210,40 @@ const login = async (call, callback) => {
   }
 };
 
+const getTotalUsersInTwelveMonths = async (call, callback) => {
+  try {
+    const monthlyTotals = await userService.getTotalUsersInTwelveMonths();
+    callback(null, { monthly_totals: monthlyTotals });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+const getUsersByUserIds = async (call, callback) => {
+  try {
+    const users = await userService.getUsersByUserIds(call.request.user_ids);
+    callback(null, { 
+      users: users.map(formatUserResponse)
+    });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
+  getUsersByUserIds,
+  getTotalUsersInTwelveMonths,
   getAllUsers,
   getUserById,
   registerUser,
   login,
   countUsers,
-  countUsersThisMonth
+  countUsersThisMonth,
+  updateUser
 };

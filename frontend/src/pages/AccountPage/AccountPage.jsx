@@ -1,12 +1,16 @@
+import { useState } from "react";
 import LoginForm from "../../components/AuthComps/LoginForm/LoginForm";
-import RegisterForm from "../../components/AuthComps/RegisterForm/RegisterForm";
+import RegisterForm from "../../components/authComps/RegisterForm/RegisterForm";
 
 const AccountPage = () => {
+    const [isLogin, setIsLogin] = useState(true);
+
     return (
         <div>
-            <h1>Login Page</h1>
-            <LoginForm/>
-            <RegisterForm/>
+            {isLogin ? 
+                <LoginForm onRegisterClick={() => setIsLogin(false)} /> 
+                :<RegisterForm onLoginClick={() => setIsLogin(true)} />
+            }
         </div>
     );
 };

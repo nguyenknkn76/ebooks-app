@@ -1,50 +1,55 @@
 const Library = require('../models/library');
-const Book = require('../models/book');
 
-const createLibrary = async (data) => {
-  const { user, name, book_ids } = data;
-  const books = await Book.find({ _id: { $in: book_ids } });
-  
-  if (books.length !== book_ids.length) {
-    throw new Error('Some book IDs are invalid');
-  }
-
-  const library = new Library({
-    user,
-    name,
-    books: book_ids,
-  });
-
+const createLibrary = async (libraryData) => {
+  const library = new Library(libraryData);
   return await library.save();
 };
 
-const getAllLibraries = async () => {
-  return await Library.find()
-    .populate({
-      path: 'books',
-      select: '_id title',
-    });
+const getUserLibraries = async (userId) => {
+  return await Library.find({ user: userId })
+    .populate('books');
 };
 
 const getLibraryById = async (id) => {
   return await Library.findById(id)
     .populate({
       path: 'books',
-      select: '_id title',
+      populate: [
+        { 
+          path: 'author',
+          select: 'id pen_name name description'
+        },
+        { 
+          path: 'genres',
+          select: 'id name description'
+        },
+        {
+          path: 'cover_img',
+          select: 'id file_collection file_url file_type file_size'
+        }
+      ]
     });
 };
 
-const getLibrariesByUserId = async (userId) => {
-  return await Library.find({ user: userId })
-    .populate({
-      path: 'books',
-      select: '_id title',
-    });
+const updateLibrary = async (id, libraryData) => {
+  return await Library.findByIdAndUpdate(
+    id,
+    {
+      ...libraryData,
+      updated_at: Date.now()
+    },
+    { new: true }
+  ).populate('books');
 };
 
-module.exports = {
+const deleteLibrary = async (id) => {
+  return await Library.findByIdAndDelete(id);
+};
+
+module.exports = {  
   createLibrary,
-  getAllLibraries,
+  getUserLibraries,
   getLibraryById,
-  getLibrariesByUserId
+  updateLibrary,
+  deleteLibrary
 };

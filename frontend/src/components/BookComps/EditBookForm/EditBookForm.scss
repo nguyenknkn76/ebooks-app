@@ -1,0 +1,79 @@
+.edit-book-form {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  &__cover {
+    flex: 0 0 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+  }
+
+  &__editable {
+    flex: 0 0 40%;
+    padding: 0 24px;
+    border-right: 1px solid #f0f0f0;
+  }
+
+  &__stats {
+    flex: 0 0 40%;
+    padding: 24px;
+
+    .stat-item {
+      margin-bottom: 24px;
+
+      label {
+        display: block;
+        color: #666;
+        margin-bottom: 8px;
+        font-size: 0.9em;
+      }
+
+      .stat-value {
+        font-size: 1.2em;
+        color: #333;
+
+        .stars {
+          color: #ffd700;
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .edit-book-form {
+    flex-direction: column;
+
+    &__cover {
+      flex: none;
+      width: 60%;
+      margin: 0 auto;
+    }
+
+    &__editable,
+    &__stats {
+      flex: none;
+      width: 100%;
+      padding: 24px 0;
+    }
+
+    &__editable {
+      border-right: none;
+      border-bottom: 1px solid #f0f0f0;
+    }
+  }
+}

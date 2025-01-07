@@ -6,33 +6,38 @@ const styles = {
     fontFamily: 'Arial, sans-serif',
     fontSize: '16px',
     color: '#333',
+    aligntItem: 'center',
+    padding: '30px',
+    paddingTop: '0px',
   },
   heading: {
-    color: '#007bff',
+    color: 'black',
+    textAlign: 'center',
+    width: '100%',
   }
 };
 
-const TextFileDisplay = ({ fileUrl }) => {
+const TextFileDisplay = ({ chapter }) => {
   const [content, setContent] = useState('');
 
   useEffect(() => {
     const fetchFileContent = async () => {
       try {
-        const response = await fetch(fileUrl);
+        const response = await fetch(chapter.text_file.file_url);
         const text = await response.text();
         setContent(text);
       } catch (error) {
         console.error('Error fetching the text file:', error);
-        setContent('Failed to load the text file.');
+        setContent('Don\'t have content to display.');
       }
     };
 
     fetchFileContent();
-  }, [fileUrl]);
-
+  }, [chapter]);
+  console.log(chapter);
   return (
     <div>
-      <h1 style={styles.heading}>Chapter 1: The beginning</h1>
+      <h1 style={styles.heading}>Chapter {chapter.chapter_number}: {chapter.name}</h1>
       <div style={styles.container}>
         {content}
       </div>

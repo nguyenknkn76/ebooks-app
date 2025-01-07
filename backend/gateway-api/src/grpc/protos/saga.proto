@@ -3,5 +3,57 @@ syntax = "proto3";
 package saga;
 
 service SagaService {
-  
+  rpc RecommendVoice (RecommendVoiceRequest) returns (Voice);
+}
+
+message RecommendVoiceRequest {
+  string book_id = 1;
+}
+
+message Voice {
+  string id = 1;
+  string casual_name = 2;
+  string name = 3;
+  Type type = 4;
+  Language language = 5;  
+  DeviceProfile device_profile = 6;
+  string gender = 7;
+  Age age = 8;
+  MediaFile sample_voice = 9;
+}
+
+message MediaFile {
+  string id = 1;
+  string file_collection = 2;
+  string file_url = 3;
+  string file_type = 4;
+  int32 file_size = 5;
+}
+
+message Age {
+  string id = 1;
+  string name = 2;
+  double rate = 3;
+  double pitch = 4; 
+  double volumn = 5;
+}
+
+message Type {
+  string id = 1;
+  string type = 2;
+  string description = 3;
+}
+
+message Language {
+  string id = 1;
+  string language_code = 2;
+  string language = 3;
+  string description = 4;
+}
+
+message DeviceProfile {
+  string id = 1;
+  string casual_name = 2;
+  string name = 3;
+  string description = 4;
 }

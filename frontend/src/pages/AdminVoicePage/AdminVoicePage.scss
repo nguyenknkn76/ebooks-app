@@ -1,0 +1,14 @@
+.admin-voice-page {
+  padding: 24px;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h2 {
+      margin: 0;
+    }
+  }
+}

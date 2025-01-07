@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './RegisterForm.scss';
 
-const RegisterForm = () => {
+const RegisterForm = ({onLoginClick}) => {
     const [formData, setFormData] = useState({
         email: '',
         username: '',
@@ -65,7 +65,7 @@ const RegisterForm = () => {
                         required 
                     />
                     <button type="submit" className="register-btn">Register</button>
-                    <button type="button" className="login-btn" onClick={handleLogin}>Login</button>
+                    <button type="button" className="login-btn" onClick={onLoginClick}>Login</button>
                 </form>
             </div>
         </div>

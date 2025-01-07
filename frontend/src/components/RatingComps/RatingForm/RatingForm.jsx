@@ -14,9 +14,9 @@ const RatingForm = ({ onSubmit, onBack }) => {
 
   return (
     <form className="rating-form" onSubmit={handleSubmit}>
-      <h2 className="rating-form__title">Rating Books</h2>
+      {/* <h3 className="rating-form__title">Rating Books</h3> */}
       <div className="rating-form__stars">
-        <span>Rating:</span>
+        <span className="rating-form-title" style={{color:"black"}}>Rating:</span>
         {[1, 2, 3, 4, 5].map((star) => (
           <span
             key={star}
@@ -37,11 +37,11 @@ const RatingForm = ({ onSubmit, onBack }) => {
         />
       </div>
       <div className="rating-form__actions">
-        <button type="button" className="btn btn-back" onClick={onBack}>
+        {/* <button type="button" className="btn btn-back" onClick={onBack}>
           Back
-        </button>
+        </button> */}
         <button type="submit" className="btn btn-complete">
-          Complete
+          Send
         </button>
       </div>
     </form>

@@ -23,11 +23,14 @@ const ChapterList = ({ chapters }) => {
 
   return (
     <div className="chapter-list-container">
+      <h3>
+        Chapters
+      </h3>
       <div className="chapter-list">
         <div className="column">
           {firstColumnChapters.map((chapter, index) => (
             <Link key={chapter.id} to={`/chaptercontent/${chapter.id}`} className="chapter">
-              Chapter {chapter.chapter_number}: {chapter.name}
+              Chapter {chapter.chapter_number} : {chapter.name}
             </Link>
             // <div key={index} className="chapter">
             // </div>
@@ -35,9 +38,9 @@ const ChapterList = ({ chapters }) => {
         </div>
         <div className="column">
           {secondColumnChapters.map((chapter, index) => (
-            <div key={index} className="chapter">
-              {chapter.name}
-            </div>
+            <Link key={chapter.id} to={`/chaptercontent/${chapter.id}`} className="chapter">
+              Chapter {chapter.chapter_number} : {chapter.name}
+            </Link>
           ))}
         </div>
       </div>

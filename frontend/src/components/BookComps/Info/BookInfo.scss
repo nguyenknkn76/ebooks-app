@@ -1,12 +1,13 @@
 .book-info-container {
   display: flex;
   flex-direction: column;
-  background-color: #6B6E70;
-  color: white;
-  border-radius: 8px;
+  background-color: white;
+  color: black;
+  // padding-top: 0px;
+  // border-radius: 8px;
   overflow: hidden;
   margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   .top-section {
     display: flex;
@@ -30,18 +31,14 @@
         padding-left: 20px;
 
         .title {
-          font-size: 2rem;
+          font-size: 25px;
           font-weight: bold;
           margin-bottom: 10px;
           margin-top: 0px;
           margin-left: 50px;
         }
 
-        .author,
-        .release-year,
-        .language,
-        .publisher,
-        .status {
+        .attribute {
           font-size: 1.1rem;
           margin-bottom: 5px;
           margin-left: 50px;
@@ -57,11 +54,13 @@
 
 
           .genre-tag {
-            background: #444;
+            background: #6B6E70;
+            color: white;
             padding: 5px 10px;
             border-radius: 12px;
             font-size: 0.8rem;
             text-transform: capitalize;
+            
           }
         }
 
@@ -86,12 +85,13 @@
       flex: 0 0 40%;
 
       .btn {
-        background-color: #B39BC8;
-        color: black;
+        background-color: #F172A1;
+        color: white;
         padding: 10px 20px;
         margin-bottom: 10px;
         border: none;
-        border-radius: 5px;
+        border-radius: 20px;
+        font-size: 15px;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -102,11 +102,7 @@
         justify-content: center;
 
         &:hover {
-          background-color: #ff7700;
-        }
-
-        &.like-btn {
-          font-size: 1.2rem;
+          background-color: #b39bc8;
         }
       }
     }
@@ -114,8 +110,8 @@
 
   .bottom-section {
     padding: 20px;
-    background: #6B6E70;
-    border-top: 1px solid #444;
+    padding-top: 10px;
+    border-top: 1px solid #6B6E70;
 
     .description {
       font-size: 0.9rem;

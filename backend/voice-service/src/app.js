@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 const runApp = async () => {
-  // saga.startSagas();
+  saga.startSagas();
   grpcServer.startGrpcServer();
 
   app.listen(3001, () => {

@@ -1,31 +1,58 @@
-const ratingService = require('../../services/ratingService');
-const bookService = require('../../services/bookService');
 const grpc = require('@grpc/grpc-js');
+const ratingService = require('../../services/ratingService');
 
 const createRating = async (call, callback) => {
   try {
-    const { user, book_id, rating } = call.request;
+    const { user, book, star, review } = call.request;
 
-    if (!user || !book_id || !rating) {
+    // Validate star rating
+    if (star < 1 || star > 5) {
       return callback({
         code: grpc.status.INVALID_ARGUMENT,
-        message: 'User, book_id, and rating are required',
+        message: 'Star rating must be between 1 and 5'
       });
     }
 
-    const savedRating = await ratingService.createRating(call.request);
-    const ratings = await ratingService.getRatingsByBookId(book_id);
-    await bookService.updateBookRating(book_id, savedRating._id, ratings);
+    const rating = await ratingService.createRating({
+      user,
+      book,
+      star,
+      review
+    });
 
     callback(null, {
-      id: savedRating._id.toString(),
-      user: savedRating.user,
-      book_id: savedRating.book.toString(),
-      rating: savedRating.rating,
-      review: savedRating.review || ''
+      id: rating._id.toString(),
+      user: rating.user,
+      book: rating.book.toString(),
+      star: rating.star,
+      review: rating.review,
+      created_at: rating.created_at.toISOString(),
+      updated_at: rating.updated_at?.toISOString()
     });
   } catch (error) {
-    console.error('Error creating rating:', error);
+    callback({
+      code: grpc.status.INTERNAL,
+      message: error.message
+    });
+  }
+};
+
+const getRatingsByBookId = async (call, callback) => {
+  try {
+    const ratings = await ratingService.getRatingsByBook(call.request.book_id);
+    
+    callback(null, {
+      ratings: ratings.map(rating => ({
+        id: rating._id.toString(),
+        user: rating.user,
+        book: rating.book.toString(),
+        star: rating.star,
+        review: rating.review,
+        created_at: rating.created_at.toISOString(),
+        updated_at: rating.updated_at?.toISOString()
+      }))
+    });
+  } catch (error) {
     callback({
       code: grpc.status.INTERNAL,
       message: error.message
@@ -34,5 +61,6 @@ const createRating = async (call, callback) => {
 };
 
 module.exports = {
-  createRating
+  createRating,
+  getRatingsByBookId
 };

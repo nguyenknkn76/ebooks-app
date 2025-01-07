@@ -28,14 +28,6 @@ const createAge = async (call, callback) => {
 };
 
 const getAllAges = async (call, callback) => {
-  // const obj = {
-  //   languageId:`676d0de796ffe37f31eec984` ,
-  //   typeId: `676d248ea1998db20f2c953b`,
-  //   gender: "FEMALE"
-  // }
-  // const voices = await ggcttsService.getGgcVoicesCustom(obj);
-  const voices  = await ggcttsService.getGgcVoices();
-  console.log(voices);
   try {
     const ages = await ageService.getAllAges();
     callback(null, {

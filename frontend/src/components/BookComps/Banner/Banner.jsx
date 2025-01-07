@@ -19,18 +19,24 @@ const Banner = ({ books }) => {
     <div
       className="banner-container"
       style={{
-        backgroundImage: `url(${currentBook.cover_image})`,
+        backgroundImage: `url(${currentBook.cover_img?.file_url || ""})`,
       }}
     >
       <div className="banner-content">
-        <img src={currentBook.cover_image} alt={currentBook.title} className="banner-image" />
+        <img
+          src={currentBook.cover_img?.file_url || ""}
+          alt={currentBook.title}
+          className="banner-image"
+        />
         <div className="banner-info">
           <h1 className="banner-title">{currentBook.title}</h1>
-          <p className="banner-author">{currentBook.author}</p>
+          <p className="banner-author">
+            {currentBook.author.pen_name || currentBook.author.name}
+          </p>
           <div className="banner-genres">
-            {currentBook.genre.map((g, idx) => (
+            {currentBook.genres.map((genre, idx) => (
               <span key={idx} className="genre-tag">
-                {g.toUpperCase()}
+                {genre.name}
               </span>
             ))}
           </div>
