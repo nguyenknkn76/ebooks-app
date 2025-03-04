@@ -31,15 +31,19 @@ const HomePage = () => {
         books ? (
           <div>
             <Banner books = {books}/>
+            <h2 style={{marginLeft: "20px", marginBottom: "0px", marginTop: "20px"}}>Trending Book</h2>
             <SlideBooks books = {books}/>
+            <h2 style={{marginLeft: "20px", marginBottom: "0px"}}>Trending Book</h2>
+            <SlideBooks books = {books}/>
+            <h2 style={{marginLeft: "20px", marginBottom: "0px"}}>New Release</h2>
+            <SlideBooks books = {books}/>
+
+            <h2 style={{marginLeft: "20px", marginBottom: "0px"}}>List Book</h2>
             <ListBooks1 books = {books}/>
           </div>
         )
         : null
       }
-      {/* <Banner books = {books}/> */}
-      {/* <ListBooks2 books = {data.books6}/> */}
-      {/* <ListBooks1 books={data.books6} /> */}
     </div>
   )
 };

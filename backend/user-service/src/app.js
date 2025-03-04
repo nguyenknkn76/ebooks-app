@@ -1,5 +1,5 @@
 const grpcServer = require('./grpc/server');
-const saga = require('./sagas/index');
+// const saga = require('./sagas/index');
 const { sequelize } = require('./models');
 const cors = require('cors')
 const express = require('express');
@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 const runApp = async () => {
-  saga.startSagas();
+  // saga.startSagas();
   grpcServer.startGrpcServer();
 
   app.listen(3002, ()=> {

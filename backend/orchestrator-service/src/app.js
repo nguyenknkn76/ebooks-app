@@ -1,5 +1,4 @@
 const grpcServer = require('./grpc/server');
-const saga = require('./sagas/index');
 
 const express = require('express');
 const app = express();
@@ -8,10 +7,14 @@ app.use(express.json());
 const runApp = async () => {
   // saga.startSagas();
   grpcServer.startGrpcServer();
-
-  app.listen(3001, () => {
-    console.log('Vocie Service running on port 3001');
+  // schedule.resetMonthly();
+  app.listen(4004, () => {
+    console.log('Orchestrator Service running on port 4004');
   });
 }
 
 module.exports = {runApp}
+
+
+
+

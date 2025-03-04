@@ -8,7 +8,7 @@
 // }
 const { Kafka, Partitioners } = require('kafkajs');
 const voiceService = require('../services/voiceService');
-
+const formatData = require('../utils/formatData')
 const kafka = new Kafka({
   clientId: 'voice-service',
   brokers: ['localhost:9092'],
@@ -36,6 +36,7 @@ const startSagas = async () => {
         
         const result = { 
           status: 'processed-voice',
+          // data: formatData.formatVoiceResponse(voice)
           data: voice
         };
         

@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 const runApp = async () => {
-  saga.startSagas();
+  // saga.startSagas();
   grpcServer.startGrpcServer();
   schedule.resetMonthly();
   app.listen(3000, () => {

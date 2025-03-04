@@ -213,16 +213,18 @@ GET {{baseUrl}}/books/book/{{book_id}}
 ### Get Book (Not Found)
 # GET {{baseUrl}}/books/book/677309638abadf89895080ff
 
+###
+@author_name = J.K. Rowling
 ###! Author
-# ## Create Author (Success)
-# POST {{baseUrl}}/books/authors
-# Content-Type: application/json
+## Create Author (Success)
+POST {{baseUrl}}/books/authors
+Content-Type: application/json
 
-# {
-#     "pen_name": "Nguyễn Nhật Ánh",
-#     "name": "Nguyễn Nhật Ánh",
-#     "description": "Nhà văn thiếu nhi nổi tiếng Việt Nam"
-# }
+{
+    "pen_name": "{{author_name}}",
+    "name": "{{author_name}}",
+    "description": "Nhà văn thiếu nhi nổi tiếng Việt Nam"
+}
 
 ### Get All Authors (Default)
 GET {{baseUrl}}/books/authors
@@ -253,15 +255,15 @@ Content-Type: application/json
 }
 
 ###! genres
-### Get All Genres
-### Create Genre
-# POST {{baseUrl}}/books/genres
-# Content-Type: application/json
+## Get All Genres
+## Create Genre
+POST {{baseUrl}}/books/genres
+Content-Type: application/json
 
-# {
-#     "name": "Fantasy",
-#     "description": "Fantasy literature is a genre that typically features magical and supernatural elements"
-# }
+{
+    "name": "Politics & Social Sciences",
+    "description": "Fantasy literature is a genre that typically features magical and supernatural elements"
+}
 
 ### Get All Genres
 GET {{baseUrl}}/books/genres

@@ -4,17 +4,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
+    "server": "nodemon index.js",
     "s1": "nodemon service1.js",
     "s2": "nodemon service2.js",
     "s3": "nodemon service3.js",
-    "api": "nodemon callapi.js",
-    "server": "nodemon server.js"
+    "api": "nodemon callapi.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@grpc/grpc-js": "^1.12.5",
     "axios": "^1.7.8",
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",

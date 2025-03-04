@@ -22,7 +22,11 @@ const LoginForm = ({onRegisterClick}) => {
         window.localStorage.setItem('token', JSON.stringify(response.access_token));
         window.localStorage.setItem('user', JSON.stringify(response.user));
         dispatch(setLoggedIn(response));
-        navigation('/');
+        // if(loggedin?.user.role ==="admin") navigation('/admin');
+        // else navigation('/');
+        if(username === "admin" && password === "admin"){
+            navigation('/admin');
+        } else navigation("/");
     };
 
     const handleRegister = () => {

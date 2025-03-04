@@ -40,7 +40,7 @@ const AdminUserPage = () => {
 
   return (
     <div className="admin-user-page">
-      {selectedUser && <UpdateProfileForm userId={selectedUser.id} />}
+      {/* {selectedUser && <UpdateProfileForm userId={selectedUser.id} />} */}
       {/* <h2>User Management</h2> */}
       {selectedUser && (
         <div className="admin-user-info">

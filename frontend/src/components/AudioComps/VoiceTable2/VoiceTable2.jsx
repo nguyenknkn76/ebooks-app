@@ -72,14 +72,14 @@ const VoiceTable2 = ({ voices, onEdit }) => {
                 </td>
                 <td>
                   <div className="action-buttons">
-                    <button
+                    {/* <button
                       className="view-btn"
                       onClick={() => handleView(voice.id)}
                     >
                       View
-                    </button>
+                    </button> */}
                     <button
-                      className="edit-btn"
+                      className="view-btn"
                       onClick={() => onEdit(voice.id)}
                     >
                       Edit

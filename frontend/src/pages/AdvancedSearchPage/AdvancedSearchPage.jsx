@@ -41,7 +41,7 @@ const AdvancedSearchPage = () => {
 
   return (
     <div className="advanced-search-page">
-      <h2>Advanced Search</h2>
+      <h2 style={{marginLeft: "20px"}}>Advanced Search</h2>
       {/* <FilterForm onSearch={handleSearch} /> */}
       <FilterForm2 onSearch={handleSearch} />
       {loading ? (

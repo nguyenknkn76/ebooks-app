@@ -1,2 +1,12 @@
 ### get info saga
 POST http://localhost:3333/start-saga
+
+@baseUrl = http://localhost:5000/api
+
+### Recommend Voice for Book
+POST {{baseUrl}}/recommend-voice
+Content-Type: application/json
+
+{
+    "bookId": "67730f4ef07dbd4c85765d56"
+}

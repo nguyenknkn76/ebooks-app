@@ -1,9 +1,10 @@
-const SagaClient = require('../grpc/clients/sagaClient');
+const sagaClient = require('../grpc/clients/sagaClient');
 
-exports.getVoices = async (req, res) => {
+exports.recommendVoice = async (req, res) => {
   try {
-    const info = await SagaClient.getInfoSaga();
-    res.json(info);
+    const { bookId } = req.body;
+    const voice = await sagaClient.recommendVoice({ book_id: bookId });
+    res.json(voice);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
