@@ -10,8 +10,7 @@ const saga1 = async () => {
   await runConsumer(async ({ message }) => {
     const event = JSON.parse(message.value.toString());
     console.log('Service2 received:', event);
-
-    // do something here (business logic)
+    
     const result = { status: 'processed-ev2', originalPayload: event.payload };
     
     await sendMessage('service2-response', result);
